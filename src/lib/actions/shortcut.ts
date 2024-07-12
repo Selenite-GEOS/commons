@@ -46,7 +46,7 @@ function makeShortcutListener(params: ShortcutSettings): (e: KeyboardEvent) => v
 
 		e.preventDefault();
 
-		console.log(`shortcut: ${shortcutToString(triggeredShortcut)}`);
+		console.debug(`shortcut: ${shortcutToString(triggeredShortcut)}`);
 		if (action) action(e);
 	};
 }
