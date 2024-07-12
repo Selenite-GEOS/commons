@@ -3,6 +3,7 @@
 // export { formatXml } from './xml.js';
 export * from './string.js';
 export * from './eventListeners.js';
+export * as Array from './array/index.js'
 
 export { v4 as uuidv4 } from 'uuid';
 import {v4 as uuid} from 'uuid'
