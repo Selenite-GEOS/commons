@@ -1,6 +1,6 @@
 {
   "name": "@selenite/commons",
-  "version": "0.0.6",
+  "version": "0.1.1",
   "scripts": {
     "dev": "vite dev",
     "build": "vite build && npm run package",
@@ -54,5 +54,9 @@
   },
   "svelte": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "@types/uuid": "^10.0.0",
+    "uuid": "^10.0.0"
+  }
 }
