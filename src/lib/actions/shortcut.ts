@@ -8,8 +8,8 @@ type KeyboardShortcut = {
 	shift?: boolean;
 };
 type ShortcutSettings = {
-	shortcuts: KeyboardShortcut[] | ((shortcut: KeyboardEvent) => boolean) | KeyboardShortcut;
-	action?: () => unknown;
+	shortcuts: KeyboardShortcut[] | ((e: KeyboardEvent) => boolean) | KeyboardShortcut;
+	action?: (e: KeyboardEvent) => unknown;
 	ignoreElements?: string[];
 };
 function makeShortcutListener(params: ShortcutSettings): (e: KeyboardEvent) => void {
@@ -47,7 +47,7 @@ function makeShortcutListener(params: ShortcutSettings): (e: KeyboardEvent) => v
 		e.preventDefault();
 
 		console.log(`shortcut: ${shortcutToString(triggeredShortcut)}`);
-		if (action) action();
+		if (action) action(e);
 	};
 }
 
