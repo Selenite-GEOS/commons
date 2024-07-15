@@ -48,7 +48,7 @@ function drawLines({
 		ctx.restore();
 	}
 
-export const gridLines: Action<HTMLCanvasElement, { transform: Transform; spacing?: number, visibility?: boolean }> = (
+export const gridLines: Action<HTMLCanvasElement, Omit<Parameters<typeof drawLines>[0], 'canvas'> & {visibility?: boolean}>  = (
 	canvas,
 	params
 ) => {
