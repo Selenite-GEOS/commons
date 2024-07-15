@@ -6,12 +6,16 @@ export type Transform = { x: number; y: number; k: number };
 function drawLines({
 		canvas,
 		transform,
-		spacing: baseSpacing = 80
+		spacing: baseSpacing = 80,
+		color = '#ddd',
+		width = 0.08
 	}: {
 		canvas: HTMLCanvasElement;
 
 		transform: Transform;
 		spacing?: number;
+		color?: string;
+		width?: number;
 	}) {
 		if (transform.k < 0.01) return;
 		const ctx = canvas.getContext('2d');
@@ -38,8 +42,8 @@ function drawLines({
 			ctx.lineTo(canvas.width, y);
 		}
 		// Stroke the lines
-		ctx.strokeStyle = '#ddd';
-		ctx.lineWidth = transform.k > 0.1 ? 0.08 : lerp(0,0.08, (transform.k - 0.01) / 0.09);
+		ctx.strokeStyle = color;
+		ctx.lineWidth = transform.k > 0.1 ? width : lerp(0,width, (transform.k - 0.01) / 0.09);
 		ctx.stroke();
 		ctx.restore();
 	}
