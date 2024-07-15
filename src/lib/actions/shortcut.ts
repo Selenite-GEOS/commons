@@ -7,13 +7,29 @@ type KeyboardShortcut = {
 	alt?: boolean;
 	shift?: boolean;
 };
-type ShortcutSettings = {
-	shortcuts: KeyboardShortcut[] | ((e: KeyboardEvent) => boolean) | KeyboardShortcut;
+type ShortcutSettings = Partial<KeyboardShortcut> & {
+	shortcuts?: KeyboardShortcut[] | ((e: KeyboardEvent) => boolean) | KeyboardShortcut;
 	action?: (e: KeyboardEvent) => unknown;
 	ignoreElements?: string[];
 };
 function makeShortcutListener(params: ShortcutSettings): (e: KeyboardEvent) => void {
-	const { shortcuts, action, ignoreElements = ['INPUT', 'TEXTAREA'] } = params;
+	const {
+		shortcuts = [],
+		key,
+		alt,
+		shift,
+		ctrl,
+		action,
+		ignoreElements = ['INPUT', 'TEXTAREA']
+	} = params;
+	const shortShortcutDef: KeyboardShortcut | undefined = key
+		? {
+				key,
+				ctrl,
+				alt,
+				shift
+			}
+		: undefined;
 
 	return (e) => {
 		const target = e.target;
@@ -25,30 +41,36 @@ function makeShortcutListener(params: ShortcutSettings): (e: KeyboardEvent) => v
 				if (input.type !== 'checkbox' && input.type !== 'radio') return;
 			}
 		}
-        let triggeredShortcut: KeyboardShortcut | undefined = undefined
-		if (typeof shortcuts === 'function') {
+		let triggeredShortcut: KeyboardShortcut | undefined = undefined;
+		if (shortShortcutDef && isShortcutTriggered(e, shortShortcutDef)) {
+			triggeredShortcut = shortShortcutDef;
+		} else if (typeof shortcuts === 'function') {
 			if (!shortcuts(e)) return;
-            triggeredShortcut = { key: e.key, ctrl: e.ctrlKey, alt: e.altKey, shift: e.shiftKey }
+			triggeredShortcut = { key: e.key, ctrl: e.ctrlKey, alt: e.altKey, shift: e.shiftKey };
 		} else {
-            for (const shortcut of isArray(shortcuts) ? shortcuts : [shortcuts]) {
-                if (
-                    e.key.toLowerCase() === shortcut.key.toLowerCase() &&
-                    e.ctrlKey === !!shortcut.ctrl &&
-                    e.altKey === !!shortcut.alt &&
-                    e.shiftKey === !!shortcut.shift
-                ) {
-                    triggeredShortcut = shortcut
-                    break
-                }
-            }
-            if (!triggeredShortcut) return;
-        }
+			for (const shortcut of isArray(shortcuts) ? shortcuts : [shortcuts]) {
+				if (isShortcutTriggered(e, shortcut)) {
+					triggeredShortcut = shortcut;
+					break;
+				}
+			}
+		}
+		if (!triggeredShortcut) return;
 
 		e.preventDefault();
 
 		console.debug(`shortcut: ${shortcutToString(triggeredShortcut)}`);
 		if (action) action(e);
 	};
+}
+
+function isShortcutTriggered(e: KeyboardEvent, shortcut: KeyboardShortcut) {
+	return (
+		e.key.toLowerCase() === shortcut.key.toLowerCase() &&
+		e.ctrlKey === !!shortcut.ctrl &&
+		e.altKey === !!shortcut.alt &&
+		e.shiftKey === !!shortcut.shift
+	);
 }
 
 export function shortcutToString({ ctrl, alt, shift, key }: KeyboardShortcut): string {
