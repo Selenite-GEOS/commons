@@ -5,6 +5,7 @@ export * from './string.js';
 export * from './eventListeners.js';
 export * from './array/index.js'
 export * from './math.js'
+export * from './type.js'
 export { v4 as uuidv4 } from 'uuid';
 import {v4 as uuid} from 'uuid'
 let idCount = 0;

@@ -24,7 +24,7 @@ function drawLines({
 		const spacing = scalingFactor > 0 ? baseSpacing * scalingFactor : baseSpacing;
 		// console.debug('spacing\t', spacing);
 		const step = spacing * transform.k;
-		// console.debug('zoom\t', transform.k);
+		// console.debug('gg\t', transform.k);
 		
 		// Draw vertical lines
 		for (let x = (transform.x % step) - step; x <= canvas.width; x += step) {

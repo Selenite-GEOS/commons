@@ -1,6 +1,6 @@
 {
   "name": "@selenite/commons",
-  "version": "0.2.3",
+  "version": "0.3.1",
   "scripts": {
     "dev": "vite dev",
     "build": "vite build && npm run package",
