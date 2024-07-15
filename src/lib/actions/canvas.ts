@@ -22,9 +22,10 @@ function drawLines({
 		ctx.beginPath();
 		const scalingFactor = Math.floor(1 + -Math.log(transform.k) / Math.log(3));
 		const spacing = scalingFactor > 0 ? baseSpacing * scalingFactor : baseSpacing;
-		console.log('spacing\t', spacing);
+		// console.debug('spacing\t', spacing);
 		const step = spacing * transform.k;
-		console.log('zoom\t', transform.k);
+		// console.debug('zoom\t', transform.k);
+		
 		// Draw vertical lines
 		for (let x = (transform.x % step) - step; x <= canvas.width; x += step) {
 			ctx.moveTo(x, 0);
@@ -43,7 +44,7 @@ function drawLines({
 		ctx.restore();
 	}
 
-export const gridLines: Action<HTMLCanvasElement, { transform: Transform; spacing?: number }> = (
+export const gridLines: Action<HTMLCanvasElement, { transform: Transform; spacing?: number, visibility?: boolean }> = (
 	canvas,
 	params
 ) => {
@@ -51,14 +52,16 @@ export const gridLines: Action<HTMLCanvasElement, { transform: Transform; spacin
 	if (!ctx) {
 		throw new Error('Canvas is not a 2d canvas.');
 	}
-	
-	drawLines({ ...params, canvas });
+
+	if (params.visibility ?? true)
+		drawLines({ ...params, canvas });
 
 	return {
 		destroy() {},
 		update(params) {
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
-			drawLines({ canvas, ...params });
+			if (params.visibility ?? true)
+				drawLines({ canvas, ...params });
 		}
 	};
 };
