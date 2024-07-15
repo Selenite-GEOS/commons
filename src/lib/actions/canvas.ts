@@ -38,7 +38,7 @@ function drawLines({
 		}
 		// Stroke the lines
 		ctx.strokeStyle = '#ddd';
-		ctx.lineWidth = transform.k > 0.1 ? 0.08 : lerp(0.08, 0, (transform.k - 0.01) / 0.09);
+		ctx.lineWidth = transform.k > 0.1 ? 0.08 : lerp(0,0.08, (transform.k - 0.01) / 0.09);
 		ctx.stroke();
 		ctx.restore();
 	}
