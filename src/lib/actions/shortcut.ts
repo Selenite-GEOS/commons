@@ -1,13 +1,13 @@
 import { isArray } from 'lodash-es';
 import type { Action } from 'svelte/action';
 
-type KeyboardShortcut = {
+export type KeyboardShortcut = {
 	key: string;
 	ctrl?: boolean;
 	alt?: boolean;
 	shift?: boolean;
 };
-type ShortcutSettings = Partial<KeyboardShortcut> & {
+export type ShortcutSettings = Partial<KeyboardShortcut> & {
 	shortcuts?: KeyboardShortcut[] | ((e: KeyboardEvent) => boolean) | KeyboardShortcut;
 	action?: (e: KeyboardEvent) => unknown;
 	ignoreElements?: string[];
