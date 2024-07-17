@@ -8,3 +8,7 @@ export function affineFromPoints(p1: Position, p2: Position): (x: number) => num
 
     return (x: number) => a * x + b
 }
+
+export function distance(a: Position, b: Position): number {
+    return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2)
+}
