@@ -1,6 +1,6 @@
 {
   "name": "@selenite/commons",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "scripts": {
     "dev": "vite dev",
     "build": "vite build && npm run package",
@@ -34,6 +34,7 @@
     "@sveltejs/kit": "^2.0.0",
     "@sveltejs/package": "^2.0.0",
     "@sveltejs/vite-plugin-svelte": "^3.0.0",
+    "@types/autosize": "^4.0.3",
     "@types/eslint": "^8.56.7",
     "@types/lodash-es": "^4.17.12",
     "autoprefixer": "^10.4.19",
@@ -60,6 +61,7 @@
   "type": "module",
   "dependencies": {
     "@types/uuid": "^10.0.0",
+    "autosize": "^6.0.1",
     "uuid": "^10.0.0"
   }
 }

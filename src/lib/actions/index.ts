@@ -2,6 +2,7 @@ import type { Action } from 'svelte/action';
 export * from './focusTrap.js'
 export * from './shortcut.js'
 export * from './canvas.js'
+export * from './inputs.js'
 let handleFocusLeaveRefCount = 0;
 let handleFocusLeaveCallbacks: ((isKeyboard: boolean) => void)[] = [];
 function handleKeydown(e: KeyboardEvent) {
