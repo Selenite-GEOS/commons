@@ -39,6 +39,8 @@ function makeShortcutListener(params: ShortcutSettings): (e: KeyboardEvent) => v
 			if (target?.tagName === 'INPUT') {
 				const input = target as HTMLInputElement;
 				if (input.type !== 'checkbox' && input.type !== 'radio') return;
+			} else {
+				return;
 			}
 		}
 		let triggeredShortcut: KeyboardShortcut | undefined = undefined;
