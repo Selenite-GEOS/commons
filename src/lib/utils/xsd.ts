@@ -75,11 +75,11 @@ export async function parseXsd(xsd: string): Promise<XmlSchema | undefined> {
 					} catch (e) {}
 				}
 				return {
-					default: default_,
 					name,
-					doc,
+					type,
 					required,
-					type
+					default: default_,
+					doc,
 				};
 			}),
 			doc,
