@@ -1,6 +1,6 @@
 {
   "name": "@selenite/commons",
-  "version": "0.8.4",
+  "version": "0.8.5",
   "scripts": {
     "dev": "npm run wasm && vite dev",
     "wasm": "wasm-pack build ./selenite-commons-rs --target web",
@@ -14,7 +14,8 @@
     "lint": "prettier --check . && eslint .",
     "format": "prettier --write .",
     "test:integration": "playwright test",
-    "test:unit": "vitest"
+    "test:unit": "vitest",
+    "docgen": "typedoc --out ./docs ./src/lib/index.ts"
   },
   "exports": {
     ".": {
@@ -56,6 +57,7 @@
     "svelte-persisted-store": "^0.11.0",
     "tailwindcss": "^3.4.4",
     "tslib": "^2.4.1",
+    "typedoc": "^0.26.4",
     "typescript": "^5.0.0",
     "typescript-eslint": "^8.0.0-alpha.20",
     "vite": "^5.0.11",

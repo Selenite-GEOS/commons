@@ -9,7 +9,7 @@ function handleKeydown(e: KeyboardEvent) {
     if (e.key === 'Escape') {
         if (handleFocusLeaveCallbacks.length === 0) return;
         const callback = handleFocusLeaveCallbacks.pop();
-        callback(true);
+        callback!(true);
     }
 }
 
@@ -27,8 +27,8 @@ export const handleFocusLeave: Action<
     function handleFocusOut() {
         requestAnimationFrame(() => {
             if (!node.contains(document.activeElement)) {
-                let isDescendantOfPopup =
-                    document.activeElement.closest('.popup') !== null;
+                const closestPopup = document.activeElement?.closest('.popup');
+                let isDescendantOfPopup = closestPopup !== null && closestPopup !== undefined;
                 if (isDescendantOfPopup) return;
                 callback(false);
                 handleFocusLeaveCallbacks.pop();

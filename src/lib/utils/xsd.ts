@@ -1,22 +1,43 @@
+/**
+ * Functions and types to parse XML schema definitions (ie. .xsd files).
+ * @module
+ */
+
 import init, { parse_xsd } from 'selenite-commons-rs';
 import { isBrowser } from './html';
 
+/**
+ * A simple datatype in an XML schema.
+ */
 export type SimpleType = {
+	/** Name of the simple type. */
 	name: string;
+	/** Documentation of the simple type. Extracted from comments or annotations. */
 	doc?: string;
+	/** Regex to validate the type. */
 	pattern?: string;
+	/** Options if type is an enum. */
 	options?: string[];
 };
 
+/**
+ * An attribute of a complex type in an XML schema.
+ */
 export type Attribute = {
+	/** Name of the attribute. */
 	name: string;
+	/** Default value of the attribute. */
 	default: unknown;
+	/** Documentation of the attribute. Extracted from comment or annotation. */
 	doc?: string;
+	/** Data type of the attribute. */
 	type: string;
+	/** Is the attribute required. */
 	required: boolean;
 };
 
-/** This type represents a complex type in a XML schema definition. */
+/** A complex type in an XML schema definition. 
+*/
 export type ComplexType = {
 	/** Name of the complex type. */
 	name: string;
@@ -26,8 +47,16 @@ export type ComplexType = {
 	attrs: Attribute[];
 	children?: string[];
 };
-type XMLTypeTree = { [key: string]: XMLTypeTree | 'recursive' };
-type TypeName = string;
+
+/**
+ * A tree view of an XML schema.
+ * 
+ * It is a recursive structure that represents the hierarchy of types in a schema.
+ */
+export type XMLTypeTree = { [key: string]: XMLTypeTree | 'recursive' };
+
+/** Type alias to make code more explicit. */
+export type XMLTypeName = string;
 /**
  * Type of an XML schema definition.
  *
@@ -39,7 +68,17 @@ export class XmlSchema {
 	/** Complex types of the xml schema. */
 	complexTypes: ComplexType[] = [];
 
-	get typeMap(): Map<TypeName, ComplexType> {
+	/** Map which associates the names of simple XML types to their definition. */
+	get simpleTypeMap(): Map<XMLTypeName, SimpleType> {
+		const res = new Map<XMLTypeName, SimpleType>();
+		for (const type of this.simpleTypes) {
+			res.set(type.name, type);
+		}
+		return res;
+	}
+
+	/** Map which associates the names of complex XML types to their definitions. */
+	get typeMap(): Map<XMLTypeName, ComplexType> {
 		const res = new Map<string, ComplexType>();
 		for (const type of this.complexTypes) {
 			res.set(type.name, type);
@@ -47,7 +86,8 @@ export class XmlSchema {
 		return res;
 	}
 
-	get parentsMap(): Map<TypeName, TypeName[]> {
+	/** Map which associates the names of complex XML types to their parents' names. */
+	get parentsMap(): Map<XMLTypeName, XMLTypeName[]> {
 		const res = new Map<string, string[]>();
 		for (const { name } of this.complexTypes) {
 			res.set(name, []);
@@ -61,6 +101,7 @@ export class XmlSchema {
 		return res;
 	}
 
+	/** Roots of the XML schema. */
 	get roots() {
 		const res = [];
 		for (const [name, children] of this.parentsMap.entries()) {
@@ -69,9 +110,14 @@ export class XmlSchema {
 		return res;
 	}
 
+	/** 
+	 * Tree representation of the XML schema. 
+	 * 
+	 * It is a recursive structure that represents the hierarchy of the types in the schema.
+	 */
 	get tree(): XMLTypeTree {
 		const res: XMLTypeTree = {};
-		const rec = (current: XMLTypeTree, types: TypeName[], already_visited: TypeName[]) => {
+		const rec = (current: XMLTypeTree, types: XMLTypeName[], already_visited: XMLTypeName[]) => {
 			// const isOneTypeAlreadyVisited = types.some((t) => already_visited.includes(t));
 			for (const type of types) {
 				if (already_visited.includes(type)) {
@@ -89,11 +135,16 @@ export class XmlSchema {
 		return res;
 	}
 
-	/** The different paths leading to a type. */
-	get typePaths(): Map<TypeName, TypeName[][] | 'infinite'> {
-		const res = new Map<TypeName, TypeName[][] | 'infinite'>();
+	/** 
+	 * Map which associates the names of complex XML types to their possible paths in an XML file. 
+	 * 
+	 * The paths are represented as an array of type names.
+	 * If a type is recursive, the value is 'infinite'.
+	 */
+	get typePaths(): Map<XMLTypeName, XMLTypeName[][] | 'infinite'> {
+		const res = new Map<XMLTypeName, XMLTypeName[][] | 'infinite'>();
 
-		const rec = (tree: XMLTypeTree, path: TypeName[]) => {
+		const rec = (tree: XMLTypeTree, path: XMLTypeName[]) => {
 			for (const [name, children] of Object.entries(tree)) {
 				if (children === 'recursive') {
 					res.set(name, 'infinite');
@@ -101,7 +152,7 @@ export class XmlSchema {
 				}
 				const paths = res.get(name);
 				if (paths === 'infinite') continue;
-				
+
 				res.set(name, [...(paths || []), path]);
 				rec(children, [...path, name]);
 			}
@@ -113,9 +164,9 @@ export class XmlSchema {
 }
 
 /**
- * Extracts xml schema from xsd string.
+ * Parses an XML schema from an XSD string.
  * @param xsd - xsd string
- * @returns XMLSchema
+ * @returns XMLSchema, or undefined if the string could not be parsed
  */
 export async function parseXsd(xsd: string): Promise<XmlSchema | undefined> {
 	if (!isBrowser()) return;
@@ -160,6 +211,12 @@ export async function parseXsd(xsd: string): Promise<XmlSchema | undefined> {
 	return res;
 }
 
+
+/**
+ * Parses an XML schema from the url of an XSD file.
+ * @param url - url of the xsd file
+ * @returns XMLSchema, or undefined if the file could not be fetched or parsed
+ */
 export async function parseXsdFromUrl(url: string): Promise<XmlSchema | undefined> {
 	if (!isBrowser()) return;
 	const res = await fetch(url);
