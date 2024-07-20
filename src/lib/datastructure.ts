@@ -20,6 +20,18 @@ export class Queue<T> {
 		return this.#outStack.pop()!;
 	}
 
+	take(amount: number): T[] {
+		const res = []
+		for (let i = 0; i < amount; i++) {
+			res.push(this.remove())
+		}
+		return res
+	}
+
+	takeAll(): T[] {
+		return this.take(this.size)
+	}
+
 	private handleEmptyOut(errMsg: string) {
 		if (this.#outStack.length === 0) {
 			this.swapStacks();

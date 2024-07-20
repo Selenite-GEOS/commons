@@ -46,5 +46,15 @@ describe('datastructures', () => {
 			expect(queue.remove()).toBe(1);
 			expect(queue.size).toBe(2);
 		});
+		test('take should take the right number of elements', () => {
+			const queue = new Queue([1,2,3])
+			expect(queue.take(2)).toEqual([1,2])
+			expect(queue.size).toBe(1)
+		})
+		test('take all should take all elements', () => {
+			const queue = new Queue([1,2,3])
+			expect(queue.takeAll()).toEqual([1,2,3])
+			expect(queue.size).toBe(0)
+		})
 	});
 });
