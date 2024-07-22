@@ -20,7 +20,7 @@ import {v4 as uuid} from 'uuid'
 let idCount = 0;
 export function newLocalId(baseName?: string) {
 	idCount += 1;
-	return `${baseName ?? 'local-unique-id'}-${idCount}}`;
+	return `${baseName ?? 'local-unique-id'}-${idCount}`;
 }
 
 export function newUuid(baseName?: string) {

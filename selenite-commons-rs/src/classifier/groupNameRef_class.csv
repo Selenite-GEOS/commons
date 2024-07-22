@@ -1,0 +1,3 @@
+Object;Attribute;Comment;Class
+HaltEvent;target;Name of the object to be executed when the event criteria are met.;object
+PeriodicEvent;function;Name of an optional function to evaluate when the time/cycle criteria are met.If the result is greater than the specified eventThreshold, the function will continue to execute.;function
