@@ -38,30 +38,33 @@ export const draggableItem: Action<HTMLElement, DragItemOptions> = (node, params
 	let lastSwapOffset: Position |undefined;
 	let waitForFlip = false;
 	let currentParams = params;
+	let numSwaps = 0;
 	/**
 	 * Returns the bounds of the draggable item.
 	 * 
 	 * It is computed by getting the union of the bounds of all draggable items.
 	 */
 	function getBounds() {
+		console.debug("Compute bounds.")
 		const neodrags = Array.from(node.parentElement!.querySelectorAll('.neodrag'));
 		return getBoundsUnion(neodrags);
 	}
 
+	let bounds = getBounds();
 	const dragOptions: DragOptions = {
 		...params,
 		bounds: {
 			get top() {
-				return getBounds().top;
+				return bounds.top;
 			},
 			get left() {
-				return getBounds().left;
+				return bounds.left;
 			},
 			get right() {
-				return getBounds().right;
+				return bounds.right;
 			},
 			get bottom() {
-				return getBounds().bottom;
+				return bounds.bottom;
 			}
 		},
 		recomputeBounds: {
@@ -72,7 +75,6 @@ export const draggableItem: Action<HTMLElement, DragItemOptions> = (node, params
 		// Apply transform to clone
 		transform({ offsetX, offsetY, rootNode }) {
 			if (!clone) return;
-			clone.style.visibility = 'visible';
 			clone.style.left = `${base.x + offsetX - baseOffset.x}px`;
 			clone.style.top = `${base.y + offsetY - baseOffset.y}px`;
 		},
@@ -80,6 +82,7 @@ export const draggableItem: Action<HTMLElement, DragItemOptions> = (node, params
 		async onDragStart(data) {
 			params.onDragStart?.(data);
 			await tick()
+			bounds = getBounds();
 
 			// Create clone of node.
 			const rect = node.getBoundingClientRect();
@@ -107,8 +110,13 @@ export const draggableItem: Action<HTMLElement, DragItemOptions> = (node, params
 
 			clone.style.cursor = 'grabbing';
 
+			
 			const offset: Position = {x: data.offsetX, y: data.offsetY}
-			if (lastSwapOffset && getDistance(lastSwapOffset, offset) < (params.minSwapDistance ?? 10))  {
+			if (
+				lastSwapOffset &&
+				getDistance(lastSwapOffset, offset) < (params.minSwapDistance ?? (clone.clientWidth / 2))
+			) {
+				console.debug('Too close from last swap');
 				return;
 			}
 
@@ -119,7 +127,7 @@ export const draggableItem: Action<HTMLElement, DragItemOptions> = (node, params
 			const currentIndex = neodrags.indexOf(node);
 
 			if (currentIndex === closestIndex) return;
-			console.debug('Move from', currentIndex, 'to', closestIndex);
+			console.debug(numSwaps++, 'Move from', currentIndex, 'to', closestIndex);
 			params.items.splice(closestIndex, 0, params.items.splice(currentIndex, 1)[0]);
 			lastSwapOffset = offset;
 			waitForFlip = true;
