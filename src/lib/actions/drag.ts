@@ -156,9 +156,9 @@ export const draggableItem: Action<HTMLElement, DragItemOptions> = (node, params
 		update(params) {
 			currentParams = params;
 			bounds = getBounds();
-			// if (draggableReturn) {
-			// 	draggableReturn.update?.(dragOptions);
-			// }
+			if (draggableReturn) {
+				draggableReturn.update?.(dragOptions);
+			}
 		}
 	};
 };
