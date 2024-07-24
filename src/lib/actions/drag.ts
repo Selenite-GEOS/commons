@@ -26,6 +26,8 @@ export type DragItemOptions = Omit<DragOptions, 'bounds' | 'transform' | 'recomp
 /**
  * Action to make an item in an array of items draggable.
  *
+ * The array will be mutated to update the order.
+ * 
  * Options : {@link DragItemOptions}.
  */
 export const draggableItem: Action<HTMLElement, DragItemOptions> = (node, params) => {
@@ -88,10 +90,13 @@ export const draggableItem: Action<HTMLElement, DragItemOptions> = (node, params
 			// Create clone of node.
 			const rect = node.getBoundingClientRect();
 			base = { x: rect.x, y: rect.y };
+
 			clone = node.cloneNode(true) as HTMLElement;
 			clone.classList.remove('neodrag');
 			clone.classList.remove('selenite-drag');
-			node.parentElement?.appendChild(clone);
+			const parent = node.parentElement as HTMLElement;
+			node.insertAdjacentElement('beforebegin', clone);
+			
 			clone.style.position = 'fixed';
 			clone.style.pointerEvents = 'none';
 			clone.style.left = `${base.x}px`;
@@ -103,7 +108,7 @@ export const draggableItem: Action<HTMLElement, DragItemOptions> = (node, params
 			}
 		},
 
-		onDrag(data) {
+		async onDrag(data) {
 			params.onDrag?.(data);
 			
 			if (waitForFlip) return;
@@ -135,11 +140,15 @@ export const draggableItem: Action<HTMLElement, DragItemOptions> = (node, params
 			if (currentIndex === closestIndex) return;
 			console.debug(numSwaps++, 'Move from', currentIndex, 'to', closestIndex);
 			params.items.splice(closestIndex, 0, params.items.splice(currentIndex, 1)[0]);
+			clone.remove()
+			
 			lastSwapOffset = offset;
 			waitForFlip = true;
 			setTimeout(() => {
 				waitForFlip = false;
 			}, currentParams.flipDuration);
+			await tick();
+			node.insertAdjacentElement('beforebegin', clone);
 		},
 
 		onDragEnd(data) {
