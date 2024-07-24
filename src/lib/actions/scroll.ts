@@ -34,3 +34,11 @@ export const horizontalScroll: Action<HTMLElement, { duration?: number } | undef
 		}
 	};
 };
+
+
+/** 
+ * Scrolls into view an element.
+ */
+export const scrollIntoView: Action<HTMLElement> = (node) => {
+	node.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+}
