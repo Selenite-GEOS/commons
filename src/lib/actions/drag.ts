@@ -14,7 +14,12 @@ export type DragItemOptions = Omit<DragOptions, 'bounds' | 'transform' | 'recomp
 	items: unknown[];
 	/** Duration of flip animation. */
 	flipDuration: number;
-	/** Min distance between items swaps. */
+	/** 
+	 * Min distance between items swaps. 
+	 * 
+	 * After doing an item swap, the next swap will be ignored if the distance
+	 * between the last swap and the current position is less than this value.
+	 */
 	minSwapDistance?: number;
 };
 
@@ -142,9 +147,9 @@ export const draggableItem: Action<HTMLElement, DragItemOptions> = (node, params
 		},
 		update(params) {
 			currentParams = params;
-			if (draggableReturn) {
-				draggableReturn.update?.(dragOptions);
-			}
+			// if (draggableReturn) {
+			// 	draggableReturn.update?.(dragOptions);
+			// }
 		}
 	};
 };
