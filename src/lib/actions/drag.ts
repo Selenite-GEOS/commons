@@ -39,6 +39,7 @@ export const draggableItem: Action<HTMLElement, DragItemOptions> = (node, params
 	let waitForFlip = false;
 	let currentParams = params;
 	let numSwaps = 0;
+	node.classList.add('selenite-drag')
 	/**
 	 * Returns the bounds of the draggable item.
 	 * 
@@ -46,11 +47,12 @@ export const draggableItem: Action<HTMLElement, DragItemOptions> = (node, params
 	 */
 	function getBounds() {
 		console.debug("Compute bounds.")
-		const neodrags = Array.from(node.parentElement!.querySelectorAll('.neodrag'));
-		return getBoundsUnion(neodrags);
+		const draggables = Array.from(node.parentElement!.querySelectorAll('.selenite-drag'));
+		return getBoundsUnion(draggables);
 	}
 
 	let bounds = getBounds();
+	
 	const dragOptions: DragOptions = {
 		...params,
 		bounds: {
@@ -68,9 +70,7 @@ export const draggableItem: Action<HTMLElement, DragItemOptions> = (node, params
 			}
 		},
 		recomputeBounds: {
-			dragStart: true,
 			drag: true,
-			dragEnd: true
 		},
 		// Apply transform to clone
 		transform({ offsetX, offsetY, rootNode }) {
@@ -81,20 +81,25 @@ export const draggableItem: Action<HTMLElement, DragItemOptions> = (node, params
 
 		async onDragStart(data) {
 			params.onDragStart?.(data);
+			
 			await tick()
-			bounds = getBounds();
 
 			// Create clone of node.
 			const rect = node.getBoundingClientRect();
 			base = { x: rect.x, y: rect.y };
 			clone = node.cloneNode(true) as HTMLElement;
 			clone.classList.remove('neodrag');
+			clone.classList.remove('selenite-drag');
 			node.parentElement?.appendChild(clone);
 			clone.style.position = 'fixed';
 			clone.style.pointerEvents = 'none';
 			clone.style.left = `${base.x}px`;
 			clone.style.top = `${base.y}px`;
 			clone.style.visibility = 'hidden';
+			bounds = getBounds();
+			if (draggableReturn) {
+				draggableReturn.update?.({ ...dragOptions, bounds });
+			}
 		},
 
 		onDrag(data) {
@@ -155,7 +160,6 @@ export const draggableItem: Action<HTMLElement, DragItemOptions> = (node, params
 		},
 		update(params) {
 			currentParams = params;
-			bounds = getBounds();
 			if (draggableReturn) {
 				draggableReturn.update?.(dragOptions);
 			}
