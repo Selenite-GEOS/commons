@@ -1,10 +1,10 @@
-import { getBoundsUnion, getClosestElementIndex, type Position } from "$lib/utils";
-import { draggable, type DragOptions } from "@neodrag/svelte";
-import type { Action } from "svelte/action";
+import { getBoundsUnion, getClosestElementIndex, type Position } from '$lib/utils';
+import { draggable, type DragOptions } from '@neodrag/svelte';
+import type { Action } from 'svelte/action';
 
-/** 
+/**
  * Options of a draggable item action.
- * 
+ *
  * Extends neodrag options.
  * @see [Neodrag documentation](https://www.neodrag.dev/docs/svelte#options)
  */
@@ -17,13 +17,10 @@ export type DragItemOptions = Omit<DragOptions, 'bounds' | 'transform' | 'recomp
 
 /**
  * Action to make an item in an array of items draggable.
- * 
+ *
  * Options : {@link DragItemOptions}.
  */
-export const draggableItem: Action<
-	HTMLElement,
-	DragItemOptions
-> = (node, params) => {
+export const draggableItem: Action<HTMLElement, DragItemOptions> = (node, params) => {
 	let target: HTMLElement | undefined;
 	const rect = node.getBoundingClientRect();
 	let base: Position = { x: rect.x, y: rect.y };
@@ -64,6 +61,7 @@ export const draggableItem: Action<
 		onDragStart(data) {
 			const rect = node.getBoundingClientRect();
 			base = { x: rect.x, y: rect.y };
+			params.onDragStart?.(data);
 			target = node.cloneNode(true) as HTMLElement;
 			target.classList.remove('neodrag');
 			node.parentElement?.appendChild(target);
@@ -72,18 +70,17 @@ export const draggableItem: Action<
 			target.style.left = `${base.x}px`;
 			target.style.top = `${base.y}px`;
 			target.style.visibility = 'hidden';
-			document.body.style.pointerEvents = 'none';
-			target.style.pointerEvents = 'auto';
-
-			target.style.visibility = 'visible';
-			node.style.opacity = '0';
-			params.onDragStart?.(data);
 		},
 
 		onDrag(data) {
 			params.onDrag?.(data);
+			
 			if (waitForFlip) return;
 			if (!target) return;
+			target.style.pointerEvents = 'auto';
+			document.body.style.pointerEvents = 'none';
+			target.style.visibility = 'visible';
+			node.style.opacity = '0';
 			document.documentElement.style.cursor = 'grabbing';
 
 			target.style.cursor = 'grabbing';
