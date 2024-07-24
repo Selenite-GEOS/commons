@@ -13,7 +13,10 @@
 			<button
 				class="tab"
 				animate:flip={{ duration: flipDuration}}
-				use:draggableItem={{ items: tabs, flipDuration }}
+				use:draggableItem={{ items: tabs, flipDuration, onDragStart() {
+					console.log("drag start")
+					activeTab = tab;
+				} }}
 				onclick={() => {
 					activeTab = tab;
 				}}

@@ -1,5 +1,6 @@
 import { getBoundsUnion, getClosestElementIndex, type Position } from '$lib/utils';
 import { draggable, type DragOptions } from '@neodrag/svelte';
+import { tick } from 'svelte';
 import type { Action } from 'svelte/action';
 
 /**
@@ -58,10 +59,11 @@ export const draggableItem: Action<HTMLElement, DragItemOptions> = (node, params
 			target.style.top = `${base.y + offsetY - baseOffset.y}px`;
 		},
 
-		onDragStart(data) {
+		async onDragStart(data) {
+			params.onDragStart?.(data);
+			await tick()
 			const rect = node.getBoundingClientRect();
 			base = { x: rect.x, y: rect.y };
-			params.onDragStart?.(data);
 			target = node.cloneNode(true) as HTMLElement;
 			target.classList.remove('neodrag');
 			node.parentElement?.appendChild(target);
