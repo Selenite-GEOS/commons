@@ -2,6 +2,12 @@ import type { Action } from 'svelte/action';
 import { tweened } from 'svelte/motion';
 import { get } from 'svelte/store';
 
+/**
+ * Adds horizontal scrolling to an element.
+ * @param node - The element to add horizontal scrolling to.
+ * @param params - The duration of the scroll animation.
+ * @returns svelte action
+ */
 export const horizontalScroll: Action<HTMLElement, { duration?: number } | undefined> = (
 	node,
 	{ duration = 150 } = {}

@@ -4,7 +4,7 @@
  */
 
 import init, { parse_xsd } from 'selenite-commons-rs';
-import { isBrowser } from './html';
+import { isBrowser } from './html.svelte';
 
 /**
  * A simple datatype in an XML schema.

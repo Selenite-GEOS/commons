@@ -4,6 +4,7 @@ export * from './shortcut.js'
 export * from './canvas.js'
 export * from './scroll.js'
 export * from './inputs.js'
+export * from './drag.js'
 let handleFocusLeaveRefCount = 0;
 let handleFocusLeaveCallbacks: ((isKeyboard: boolean) => void)[] = [];
 function handleKeydown(e: KeyboardEvent) {

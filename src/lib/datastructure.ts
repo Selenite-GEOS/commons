@@ -1,3 +1,8 @@
+export type Point=  {
+	x: number;
+	y: number;
+};
+
 export class Queue<T> {
 	#inStack: T[] = [];
 	#outStack: T[] = [];
