@@ -70,6 +70,7 @@ export const draggableItem: Action<HTMLElement, DragItemOptions> = (node, params
 			}
 		},
 		recomputeBounds: {
+			dragStart: true,
 			drag: true,
 		},
 		// Apply transform to clone
