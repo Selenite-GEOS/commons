@@ -39,6 +39,7 @@ export const horizontalScroll: Action<HTMLElement, { duration?: number } | undef
 /** 
  * Scrolls into view an element.
  */
-export const scrollIntoView: Action<HTMLElement> = (node) => {
-	node.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+export const scrollIntoView: Action<HTMLElement, boolean | undefined> = (node, enabled) => {
+	if (enabled || enabled === undefined)
+		node.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
 }
