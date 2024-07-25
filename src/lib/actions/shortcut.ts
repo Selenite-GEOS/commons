@@ -42,7 +42,7 @@ function makeShortcutListener<E extends Element>(node: E, params: ShortcutSettin
 		action,
 		ignoreElements = ['INPUT', 'TEXTAREA']
 	} = params;
-	const shortShortcutDef: KeyboardShortcut | undefined = key
+	const shortShortcutDef: KeyboardShortcut | undefined = key || ctrl || alt || shift
 		? {
 				key,
 				ctrl,
@@ -50,7 +50,6 @@ function makeShortcutListener<E extends Element>(node: E, params: ShortcutSettin
 				shift
 			}
 		: undefined;
-
 	return (e) => {
 		const target = e.target;
 		if (!(target instanceof HTMLElement)) return;
@@ -101,9 +100,9 @@ function makeShortcutListener<E extends Element>(node: E, params: ShortcutSettin
  * @returns whether shortcut is triggered
  */
 function isShortcutTriggered(e: KeyboardEvent, shortcut: KeyboardShortcut) {
-	return shortcut.key === undefined
+	return (shortcut.key === undefined
 		? true
-		: e.key.toLowerCase() === shortcut.key.toLowerCase() &&
+		: e.key.toLowerCase() === shortcut.key.toLowerCase()) &&
 				e.ctrlKey === !!shortcut.ctrl &&
 				e.altKey === !!shortcut.alt &&
 				e.shiftKey === !!shortcut.shift;
