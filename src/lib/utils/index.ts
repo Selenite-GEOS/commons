@@ -15,6 +15,8 @@ export * as XSD from './xsd.js'
 export * from './xsd.js'
 export * as Storage from './storage.js'
 export * from './storage.js'
+export * as Layout from './layout'
+export * from './layout'
 export { v4 as uuidv4 } from 'uuid';
 import {v4 as uuid} from 'uuid'
 let idCount = 0;

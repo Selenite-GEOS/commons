@@ -2,6 +2,19 @@ export type Point=  {
 	x: number;
 	y: number;
 };
+export type Vector2D = {
+	x: number;
+	y: number;
+};
+
+export namespace Vector2D {
+	export const Zero = () => ({
+		x: 0,
+		y: 0,
+	} as Vector2D);
+	
+}
+
 
 export class Queue<T> {
 	#inStack: T[] = [];
