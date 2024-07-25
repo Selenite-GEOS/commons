@@ -1,5 +1,5 @@
 import { isArray } from 'lodash-es';
-import type { Action } from 'svelte/action';
+import type { Action, ActionReturn } from 'svelte/action';
 
 export type KeyboardShortcut = {
 	key?: string;
@@ -7,13 +7,13 @@ export type KeyboardShortcut = {
 	alt?: boolean;
 	shift?: boolean;
 };
-export type ShortcutSettings = KeyboardShortcut & {
+export type ShortcutSettings<E extends Element> = KeyboardShortcut & {
 	shortcuts?: KeyboardShortcut[] | ((e: KeyboardEvent) => boolean) | KeyboardShortcut;
-	action?: (e: KeyboardEvent) => unknown;
+	action?: (node: E, e: KeyboardEvent) => unknown;
 	ignoreElements?: string[];
-	endAction?: (e: KeyboardEvent) => void;
+	endAction?: (node: E, e: KeyboardEvent) => void;
 };
-function makeShortcutListener(params: ShortcutSettings): (e: KeyboardEvent) => void {
+function makeShortcutListener<E extends Element>(node: E, params: ShortcutSettings<E>): (e: KeyboardEvent) => void {
 	const {
 		shortcuts = [],
 		key,
@@ -63,14 +63,14 @@ function makeShortcutListener(params: ShortcutSettings): (e: KeyboardEvent) => v
 		e.preventDefault();
 
 		console.debug(`shortcut: ${shortcutToString(triggeredShortcut)}`);
-		if (action) action(e);
+		if (action) action(node, e);
 		if (params.endAction) {
 			function triggerEndAction(e: KeyboardEvent) {
 				console.debug("Trigger end action.")
-				params.endAction?.(e)
-				window.removeEventListener('keyup', triggerEndAction);
+				params.endAction?.(node, e)
+				document.removeEventListener('keyup', triggerEndAction);
 			}
-			window.addEventListener('keyup', triggerEndAction);
+			document.addEventListener('keyup', triggerEndAction);
 		}
 	};
 }
@@ -93,19 +93,28 @@ export function shortcutToString({ ctrl, alt, shift, key }: KeyboardShortcut): s
 	return pieces.join('+');
 }
 
-export const shortcut: Action<HTMLElement, ShortcutSettings> = (node, params) => {
-	let listener = makeShortcutListener(params);
+/**
+ * Action to add a keyboard shortcut.
+ * 
+ * All keyboard listeners are attached to document.
+ * @param node - The element the shortcut is bound to
+ * @param params - Settings for the shortcut
+ * @returns svelte action to add a keyboard shortcut
+ */
+export function shortcut<E extends Element>(node: E, params: ShortcutSettings<E>): ActionReturn<ShortcutSettings<E>> {
+		let listener = makeShortcutListener(node, params);
 
-	document.addEventListener('keydown', listener);
+		document.addEventListener('keydown', listener);
 
-	return {
-		destroy() {
-			document.removeEventListener('keydown', listener);
-		},
-		update(params) {
-			document.removeEventListener('keydown', listener);
-			listener = makeShortcutListener(params);
-			document.addEventListener('keydown', listener);
-		}
-	};
-};
+		return {
+			destroy() {
+				document.removeEventListener('keydown', listener);
+			},
+			update(params) {
+				document.removeEventListener('keydown', listener);
+				listener = makeShortcutListener(node, params);
+				document.addEventListener('keydown', listener);
+			}
+		};
+
+}
