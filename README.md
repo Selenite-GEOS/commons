@@ -1,58 +1,54 @@
-# create-svelte
+ # Selenite - Commons
+ 
+ This typescript package provides a set of frequently used utilities, types and svelte actions for building projects
+ with Typescript and Svelte.
+ 
+ It is part of the Selenite initiative.
+ 
+ [Documentation](https://shaitanlyss.github.io/selenite-commons/modules.html)
 
-Everything you need to build a Svelte library, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
-
-Read more about creating a library [in the docs](https://kit.svelte.dev/docs/packaging).
-
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
+ ## Usage
+This package can be installed in your project with any package manager :
 ```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
+npm i @selenite/commons
+yarn add @selenite/commons
+pnpm i @selenite/commons
+bun i @selenite/commons
 ```
 
-## Developing
+ Be careful that some of the functions use WASM code from an associated package : *selenite-commons-rs*. 
+ Therefore, if you use tools like Vite or Rollup, you need to add a plugin to the configuration. 
+ 
+ An example of such a plugin is : https://github.com/nshen/vite-plugin-wasm-pack. It is used like this :
+ 
+ ```
+ // vite.config.ts
+ import wasmPack from 'vite-plugin-wasm-pack'
+ export default defineConfig({
+	plugins: [
+		wasmPack([], ['selenite-commons-rs']),
+ ...
+ ```
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+ ## Development
+ The project is developed with Typescript and uses vitest for testing. It uses [Bun](https://bun.sh/docs/installation) as a package manager and builder. Be aware that at the time of writing, Bun is still unstable on Windows. 
+ 
+ > If you need to works on Windows and encounter issues, don't hesitate to edit the project to use another package manager like pnpm. Do note that you will need to update the github action to reflect that change so that lockfiles match between dev and build.
 
+ You can start the dev server with :
 ```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+bun dev
 ```
-
-Everything inside `src/lib` is part of your library, everything inside `src/routes` can be used as a showcase or preview app.
-
-## Building
-
-To build your library:
-
-```bash
-npm run package
-```
-
-To create a production version of your showcase app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
 
 ## Publishing
+The package will automatically be built and published (if there's a version change) when pushed to the main branch.
 
-Go into the `package.json` and give your package the desired name through the `"name"` option. Also consider adding a `"license"` field and point it to a `LICENSE` file which you can create from a template (one popular option is the [MIT license](https://opensource.org/license/mit/)).
-
-To publish your library to [npm](https://www.npmjs.com):
-
+You can manually publish it on npm with the following command :
 ```bash
-npm publish
+npm publish --access public
+# rust code (selenite-commons-rs)
+bun wasm-pack publish --access public
 ```
+
+## TODO
+Setup automatic rust code publishing
