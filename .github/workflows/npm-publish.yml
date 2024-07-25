@@ -5,6 +5,7 @@ name: Node.js Package
 
 on:
   push:
+    paths: ["src/**", "test/**", "package.json", "tsconfig.json", "bun.lock"]
     branches:
       - main
   release:
