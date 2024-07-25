@@ -1,9 +1,15 @@
 import type { Action } from 'svelte/action';
+export * as FocusTrap from './focusTrap.js'
 export * from './focusTrap.js'
+export * as Shortcut from './shortcut.js'
 export * from './shortcut.js'
+export * as Canvas from './canvas.js'
 export * from './canvas.js'
+export * as Scroll from './scroll.js'
 export * from './scroll.js'
+export * as Inputs from './inputs.js'
 export * from './inputs.js'
+export * as Drag from './drag.js'
 export * from './drag.js'
 let handleFocusLeaveRefCount = 0;
 let handleFocusLeaveCallbacks: ((isKeyboard: boolean) => void)[] = [];

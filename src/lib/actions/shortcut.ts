@@ -1,3 +1,11 @@
+/**
+ * Svelte action to add keyboard shortcuts.
+ * 
+ * @see {@link shortcut}
+ * @module
+ */
+
+
 import { isArray } from 'lodash-es';
 import type { Action, ActionReturn } from 'svelte/action';
 
