@@ -1,18 +1,37 @@
 import { isArray } from 'lodash-es';
 import type { Action, ActionReturn } from 'svelte/action';
 
+/**
+ * Basic definition of a keyboard shortcut based on key and modifier keys.
+ */
 export type KeyboardShortcut = {
+	/** Keyboard key. */
 	key?: string;
+	/** Needs ctrl ? */
 	ctrl?: boolean;
+	/** Needs alt ? */
 	alt?: boolean;
+	/** Needs shift ? */
 	shift?: boolean;
 };
+
+/**
+ * Settings for a keyboard shortcut.
+ */
 export type ShortcutSettings<E extends Element> = KeyboardShortcut & {
 	shortcuts?: KeyboardShortcut[] | ((e: KeyboardEvent) => boolean) | KeyboardShortcut;
 	action?: (node: E, e: KeyboardEvent) => unknown;
 	ignoreElements?: string[];
 	endAction?: (node: E, e: KeyboardEvent) => void;
 };
+
+
+/**
+ * Returns a listener function that checks if a keyboard shortcut is triggered.
+ * @param node - node the shortcut is bound to
+ * @param params - settings of the shortcut
+ * @returns keyboard listener
+ */
 function makeShortcutListener<E extends Element>(node: E, params: ShortcutSettings<E>): (e: KeyboardEvent) => void {
 	const {
 		shortcuts = [],
@@ -75,6 +94,12 @@ function makeShortcutListener<E extends Element>(node: E, params: ShortcutSettin
 	};
 }
 
+/**
+ * Returns whether a shortcut definition has been triggered.
+ * @param e - keyboard event
+ * @param shortcut - shortcut definition
+ * @returns whether shortcut is triggered
+ */
 function isShortcutTriggered(e: KeyboardEvent, shortcut: KeyboardShortcut) {
 	return shortcut.key === undefined
 		? true
@@ -84,6 +109,11 @@ function isShortcutTriggered(e: KeyboardEvent, shortcut: KeyboardShortcut) {
 				e.shiftKey === !!shortcut.shift;
 }
 
+/**
+ * Converts a keyboard shortcut definition to a string.
+ * @param param0 - Keyboard shortcut definition
+ * @returns 
+ */
 export function shortcutToString({ ctrl, alt, shift, key }: KeyboardShortcut): string {
 	const pieces = [];
 	if (ctrl) pieces.push('Ctrl');
@@ -116,5 +146,4 @@ export function shortcut<E extends Element>(node: E, params: ShortcutSettings<E>
 				document.addEventListener('keydown', listener);
 			}
 		};
-
 }
