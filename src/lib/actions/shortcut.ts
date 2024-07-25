@@ -1,10 +1,9 @@
 /**
  * Svelte action to add keyboard shortcuts.
- * 
+ *
  * @see {@link shortcut}
  * @module
  */
-
 
 import { isArray } from 'lodash-es';
 import type { Action, ActionReturn } from 'svelte/action';
@@ -27,12 +26,31 @@ export type KeyboardShortcut = {
  * Settings for a keyboard shortcut.
  */
 export type ShortcutSettings<E extends Element> = KeyboardShortcut & {
+	/** List of shortcuts that trigger the action.
+	 *
+	 * Can be a single shortcut or an array of shortcuts.
+	 * If a function is provided, it should return a boolean
+	 * indicating whether the shortcut is triggered
+	 * based on the keyboard event.
+	 */
 	shortcuts?: KeyboardShortcut[] | ((e: KeyboardEvent) => boolean) | KeyboardShortcut;
-	action?: (node: E, e: KeyboardEvent) => unknown;
-	ignoreElements?: string[];
-	endAction?: (node: E, e: KeyboardEvent) => void;
-};
 
+	/** Callback to be triggered when shortcut is activated. */
+	action?: (node: E, e: KeyboardEvent) => unknown;
+
+	/** Element types that prevents the shortcut from triggering.
+	 *
+	 *  Defaults to ['INPUT', 'TEXTAREA']. */
+	ignoreElements?: string[];
+
+	/** Callback to be triggered when key is released. */
+	endAction?: (node: E, e: KeyboardEvent) => void;
+
+	/** Should keep triggering if key is still pressed ?
+	 *
+	 * Defaults to true. */
+	repeats?: boolean;
+};
 
 /**
  * Returns a listener function that checks if a keyboard shortcut is triggered.
@@ -40,7 +58,10 @@ export type ShortcutSettings<E extends Element> = KeyboardShortcut & {
  * @param params - settings of the shortcut
  * @returns keyboard listener
  */
-function makeShortcutListener<E extends Element>(node: E, params: ShortcutSettings<E>): (e: KeyboardEvent) => void {
+function makeShortcutListener<E extends Element>(
+	node: E,
+	params: ShortcutSettings<E>
+): (e: KeyboardEvent) => void {
 	const {
 		shortcuts = [],
 		key,
@@ -50,15 +71,19 @@ function makeShortcutListener<E extends Element>(node: E, params: ShortcutSettin
 		action,
 		ignoreElements = ['INPUT', 'TEXTAREA']
 	} = params;
-	const shortShortcutDef: KeyboardShortcut | undefined = key || ctrl || alt || shift
-		? {
-				key,
-				ctrl,
-				alt,
-				shift
-			}
-		: undefined;
+	const shortShortcutDef: KeyboardShortcut | undefined =
+		key || ctrl || alt || shift
+			? {
+					key,
+					ctrl,
+					alt,
+					shift
+				}
+			: undefined;
+
+	let triggered = false;
 	return (e) => {
+		if (params.repeats === false && triggered) return;
 		const target = e.target;
 		if (!(target instanceof HTMLElement)) return;
 
@@ -86,17 +111,24 @@ function makeShortcutListener<E extends Element>(node: E, params: ShortcutSettin
 		}
 		if (!triggeredShortcut) return;
 
-		e.preventDefault();
+		// Prevent default behavior if key is defined
+		// We don't want to prevent default behavior if only
+		// modifier keys are defined
+		if (triggeredShortcut.key) e.preventDefault();
 
 		console.debug(`shortcut: ${shortcutToString(triggeredShortcut)}`);
 		if (action) action(node, e);
-		if (params.endAction) {
-			function triggerEndAction(e: KeyboardEvent) {
-				console.debug("Trigger end action.")
-				params.endAction?.(node, e)
-				document.removeEventListener('keyup', triggerEndAction);
+		if (triggered === false) {
+			if (params.endAction) {
+				function triggerEndAction(e: KeyboardEvent) {
+					console.debug('Trigger end action.');
+					params.endAction?.(node, e);
+					document.removeEventListener('keyup', triggerEndAction);
+					triggered = false;
+				}
+				document.addEventListener('keyup', triggerEndAction);
 			}
-			document.addEventListener('keyup', triggerEndAction);
+			triggered = true;
 		}
 	};
 }
@@ -108,18 +140,18 @@ function makeShortcutListener<E extends Element>(node: E, params: ShortcutSettin
  * @returns whether shortcut is triggered
  */
 function isShortcutTriggered(e: KeyboardEvent, shortcut: KeyboardShortcut) {
-	return (shortcut.key === undefined
-		? true
-		: e.key.toLowerCase() === shortcut.key.toLowerCase()) &&
-				e.ctrlKey === !!shortcut.ctrl &&
-				e.altKey === !!shortcut.alt &&
-				e.shiftKey === !!shortcut.shift;
+	return (
+		(shortcut.key === undefined ? true : e.key.toLowerCase() === shortcut.key.toLowerCase()) &&
+		e.ctrlKey === !!shortcut.ctrl &&
+		e.altKey === !!shortcut.alt &&
+		e.shiftKey === !!shortcut.shift
+	);
 }
 
 /**
  * Converts a keyboard shortcut definition to a string.
  * @param param0 - Keyboard shortcut definition
- * @returns 
+ * @returns
  */
 export function shortcutToString({ ctrl, alt, shift, key }: KeyboardShortcut): string {
 	const pieces = [];
@@ -132,25 +164,28 @@ export function shortcutToString({ ctrl, alt, shift, key }: KeyboardShortcut): s
 
 /**
  * Action to add a keyboard shortcut.
- * 
+ *
  * All keyboard listeners are attached to document.
  * @param node - The element the shortcut is bound to
  * @param params - Settings for the shortcut
  * @returns svelte action to add a keyboard shortcut
  */
-export function shortcut<E extends Element>(node: E, params: ShortcutSettings<E>): ActionReturn<ShortcutSettings<E>> {
-		let listener = makeShortcutListener(node, params);
+export function shortcut<E extends Element>(
+	node: E,
+	params: ShortcutSettings<E>
+): ActionReturn<ShortcutSettings<E>> {
+	let listener = makeShortcutListener(node, params);
 
-		document.addEventListener('keydown', listener);
+	document.addEventListener('keydown', listener);
 
-		return {
-			destroy() {
-				document.removeEventListener('keydown', listener);
-			},
-			update(params) {
-				document.removeEventListener('keydown', listener);
-				listener = makeShortcutListener(node, params);
-				document.addEventListener('keydown', listener);
-			}
-		};
+	return {
+		destroy() {
+			document.removeEventListener('keydown', listener);
+		},
+		update(params) {
+			document.removeEventListener('keydown', listener);
+			listener = makeShortcutListener(node, params);
+			document.addEventListener('keydown', listener);
+		}
+	};
 }
