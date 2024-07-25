@@ -1,3 +1,10 @@
+/**
+ * Actions to add scrolling behavior, like custom scrolling or scroll into view.
+ * 
+ * @see {@link horizontalScroll}
+ * @see {@link scrollIntoView}
+ * @module
+ */
 import { clamp, debounce } from 'lodash-es';
 import type { Action } from 'svelte/action';
 import { tweened } from 'svelte/motion';
