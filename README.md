@@ -40,6 +40,12 @@ bun i @selenite/commons
 bun dev
 ```
 
+## Documentation
+The documentation is generated with TypeDoc and can be built with the following command :
+```bash
+bun docgen
+```
+It will then be accessible in the [docs folder](./docs).
 ## Publishing
 The package will automatically be built and published (if there's a version change) when pushed to the main branch.
 
@@ -51,4 +57,5 @@ bun wasm-pack publish --access public
 ```
 
 ## TODO
-Setup automatic rust code publishing
+- Setup automatic rust code publishing
+- Document everything
