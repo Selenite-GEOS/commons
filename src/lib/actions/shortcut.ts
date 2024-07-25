@@ -2,15 +2,16 @@ import { isArray } from 'lodash-es';
 import type { Action } from 'svelte/action';
 
 export type KeyboardShortcut = {
-	key: string;
+	key?: string;
 	ctrl?: boolean;
 	alt?: boolean;
 	shift?: boolean;
 };
-export type ShortcutSettings = Partial<KeyboardShortcut> & {
+export type ShortcutSettings = KeyboardShortcut & {
 	shortcuts?: KeyboardShortcut[] | ((e: KeyboardEvent) => boolean) | KeyboardShortcut;
 	action?: (e: KeyboardEvent) => unknown;
 	ignoreElements?: string[];
+	endAction?: (e: KeyboardEvent) => void;
 };
 function makeShortcutListener(params: ShortcutSettings): (e: KeyboardEvent) => void {
 	const {
@@ -63,16 +64,24 @@ function makeShortcutListener(params: ShortcutSettings): (e: KeyboardEvent) => v
 
 		console.debug(`shortcut: ${shortcutToString(triggeredShortcut)}`);
 		if (action) action(e);
+		if (params.endAction) {
+			function triggerEndAction(e: KeyboardEvent) {
+				console.debug("Trigger end action.")
+				params.endAction?.(e)
+				window.removeEventListener('keyup', triggerEndAction);
+			}
+			window.addEventListener('keyup', triggerEndAction);
+		}
 	};
 }
 
 function isShortcutTriggered(e: KeyboardEvent, shortcut: KeyboardShortcut) {
-	return (
-		e.key.toLowerCase() === shortcut.key.toLowerCase() &&
-		e.ctrlKey === !!shortcut.ctrl &&
-		e.altKey === !!shortcut.alt &&
-		e.shiftKey === !!shortcut.shift
-	);
+	return shortcut.key === undefined
+		? true
+		: e.key.toLowerCase() === shortcut.key.toLowerCase() &&
+				e.ctrlKey === !!shortcut.ctrl &&
+				e.altKey === !!shortcut.alt &&
+				e.shiftKey === !!shortcut.shift;
 }
 
 export function shortcutToString({ ctrl, alt, shift, key }: KeyboardShortcut): string {
@@ -80,7 +89,7 @@ export function shortcutToString({ ctrl, alt, shift, key }: KeyboardShortcut): s
 	if (ctrl) pieces.push('Ctrl');
 	if (alt) pieces.push('Alt');
 	if (shift) pieces.push('Shift');
-	pieces.push(key.toUpperCase());
+	if (key) pieces.push(key.toUpperCase());
 	return pieces.join('+');
 }
 

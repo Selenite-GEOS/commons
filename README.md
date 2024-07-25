@@ -1,4 +1,4 @@
- # Selenite - Commons
+ # Selenite Commons
  
  This typescript package provides a set of frequently used utilities, types and svelte actions for building projects
  with Typescript and Svelte.
