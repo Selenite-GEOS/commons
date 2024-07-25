@@ -11,6 +11,8 @@ export * as Inputs from './inputs.js'
 export * from './inputs.js'
 export * as Drag from './drag.js'
 export * from './drag.js'
+export * as Click from './click.js'
+export * from './click.js'
 let handleFocusLeaveRefCount = 0;
 let handleFocusLeaveCallbacks: ((isKeyboard: boolean) => void)[] = [];
 function handleKeydown(e: KeyboardEvent) {
