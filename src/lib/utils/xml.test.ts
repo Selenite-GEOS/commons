@@ -1,4 +1,5 @@
 import { assert, describe, it } from 'vitest';
+
 import {
 	formatXml,
 	parseXml,
