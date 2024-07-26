@@ -9,7 +9,7 @@ import { distance, posFromClient, type Position } from "$lib/utils";
 import type { ActionReturn } from "svelte/action";
 
 /**
- * Options for the clickIfNoDrag and clickIfDrag action.
+ * Options for the {@link clickIfDrag} and {@link clickIfNoDrag} action.
  * @see {@link clickIfNoDrag}
  * @see {@link clickIfDrag}
  */
