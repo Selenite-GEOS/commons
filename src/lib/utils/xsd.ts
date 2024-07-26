@@ -45,7 +45,9 @@ export type ComplexType = {
 	doc?: string;
 	/** Attributes of the complex type. */
 	attrs: Attribute[];
-	children?: string[];
+	attributes: Map<string, Attribute>;
+	children: string[];
+	childTypes: string[];
 };
 
 /**
@@ -64,35 +66,27 @@ export type XMLTypeName = string;
  */
 export class XmlSchema {
 	/** Simple types of the xml schema. */
-	simpleTypes: SimpleType[] = [];
+	simpleTypes: Map<string, SimpleType> = new Map();
 	/** Complex types of the xml schema. */
-	complexTypes: ComplexType[] = [];
+	complexTypes: Map<string, ComplexType> = new Map();
 
 	/** Map which associates the names of simple XML types to their definition. */
 	get simpleTypeMap(): Map<XMLTypeName, SimpleType> {
-		const res = new Map<XMLTypeName, SimpleType>();
-		for (const type of this.simpleTypes) {
-			res.set(type.name, type);
-		}
-		return res;
+		return this.simpleTypes;
 	}
 
 	/** Map which associates the names of complex XML types to their definitions. */
 	get typeMap(): Map<XMLTypeName, ComplexType> {
-		const res = new Map<string, ComplexType>();
-		for (const type of this.complexTypes) {
-			res.set(type.name, type);
-		}
-		return res;
+		return this.complexTypes;
 	}
 
 	/** Map which associates the names of complex XML types to their parents' names. */
 	get parentsMap(): Map<XMLTypeName, XMLTypeName[]> {
 		const res = new Map<string, string[]>();
-		for (const { name } of this.complexTypes) {
+		for (const { name } of this.complexTypes.values()) {
 			res.set(name, []);
 		}
-		for (const { name: parentName, children } of this.complexTypes) {
+		for (const { name: parentName, children } of this.complexTypes.values()) {
 			if (!children) continue;
 			for (const c of children) {
 				res.get(c)!.push(parentName);
@@ -178,7 +172,7 @@ export async function parseXsd(xsd: string): Promise<XmlSchema | undefined> {
 	const res: XmlSchema = new XmlSchema();
 
 	for (const { name, doc, options, pattern } of schema.simple_types) {
-		res.simpleTypes.push({
+		res.simpleTypes.set(name, {
 			name,
 			doc,
 			pattern,
@@ -187,9 +181,7 @@ export async function parseXsd(xsd: string): Promise<XmlSchema | undefined> {
 	}
 
 	for (const { name, children, fields, doc } of schema.complex_types) {
-		res.complexTypes.push({
-			name,
-			attrs: fields.map(({ name, doc, type_name: type, required, default: default_ }) => {
+		const attrs = fields.map(({ name, doc, type_name: type, required, default: default_ }) => {
 				if (default_) {
 					try {
 						default_ = JSON.parse(default_);
@@ -202,9 +194,19 @@ export async function parseXsd(xsd: string): Promise<XmlSchema | undefined> {
 					default: default_,
 					doc
 				};
-			}),
+			});
+		res.complexTypes.set(name, {
+			name,
+			get attrs() {
+				return Object.values(this.attributes) as Attribute[];
+			},
+			attributes: new Map(attrs.map((a) => [a.name, a])),
+			get childTypes() {
+				return this.children;
+			},
 			doc,
-			children
+			children: children ?? [],
+			
 		});
 	}
 	schema.free();
