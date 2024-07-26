@@ -8,7 +8,6 @@ import {
 	getElementFromParsedXml,
 	findPossibleMergePositions
 } from './xml';
-import { writable, type Writable } from 'svelte/store';
 
 describe('parseXml', () => {
 	it('parses basic xml', () => {

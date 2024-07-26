@@ -19,7 +19,7 @@ jobs:
       # - uses: actions/setup-node@v3
       - uses: oven-sh/setup-bun@v2
       - run: bun install --frozen-lockfile
-      - run: bun test
+      - run: bun run test run
 
   publish-npm:
     needs: build
