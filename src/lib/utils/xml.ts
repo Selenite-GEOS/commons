@@ -1,3 +1,8 @@
+/**
+ * Utils to parse, format and write XML.
+ * @module
+ */
+
 import {
 	type X2jOptions,
 
