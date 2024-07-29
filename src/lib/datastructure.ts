@@ -13,6 +13,11 @@ export namespace Vector2D {
 		y: 0,
 	} as Vector2D);
 	
+	/** Adds two vector2D together. */
+	export const add = (a: Vector2D, b: Vector2D) => ({
+		x: a.x + b.x,
+		y: a.y + b.y,
+	} as Vector2D);
 }
 
 
