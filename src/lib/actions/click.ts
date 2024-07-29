@@ -14,7 +14,7 @@ import type { ActionReturn } from "svelte/action";
  * @see {@link clickIfDrag}
  */
 export type ClickDragOptions = {
-	onclick?: (e: Event) => void;
+	onclick?: (e: PointerEvent) => void;
 	threshold?: number;
 };
 

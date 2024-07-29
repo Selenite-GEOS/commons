@@ -45,6 +45,83 @@ export function posFromClient({
 	return { x, y };
 }
 
+
+/**
+ * Definition of a rectangle..
+ */
+export class Rect  {
+	x: number;
+	y: number;
+	width: number;
+	height: number;
+
+	constructor(x = 0, y = 0, width = 0, height = 0) {
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+	}
+
+	get right() {
+		return this.x + this.width;
+	}
+
+	get bottom() {
+		return this.y + this.height;
+	}
+
+}
+
+/**
+ * Utils to compute intersection, union and area of bouding rectangles.
+ */
+export namespace Rect {
+	/**
+	 * Returns the intersection of multiple bouding rectangles.
+	 */
+	export function intersection(rect: Rect, ...rects: Rect[]): Rect {
+		const res: Rect = new Rect();
+		Object.assign(res, rect);
+		
+		for (const r of rects) {
+			const a: Position = { x: Math.max(res.x, r.x), y: Math.max(res.y, r.y) };
+			const b: Position = { x: Math.min(res.right, r.right), y: Math.min(res.bottom, r.bottom) };
+
+			res.x = a.x;
+			res.y = a.y;
+			res.width = b.x - a.x;
+			res.height = b.y - a.y;
+		}
+		return res;
+	}
+
+	/**
+	 * Return the union of multiple bounding rectangles.
+	 */
+	export function union(rect: Rect, ...rects: Rect[]): Rect {
+		const res: Rect = new Rect();
+		Object.assign(res, rect);
+
+		for (const r of rects) {
+			const a: Position = { x: Math.min(res.x, r.x), y: Math.min(res.y, r.y) };
+			const b: Position = { x: Math.max(res.right, r.right), y: Math.max(res.bottom, r.bottom) };
+
+			res.x = a.x;
+			res.y = a.y;
+			res.width = b.x - a.x;
+			res.height = b.y - a.y;
+		}
+		return res;
+	}
+
+	/**
+	 * Returns the area of a rectangle.
+	 */
+	export function area(rect: Rect): number {
+		return rect.width * rect.height;
+	}
+}
+
 export function download(filename: string, data: unknown) {
 	const text = typeof data === 'string' ? data : JSON.stringify(data, undefined, 4);
 	const blob = new Blob([text], { type: 'application/octet-stream' });
