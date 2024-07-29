@@ -18,6 +18,38 @@ export namespace Vector2D {
 		x: a.x + b.x,
 		y: a.y + b.y,
 	} as Vector2D);
+
+	export const multiply = (a: Vector2D, b: number) => ({
+		x: a.x * b,
+		y: a.y * b,
+	} as Vector2D);
+
+	export const divide = (a: Vector2D, b: number) => ({
+		x: a.x / b,
+		y: a.y / b,
+	} as Vector2D);
+
+	export const subtract = (a: Vector2D, b: Vector2D) => ({
+		x: a.x - b.x,
+		y: a.y - b.y,
+	} as Vector2D);
+
+	export const length = (a: Vector2D) => Math.sqrt(a.x ** 2 + a.y ** 2);
+
+	export const normalize = (a: Vector2D) => divide(a, length(a));
+
+	export const distance = (a: Vector2D, b: Vector2D) => length(subtract(a, b));
+
+	export const dot = (a: Vector2D, b: Vector2D) => a.x * b.x + a.y * b.y;
+
+	export const cross = (a: Vector2D, b: Vector2D) => a.x * b.y - a.y * b.x;
+
+	export const angle = (a: Vector2D, b: Vector2D) => Math.acos(dot(a, b) / (length(a) * length(b)));
+
+	export const rotate = (a: Vector2D, angle: number) => ({
+		x: a.x * Math.cos(angle) - a.y * Math.sin(angle),
+		y: a.x * Math.sin(angle) + a.y * Math.cos(angle),
+	} as Vector2D);
 }
 
 
