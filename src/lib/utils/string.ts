@@ -5,6 +5,7 @@
  * @module
  */
 
+export {isPlural, isSingular, plural, singular} from 'pluralize'
 
 export function capitalize(str: string): string {
 	return str.charAt(0).toUpperCase() + str.slice(1);
