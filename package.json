@@ -1,6 +1,6 @@
 {
   "name": "@selenite/commons",
-  "version": "0.17.2",
+  "version": "0.18.0",
   "scripts": {
     "dev": "vite dev",
     "wasm": "wasm-pack build ./selenite-commons-rs --target web",
@@ -69,10 +69,12 @@
   "type": "module",
   "dependencies": {
     "@neodrag/svelte": "^2.0.6",
+    "@types/core-js": "^2.5.8",
     "@types/pluralize": "^0.0.33",
     "@types/uuid": "^10.0.0",
     "@types/wu": "^2.1.44",
     "autosize": "^6.0.1",
+    "core-js": "^3.37.1",
     "fast-xml-parser": "^4.4.0",
     "lodash-es": "^4.17.21",
     "ml-classify-text": "^2.0.1",

@@ -5,6 +5,10 @@
  * @module
  */
 
+// polyfill for set intersection
+import 'core-js/actual/set/intersection'
+import { upperFirst } from 'lodash-es';
+import { singular } from 'pluralize';
 export {isPlural, isSingular, plural, singular} from 'pluralize'
 
 export function capitalize(str: string): string {
@@ -102,6 +106,47 @@ export function splitCamelCase(str: string): string[] {
 	return res;
 }
 
+/**
+ * Turns an array of strings into an array of their shared words.
+ * @param strings 
+ */
+export function getSharedWords(strings: string[]): string[];
+/**
+ * Turns an words of strings into an array of their shared words.
+ * @param stringsWords 
+ */
+export function getSharedWords(stringsWords: string[][]): string[];
+
+/** @ignore */
+export function getSharedWords(strings: string[][] | string[]): string[] {
+	if (strings.length === 0) return []
+	let stringsWords : string[][]
+	if (!Array.isArray(strings[0])) {
+		stringsWords = (strings as string[]).map((s) => s.split(' ').flatMap(splitCamelCase).map(s => singular(s)));
+
+	} else {
+		stringsWords = strings as string[][]
+	}
+
+	let res = new Set(stringsWords[0]);
+
+	for (const [i, words] of stringsWords.entries()) {
+		if (i === 0) continue;
+
+		res = res.intersection(new Set(words));
+	}
+	return Array.from(res);
+}
+
+export function getSharedString(strings: string[] | string[][], options: {camelcase?: boolean}= {}): string {
+	const words = getSharedWords(strings)
+	if (options.camelcase) {
+		if (words.length === 0) return '';
+		const firstWord = words.splice(0, 1)[0]
+		return words.reduce((acc, s) => acc + upperFirst(s), firstWord)
+	}
+	return words.join(' ')
+}
 export function getVarsFromFormatString(formatString: string): string[] {
 	// return all matches of the regex
 	return Array.from(formatString.matchAll(/{(\w+).*?}/g)).map((match) => match[1]);

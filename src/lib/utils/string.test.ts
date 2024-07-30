@@ -19,4 +19,35 @@ describe('string utils', () => {
             expect(String.splitCamelCase('')).toEqual([]);
         })
 	});
+	describe('getSharedWords', () => {
+		it(`should return empty array on empty strings' words`, () => {
+			expect(String.getSharedWords([])).toEqual([])
+		})
+		it('should get shared words', () => {
+			expect(String.getSharedWords([
+				['beautiful', 'hello', 'world'],
+				['beautiful', 'world', 'in', 'space']
+			])).toEqual(['beautiful', 'world'])
+		})
+		it('should get shared words from strings', () => {
+			expect(String.getSharedWords([
+				'beautiful hello World',
+				'beautifulWorldsInSpace'
+			])).toEqual(['beautiful', 'World'])
+			
+		})
+	})
+	describe('getSharedString', () => {
+		it('should return shared string', () => {
+			expect(String.getSharedString([
+				'beautiful hello World',
+				'beautifulWorldsInSpace'
+			])).toEqual('beautiful World')
+		})
+		it('can return camelcase shared string', () => {
+			expect(String.getSharedString(['beautiful hello world', 'beautiful worlds inSpace'], {camelcase: true})).toEqual(
+				'beautifulWorld'
+			);
+		});
+	})
 });
