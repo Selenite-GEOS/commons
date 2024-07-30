@@ -77,6 +77,7 @@ export function splitCamelCase(str: string): string[] {
 
 		// Lowercase letter
 		if (c === c.toLowerCase()) {
+			if (!isNaN(parseInt(c))) continue;
 			nextCapIsWordStart = true;
 			if (nextLowerAfterCapIsWordEnd) {
 				const k = j - 1;
