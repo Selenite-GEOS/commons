@@ -20,12 +20,16 @@ jobs:
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org/
-      - uses: oven-sh/setup-bun@v2
+      - name: setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      # - uses: oven-sh/setup-bun@v2
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
-      - run: bun install --frozen-lockfile
-      - run: bun wasm
-      - run: bun run test run
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm wasm
+      - run: pnpm run test run
 
   publish-npm:
     needs: build
@@ -36,8 +40,12 @@ jobs:
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org/
-      - uses: oven-sh/setup-bun@v2
-      - run: bun install --frozen-lockfile
+      # - uses: oven-sh/setup-bun@v2
+      - name: setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - run: pnpm install --frozen-lockfile
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
