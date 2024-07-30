@@ -5,7 +5,7 @@ import wasmPack from 'vite-plugin-wasm-pack';
 export default defineConfig({
 	plugins: [
 		sveltekit(),
-		wasmPack('./selenite-commons-rs', ['selenite-commons-rs'])
+		wasmPack([], 'selenite-commons-rs')
 	],
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}']
