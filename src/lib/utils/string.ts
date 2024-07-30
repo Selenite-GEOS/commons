@@ -1,3 +1,11 @@
+/**
+ * String utils for common string manipulation.
+ * 
+ * Examples are {@link capitalize} and {@link splitCamelCase}....
+ * @module
+ */
+
+
 export function capitalize(str: string): string {
 	return str.charAt(0).toUpperCase() + str.slice(1);
 }
@@ -46,6 +54,51 @@ export function initials(str: string): string {
 export function camlelcaseize(str: string): string {
 	const capitalized = str.split(' ').map(capitalize).join('');
 	return capitalized.charAt(0).toLowerCase() + capitalized.slice(1);
+}
+
+/**
+ * Splits a camel case string into an array of words.
+ * @param str Camel case string to split.
+ * @returns Array of words.
+ */
+export function splitCamelCase(str: string): string[] {
+	const res: string[] = [];
+
+	let i = 0;
+	let nextCapIsWordStart = false;
+	let nextLowerAfterCapIsWordEnd = false;
+	for (let j = 0; j < str.length; j++) {
+		const c = str[j];
+
+		// Lowercase letter
+		if (c === c.toLowerCase()) {
+			nextCapIsWordStart = true;
+			if (nextLowerAfterCapIsWordEnd) {
+				const k = j - 1;
+				if (k - i > 0) {
+					nextLowerAfterCapIsWordEnd = false;
+					res.push(str.slice(i, k));
+					i = k;
+				}
+			}
+			nextLowerAfterCapIsWordEnd = false;
+		}
+		// Uppercase letter 
+		else {
+			nextLowerAfterCapIsWordEnd = true;
+			if (nextCapIsWordStart) {
+				res.push(str.slice(i, j));
+				i = j;
+				nextCapIsWordStart = false;
+			}
+		}
+	}
+
+	if (i < str.length) {
+		res.push(str.slice(i));
+	}
+
+	return res;
 }
 
 export function getVarsFromFormatString(formatString: string): string[] {
