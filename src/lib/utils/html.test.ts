@@ -1,4 +1,4 @@
-import { describe, expect, assert, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { Rect } from './html.svelte';
 
 describe('Rect', () => {
@@ -15,6 +15,12 @@ describe('Rect', () => {
             const rect3 = new Rect(7, 3, 10, 10);
             const res = Rect.intersection(rect1, rect2, rect3);
             expect(res).toEqual(new Rect(7, 5, 3, 5));
+        })
+        it('should handle cases with no intersection', () => {
+            const rect1 = new Rect(5, 5, 5, 5);
+            const rect2 = new Rect(-5, -5, 1, 1);
+            const res = Rect.intersection(rect1, rect2);
+            expect(res).toEqual(new Rect(5, 5, 0, 0));
         })
 	});
 

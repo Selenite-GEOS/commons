@@ -89,8 +89,8 @@ export namespace Rect {
 
 			res.x = a.x;
 			res.y = a.y;
-			res.width = b.x - a.x;
-			res.height = b.y - a.y;
+			res.width = Math.max(b.x - a.x, 0);
+			res.height = Math.max(b.y - a.y, 0);
 		}
 		return res;
 	}
