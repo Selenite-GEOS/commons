@@ -1,6 +1,6 @@
 {
   "name": "@selenite/commons",
-  "version": "0.17.1",
+  "version": "0.17.2",
   "scripts": {
     "dev": "vite dev",
     "wasm": "wasm-pack build ./selenite-commons-rs --target web",
