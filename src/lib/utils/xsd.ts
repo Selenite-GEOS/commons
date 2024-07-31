@@ -54,7 +54,7 @@ export type ComplexType = {
 	attrs: Attribute[];
 	attributes: Map<string, Attribute>;
 	children: ChildProps[];
-	childTypes: ChildProps[];
+	childTypes: string[];
 };
 
 /**
@@ -209,7 +209,7 @@ export async function parseXsd(xsd: string): Promise<XmlSchema | undefined> {
 			},
 			attributes: new Map(attrs.map((a) => [a.name, a])),
 			get childTypes() {
-				return this.children;
+				return (this.children as ChildProps[]).map(c => c.type);
 			},
 			doc,
 			children: children?.map(c => ({type: c.type_name, maxOccurs: c.max_occurs, minOccurs: c.min_occurs})) ?? []
