@@ -16,7 +16,7 @@
 	<span class="number">{y}</span>
 </label>
 <div class="container">
-	<canvas use:gridLines  style="transform: translate({x}px, {y}px);"> </canvas>
+	<canvas use:gridLines style="transform: translate({x}px, {y}px);"> </canvas>
 </div>
 
 <style>

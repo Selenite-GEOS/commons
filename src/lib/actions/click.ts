@@ -1,12 +1,12 @@
 /**
  * Actions that behave like an on click event listener but with additional conditions.
- * 
+ *
  * @see {@link clickIfNoDrag}
  * @module
  */
 
-import { distance, posFromClient, type Position } from "$lib/utils";
-import type { ActionReturn } from "svelte/action";
+import { distance, posFromClient, type Position } from '$lib/utils';
+import type { ActionReturn } from 'svelte/action';
 
 /**
  * Options for the {@link clickIfDrag} and {@link clickIfNoDrag} action.
@@ -62,7 +62,7 @@ export function clickIfNoDrag<E extends HTMLElement>(
 	};
 }
 
-/** 
+/**
  * Action that triggers a callback if the pointer is moved after a pointerdown event.
  */
 export function clickIfDrag<E extends HTMLElement>(
@@ -70,13 +70,12 @@ export function clickIfDrag<E extends HTMLElement>(
 	options: ClickDragOptions
 ): ActionReturn<ClickDragOptions> {
 	let pointerdownPos: Position | undefined;
-    let drag = false;
+	let drag = false;
 
 	function onpointerup(e: PointerEvent) {
 		node.removeEventListener('pointerup', onpointerup);
 		node.removeEventListener('pointermove', onpointermove);
-		if (drag)
-			options.onclick?.(e);
+		if (drag) options.onclick?.(e);
 		drag = false;
 	}
 
@@ -89,7 +88,7 @@ export function clickIfDrag<E extends HTMLElement>(
 	}
 
 	function onpointerdown(e: PointerEvent) {
-        drag = false;
+		drag = false;
 		pointerdownPos = posFromClient(e);
 		node.addEventListener('pointerup', onpointerup);
 		node.addEventListener('pointermove', onpointermove);

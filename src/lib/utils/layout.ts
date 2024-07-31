@@ -7,17 +7,17 @@ import { Vector2D } from '$lib/datastructure';
 
 /**
  * Structure used by the layout utilities.
- * 
+ *
  * It represents a bounding rect for a layout element.
  */
 export type LayoutRect = {
-    /** Position on the x axis of top left corner. */
+	/** Position on the x axis of top left corner. */
 	x: number;
-    /** Position on the y axis of top left corner. */
+	/** Position on the y axis of top left corner. */
 	y: number;
-    /** Width of the bounding rect. */
+	/** Width of the bounding rect. */
 	w: number;
-    /** Height of the bounding rect. */
+	/** Height of the bounding rect. */
 	h: number;
 };
 
@@ -25,7 +25,7 @@ export type LayoutRect = {
  * Additional options for the layout utilities.
  */
 export type LayoutOptions = {
-    /** Index of the reference element. Defaults to 0. */
+	/** Index of the reference element. Defaults to 0. */
 	refPos?: number;
 };
 
@@ -39,12 +39,12 @@ export type LayoutOptions = {
 function getOffsets(
 	rects: LayoutRect[],
 	f: (ref: LayoutRect, o: LayoutRect) => Vector2D,
-    options: LayoutOptions = {}
+	options: LayoutOptions = {}
 ): Vector2D[] {
 	if (rects.length === 0) return [];
-    if (options.refPos && !(options.refPos in rects)) {
-        throw new Error(`Invalid refPos: ${options.refPos}`);
-    }
+	if (options.refPos && !(options.refPos in rects)) {
+		throw new Error(`Invalid refPos: ${options.refPos}`);
+	}
 
 	const ref = rects[options.refPos ?? 0];
 	const res = [];
@@ -85,7 +85,6 @@ export function getAlignMiddleOffsets(rects: LayoutRect[], options?: LayoutOptio
 	return getOffsets(rects, (r, o) => ({ x: 0, y: r.y + r.h / 2 - o.y - o.h / 2 }), options);
 }
 
-
 /**
  * Returns offsets to align the lefts of elements to the left of a reference element.
  * @param rects - Bounding rectangles of elements to align.
@@ -116,17 +115,15 @@ export function getJustifyCenterOffsets(rects: LayoutRect[], options?: LayoutOpt
 	return getOffsets(rects, (r, o) => ({ x: r.x + r.w / 2 - o.x - o.w / 2, y: 0 }), options);
 }
 
-
 /**
  * Additional options for the space between layout utilities.
  */
 export type LayoutBetweenOptions = {
-    /** Min gap between elements. */
-    minGap?: number;
-    /** Whether to use a center based approach, or a bounds based approach. Defaults to bounds. */
-    centerBased?: boolean;
+	/** Min gap between elements. */
+	minGap?: number;
+	/** Whether to use a center based approach, or a bounds based approach. Defaults to bounds. */
+	centerBased?: boolean;
 };
-
 
 /**
  * Returns offsets to space elements evenly on the x axis with a minimum gap.
@@ -135,61 +132,59 @@ export type LayoutBetweenOptions = {
  * @returns Array of offsets for each element.
  */
 export function getJustifyBetweenOffsets(
-    rects: LayoutRect[],
-    { minGap = 10, centerBased = false }: LayoutBetweenOptions = {}
+	rects: LayoutRect[],
+	{ minGap = 10, centerBased = false }: LayoutBetweenOptions = {}
 ): Vector2D[] {
-    if (rects.length === 0) return [];
+	if (rects.length === 0) return [];
 
-    // Left based
-    if (!centerBased) {
-        const sortedRects = rects.map((r,i) => ({i, r})).toSorted((a, b) => a.r.x - b.r.x);
-        const min = sortedRects[0].r.x;
-        const res: Vector2D[] = [];
-        let offset = 0;
-        let whitespace = 0
-        for (let i = 0; i < sortedRects.length - 1; i++) {
-            const a = sortedRects[i].r
-            const b = sortedRects[i + 1].r
-            whitespace += Math.max(minGap, Math.abs(b.x - a.x - a.w))
-        }
-        const gap = whitespace / (sortedRects.length - 1)
-        for (const [k, {i, r}] of sortedRects.entries()) {
-            res[i] = {
-                x: min + offset - r.x,
-                y: 0
-            };
-            offset += r.w + gap;
-        }
-        return res
+	// Left based
+	if (!centerBased) {
+		const sortedRects = rects.map((r, i) => ({ i, r })).toSorted((a, b) => a.r.x - b.r.x);
+		const min = sortedRects[0].r.x;
+		const res: Vector2D[] = [];
+		let offset = 0;
+		let whitespace = 0;
+		for (let i = 0; i < sortedRects.length - 1; i++) {
+			const a = sortedRects[i].r;
+			const b = sortedRects[i + 1].r;
+			whitespace += Math.max(minGap, Math.abs(b.x - a.x - a.w));
+		}
+		const gap = whitespace / (sortedRects.length - 1);
+		for (const [k, { i, r }] of sortedRects.entries()) {
+			res[i] = {
+				x: min + offset - r.x,
+				y: 0
+			};
+			offset += r.w + gap;
+		}
+		return res;
+	} else {
+		const centers: [number, number][] = [];
+		let min = Infinity;
+		let totalWidth = 0;
+		for (const [i, r] of rects.entries()) {
+			const c = r.x + r.w / 2;
+			min = Math.min(min, c);
+			totalWidth += r.w;
+			centers.push([i, c]);
+		}
+		totalWidth += (rects.length - 1) * minGap;
+		const max = min + totalWidth;
+		const step = (max - min) / (rects.length - 1);
 
-    } else {
-        const centers: [number, number][] = [];
-        let min = Infinity;
-        let totalWidth = 0;
-        for (const [i, r] of rects.entries()) {
-            const c = r.x + r.w / 2;
-            min = Math.min(min, c);
-            totalWidth += r.w;
-            centers.push([i, c]);
-        }
-        totalWidth += (rects.length - 1) * minGap;
-        const max = min + totalWidth;
-        const step = (max - min) / (rects.length - 1);
+		const sortedCenters = centers.sort((a, b) => a[1] - b[1]);
 
-        const sortedCenters = centers.sort((a, b) => a[1] - b[1]);
+		const res: Vector2D[] = [];
+		for (const [k, [i, c]] of sortedCenters.entries()) {
+			res[i] = {
+				x: min + k * step - c,
+				y: 0
+			};
+		}
 
-        const res: Vector2D[] = [];
-        for (const [k, [i, c]] of sortedCenters.entries()) {
-            res[i] = {
-                x: min + k * step - c,
-                y: 0
-            };
-        }
-
-        return res;
-    }
+		return res;
+	}
 }
-
 
 /**
  * Returns offsets to space elements evenly on the y axis with a minimum gap.
@@ -203,28 +198,27 @@ export function getAlignBetweenOffsets(
 ): Vector2D[] {
 	if (rects.length === 0) return [];
 
-    // Top based
+	// Top based
 	if (!centerBased) {
-        const sortedRects = rects.map((r,i) => ({i, r})).toSorted((a, b) => a.r.y - b.r.y);
-        const min = sortedRects[0].r.y;
-        const res: Vector2D[] = [];
-        let offset = 0;
-        let whitespace = 0
-        for (let i = 0; i < sortedRects.length - 1; i++) {
-            const a = sortedRects[i].r
-            const b = sortedRects[i + 1].r
-            whitespace += Math.max(minGap, Math.abs(b.y - a.y - a.h))
-        }
-        const gap = whitespace / (sortedRects.length - 1)
-        for (const [k, {i, r}] of sortedRects.entries()) {
-            res[i] = {
-                x: 0,
-                y: min + offset - r.y
-            };
-            offset += r.h + gap;
-        }
-        return res
-
+		const sortedRects = rects.map((r, i) => ({ i, r })).toSorted((a, b) => a.r.y - b.r.y);
+		const min = sortedRects[0].r.y;
+		const res: Vector2D[] = [];
+		let offset = 0;
+		let whitespace = 0;
+		for (let i = 0; i < sortedRects.length - 1; i++) {
+			const a = sortedRects[i].r;
+			const b = sortedRects[i + 1].r;
+			whitespace += Math.max(minGap, Math.abs(b.y - a.y - a.h));
+		}
+		const gap = whitespace / (sortedRects.length - 1);
+		for (const [k, { i, r }] of sortedRects.entries()) {
+			res[i] = {
+				x: 0,
+				y: min + offset - r.y
+			};
+			offset += r.h + gap;
+		}
+		return res;
 	} else {
 		const centers: [number, number][] = [];
 		let min = Infinity;

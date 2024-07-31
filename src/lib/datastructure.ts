@@ -1,4 +1,4 @@
-export type Point=  {
+export type Point = {
 	x: number;
 	y: number;
 };
@@ -8,31 +8,36 @@ export type Vector2D = {
 };
 
 export namespace Vector2D {
-	export const Zero = () => ({
-		x: 0,
-		y: 0,
-	} as Vector2D);
-	
+	export const Zero = () =>
+		({
+			x: 0,
+			y: 0
+		}) as Vector2D;
+
 	/** Adds two vector2D together. */
-	export const add = (a: Vector2D, b: Vector2D) => ({
-		x: a.x + b.x,
-		y: a.y + b.y,
-	} as Vector2D);
+	export const add = (a: Vector2D, b: Vector2D) =>
+		({
+			x: a.x + b.x,
+			y: a.y + b.y
+		}) as Vector2D;
 
-	export const multiply = (a: Vector2D, b: number) => ({
-		x: a.x * b,
-		y: a.y * b,
-	} as Vector2D);
+	export const multiply = (a: Vector2D, b: number) =>
+		({
+			x: a.x * b,
+			y: a.y * b
+		}) as Vector2D;
 
-	export const divide = (a: Vector2D, b: number) => ({
-		x: a.x / b,
-		y: a.y / b,
-	} as Vector2D);
+	export const divide = (a: Vector2D, b: number) =>
+		({
+			x: a.x / b,
+			y: a.y / b
+		}) as Vector2D;
 
-	export const subtract = (a: Vector2D, b: Vector2D) => ({
-		x: a.x - b.x,
-		y: a.y - b.y,
-	} as Vector2D);
+	export const subtract = (a: Vector2D, b: Vector2D) =>
+		({
+			x: a.x - b.x,
+			y: a.y - b.y
+		}) as Vector2D;
 
 	export const length = (a: Vector2D) => Math.sqrt(a.x ** 2 + a.y ** 2);
 
@@ -46,12 +51,12 @@ export namespace Vector2D {
 
 	export const angle = (a: Vector2D, b: Vector2D) => Math.acos(dot(a, b) / (length(a) * length(b)));
 
-	export const rotate = (a: Vector2D, angle: number) => ({
-		x: a.x * Math.cos(angle) - a.y * Math.sin(angle),
-		y: a.x * Math.sin(angle) + a.y * Math.cos(angle),
-	} as Vector2D);
+	export const rotate = (a: Vector2D, angle: number) =>
+		({
+			x: a.x * Math.cos(angle) - a.y * Math.sin(angle),
+			y: a.x * Math.sin(angle) + a.y * Math.cos(angle)
+		}) as Vector2D;
 }
-
 
 export class Queue<T> {
 	#inStack: T[] = [];
@@ -66,25 +71,25 @@ export class Queue<T> {
 	}
 
 	peek(): T {
-		this.handleEmptyOut("Can't peek, queue is empty.")
+		this.handleEmptyOut("Can't peek, queue is empty.");
 		return this.#outStack.at(-1)!;
 	}
 
 	remove(): T {
-        this.handleEmptyOut("Can't remove an element, queue is empty.");
+		this.handleEmptyOut("Can't remove an element, queue is empty.");
 		return this.#outStack.pop()!;
 	}
 
 	take(amount: number): T[] {
-		const res = []
+		const res = [];
 		for (let i = 0; i < amount; i++) {
-			res.push(this.remove())
+			res.push(this.remove());
 		}
-		return res
+		return res;
 	}
 
 	takeAll(): T[] {
-		return this.take(this.size)
+		return this.take(this.size);
 	}
 
 	private handleEmptyOut(errMsg: string) {

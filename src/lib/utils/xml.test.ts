@@ -27,7 +27,7 @@ describe('parseXml', () => {
 				]
 			}
 		];
-		expect(parsed).toEqual(expected)
+		expect(parsed).toEqual(expected);
 	});
 
 	it('parses xml with attributes', () => {
@@ -76,7 +76,7 @@ describe('parseXml', () => {
 				]
 			}
 		];
-		expect(parsed).toEqual(expected)
+		expect(parsed).toEqual(expected);
 	});
 });
 
@@ -85,31 +85,33 @@ describe('formatComment', () => {
 		const comment = 'test comment';
 		const formatted = formatComment(comment);
 		const expected = `<!-- test comment -->`;
-		expect(formatted).toEqual(expected)
+		expect(formatted).toEqual(expected);
 	});
 	it('formats comment and trims spaces', () => {
 		const comment = ' test comment   ';
 		const formatted = formatComment(comment);
 		const expected = `<!-- test comment -->`;
-		expect(formatted).toEqual(expected)
+		expect(formatted).toEqual(expected);
 	});
 	it('formats comments and preserves inner new lines', () => {
 		const comment = 'test\ncomment';
 		const formatted = formatComment(comment);
 		const expected = `<!-- test\ncomment -->`;
-		expect(formatted).toEqual(expected)
+		expect(formatted).toEqual(expected);
 	});
 });
 
-const typesPaths: Map<string, string[][]> = new Map(Object.entries({
-	Z: [[]],
-	a: [['Z']],
-	a1: [['Z', 'a']],
-	a12: [['Z', 'a', 'a1']],
-	a2: [['Z', 'a']],
-	b: [['Z']],
-	b1: [['Z', 'b']]
-}));
+const typesPaths: Map<string, string[][]> = new Map(
+	Object.entries({
+		Z: [[]],
+		a: [['Z']],
+		a1: [['Z', 'a']],
+		a12: [['Z', 'a', 'a1']],
+		a2: [['Z', 'a']],
+		b: [['Z']],
+		b1: [['Z', 'b']]
+	})
+);
 
 describe('getElementFromParsedXml', () => {
 	it('gets element from parsed xml', () => {
@@ -120,14 +122,11 @@ describe('getElementFromParsedXml', () => {
 		];
 		const element = getElementFromParsedXml(xml[0]);
 		const expected = 'Z';
-		expect(element).toEqual(expected)
+		expect(element).toEqual(expected);
 	});
 	it('null if no element found', () => {
-		const xml: ParsedXmlNodes = [
-			{
-			}
-		];
-		expect(getElementFromParsedXml(xml[0])).toBeNull()
+		const xml: ParsedXmlNodes = [{}];
+		expect(getElementFromParsedXml(xml[0])).toBeNull();
 	});
 });
 
@@ -143,10 +142,7 @@ describe('findPossibleMergePositions', () => {
 		const expected: ReturnType<typeof findPossibleMergePositions> = [
 			{ path: [{ pos: 0, key: 'Z' }], withCursor: false }
 		];
-		expect(
-		
-			findPossibleMergePositions({ baseXml, element: 'b', typesPaths, cursorTag })
-		).toEqual(
+		expect(findPossibleMergePositions({ baseXml, element: 'b', typesPaths, cursorTag })).toEqual(
 			expected
 		);
 	});
@@ -167,9 +163,7 @@ describe('findPossibleMergePositions', () => {
 				withCursor: false
 			}
 		];
-		expect(
-			findPossibleMergePositions({ baseXml, element: 'a12', typesPaths, cursorTag })
-		).toEqual(
+		expect(findPossibleMergePositions({ baseXml, element: 'a12', typesPaths, cursorTag })).toEqual(
 			expected
 		);
 	});
@@ -198,9 +192,7 @@ describe('findPossibleMergePositions', () => {
 		];
 		expect(
 			findPossibleMergePositions({ baseXml, element: 'a12', typesPaths, cursorTag: 'cursor' })
-		).toEqual(
-			expected
-		);
+		).toEqual(expected);
 	});
 });
 
@@ -229,11 +221,7 @@ describe('mergeParsedXml', () => {
 				]
 			}
 		];
-		expect(
-			mergeParsedXml({ baseXml, newXml, typesPaths })
-		).toEqual(
-			expected
-		);
+		expect(mergeParsedXml({ baseXml, newXml, typesPaths })).toEqual(expected);
 	});
 });
 
@@ -242,7 +230,7 @@ describe('formatXML', () => {
 		const xml = `<root><child></child></root>`;
 		const formatted = formatXml({ xml, indent: 2 });
 		const expected = `<root>\n  <child />\n</root>\n`;
-		expect(formatted).toEqual(expected)
+		expect(formatted).toEqual(expected);
 	});
 	//     it("preserves comments", () => {
 	//         const xml = `<!-- comment --><root><child>text</child></root>`;

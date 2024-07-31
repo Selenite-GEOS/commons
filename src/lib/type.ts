@@ -3,7 +3,6 @@
  * @module
  */
 
-
 /**
  * Make selected properties in T optional.
  * @typeParam T - The type to make partial.
@@ -11,9 +10,8 @@
  */
 export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
-
 /**
  * Get the return type of the toJSON method of an object.
  * @typeParam T - The object type.
  */
-export type SaveData<T extends {toJSON: () => unknown}> = ReturnType<T["toJSON"]>;
+export type SaveData<T extends { toJSON: () => unknown }> = ReturnType<T['toJSON']>;

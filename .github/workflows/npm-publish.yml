@@ -4,7 +4,15 @@ name: Publish package
 
 on:
   push:
-    paths: ["src/**", "test/**", "package.json", "tsconfig.json", "bun.lockb", ".github/workflows/npm-publish.yml"]
+    paths:
+      [
+        'src/**',
+        'test/**',
+        'package.json',
+        'tsconfig.json',
+        'bun.lockb',
+        '.github/workflows/npm-publish.yml'
+      ]
     branches:
       - main
   release:
@@ -18,7 +26,7 @@ jobs:
       - uses: actions/setup-node@v4
       - uses: oven-sh/setup-bun@v2
       - run: bun install --frozen-lockfile
-      - run: bun test
+      - run: bun run test run
       - run: bun package
       - uses: JS-DevTools/npm-publish@v3
         with:

@@ -1,6 +1,7 @@
 <script lang="ts">
-    import '../app.css'
+	import '../app.css';
 </script>
+
 <main class="p-4 min-h-screen grid justify-center">
-<slot/>
+	<slot />
 </main>

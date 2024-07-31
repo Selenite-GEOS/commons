@@ -2,7 +2,7 @@ name: Deploy docs
 
 on:
   push:
-    paths: ["src/**", "test/**", "package.json", "tsconfig.json", ".github/workflows/docs.yml"]
+    paths: ['src/**', 'test/**', 'tsconfig.json', '.github/workflows/docs.yml']
     branches:
       - main
   release:

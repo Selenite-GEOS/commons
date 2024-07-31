@@ -1,1 +1,1 @@
-export {persisted} from 'svelte-persisted-store';
+export { persisted } from 'svelte-persisted-store';

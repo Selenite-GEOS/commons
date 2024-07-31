@@ -36,8 +36,8 @@ export type Attribute = {
 	required: boolean;
 };
 
-/** A complex type in an XML schema definition. 
-*/
+/** A complex type in an XML schema definition.
+ */
 export type ComplexType = {
 	/** Name of the complex type. */
 	name: string;
@@ -52,7 +52,7 @@ export type ComplexType = {
 
 /**
  * A tree view of an XML schema.
- * 
+ *
  * It is a recursive structure that represents the hierarchy of types in a schema.
  */
 export type XMLTypeTree = { [key: string]: XMLTypeTree | 'recursive' };
@@ -104,9 +104,9 @@ export class XmlSchema {
 		return res;
 	}
 
-	/** 
-	 * Tree representation of the XML schema. 
-	 * 
+	/**
+	 * Tree representation of the XML schema.
+	 *
 	 * It is a recursive structure that represents the hierarchy of the types in the schema.
 	 */
 	get tree(): XMLTypeTree {
@@ -129,9 +129,9 @@ export class XmlSchema {
 		return res;
 	}
 
-	/** 
-	 * Map which associates the names of complex XML types to their possible paths in an XML file. 
-	 * 
+	/**
+	 * Map which associates the names of complex XML types to their possible paths in an XML file.
+	 *
 	 * The paths are represented as an array of type names.
 	 * If a type is recursive, the value is 'infinite'.
 	 */
@@ -182,19 +182,19 @@ export async function parseXsd(xsd: string): Promise<XmlSchema | undefined> {
 
 	for (const { name, children, fields, doc } of schema.complex_types) {
 		const attrs = fields.map(({ name, doc, type_name: type, required, default: default_ }) => {
-				if (default_) {
-					try {
-						default_ = JSON.parse(default_);
-					} catch (e) {}
-				}
-				return {
-					name,
-					type,
-					required,
-					default: default_,
-					doc
-				};
-			});
+			if (default_) {
+				try {
+					default_ = JSON.parse(default_);
+				} catch (e) {}
+			}
+			return {
+				name,
+				type,
+				required,
+				default: default_,
+				doc
+			};
+		});
 		res.complexTypes.set(name, {
 			name,
 			get attrs() {
@@ -205,14 +205,12 @@ export async function parseXsd(xsd: string): Promise<XmlSchema | undefined> {
 				return this.children;
 			},
 			doc,
-			children: children ?? [],
-			
+			children: children ?? []
 		});
 	}
 	schema.free();
 	return res;
 }
-
 
 /**
  * Parses an XML schema from the url of an XSD file.

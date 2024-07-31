@@ -2,9 +2,9 @@
 	import { draggableItem } from '$lib';
 	import { flip } from 'svelte/animate';
 
-	const tabs = $state(['New graph','For each', 'tab 3']);
-	let flipDuration = 100;	
-	let activeTab = $state("tab 3")
+	const tabs = $state(['New graph', 'For each', 'tab 3']);
+	let flipDuration = 100;
+	let activeTab = $state('tab 3');
 </script>
 
 <div class="w-full grid justify-center">
@@ -12,10 +12,14 @@
 		{#each tabs as tab (tab)}
 			<button
 				class="tab relative"
-				animate:flip={{ duration:  flipDuration}}
-				use:draggableItem={{ items: tabs, flipDuration, onDragStart() {
-					activeTab = tab;
-				} }}
+				animate:flip={{ duration: flipDuration }}
+				use:draggableItem={{
+					items: tabs,
+					flipDuration,
+					onDragStart() {
+						activeTab = tab;
+					}
+				}}
 				onclick={() => {
 					activeTab = tab;
 				}}

@@ -12,6 +12,15 @@ describe('string utils', () => {
 		it('should handle multiple capital letters in a row followed by a word', () => {
 			expect(String.splitCamelCase('helloNEWWorld')).toEqual(['hello', 'NEW', 'World']);
 		});
+		it('should handle strings with spaces', () => {
+			expect(String.splitCamelCase('hey myBoy   MyLove')).toEqual([
+				'hey',
+				'my',
+				'Boy',
+				'My',
+				'Love'
+			]);
+		});
 		it('should handle number between upper chars', () => {
 			expect(String.splitCamelCase('iLoveH2OInDesert')).toEqual([
 				'i',

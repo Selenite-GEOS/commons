@@ -53,11 +53,15 @@
 
 {#snippet Attribute(attr: Attribute)}
 	<section>
-		<div class="flex gap-2 truncate" title={`${attr.name}${attr.required?'*':''} ${attr.default !== undefined ? attr.default : ''}`}>
-		<h4 class="font-semibold">
-			{attr.name}{#if attr.required}*{/if}
-		</h4>
-		{#if attr.default !== undefined}<span class="row-start-1"> ({JSON.stringify(attr.default)}) </span>{/if}
+		<div
+			class="flex gap-2 truncate"
+			title={`${attr.name}${attr.required ? '*' : ''} ${attr.default !== undefined ? attr.default : ''}`}>
+			<h4 class="font-semibold">
+				{attr.name}{#if attr.required}*{/if}
+			</h4>
+			{#if attr.default !== undefined}<span class="row-start-1">
+					({JSON.stringify(attr.default)})
+				</span>{/if}
 		</div>
 		<h5>{attr.type}</h5>
 		<p class="text-wrap italic" title={attr.doc}>{attr.doc}</p>

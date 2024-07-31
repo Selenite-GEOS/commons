@@ -3,12 +3,7 @@
  * @module
  */
 
-import {
-	type X2jOptions,
-
-	XMLParser,
-	type XmlBuilderOptions
-} from 'fast-xml-parser';
+import { type X2jOptions, XMLParser, type XmlBuilderOptions } from 'fast-xml-parser';
 import { isEqual } from 'lodash-es';
 import 'regenerator-runtime/runtime';
 import wu from 'wu';
@@ -153,18 +148,18 @@ export function findPossibleMergePositions({
 	}
 	const path = typesPaths.get(element);
 	if (!path) {
-		console.error("Couldn't find type path")
+		console.error("Couldn't find type path");
 		return [];
 	}
-	if (path === "infinite") {
-		console.error("Don't know where to insert element with infinite possibilities.")
+	if (path === 'infinite') {
+		console.error("Don't know where to insert element with infinite possibilities.");
 		return [];
 	}
 	if (path.length > 1) {
-		console.error("Mutltiple possible paths not handled")
+		console.error('Mutltiple possible paths not handled');
 		return [];
 	}
-	
+
 	return rec(path.at(0) ?? [], { path: [], withCursor: false }, baseXml);
 }
 
@@ -228,15 +223,15 @@ export function mergeParsedXml({
 
 		const elementPath = typesPaths.get(element);
 		if (!elementPath) {
-			console.error("Couldn't find type path")
+			console.error("Couldn't find type path");
 			return;
 		}
-		if (elementPath === "infinite") {
-			console.error("Don't know where to insert element with infinite possibilities.")
+		if (elementPath === 'infinite') {
+			console.error("Don't know where to insert element with infinite possibilities.");
 			return;
 		}
 		if (elementPath.length > 1) {
-			console.error("Mutltiple possible paths not handled")
+			console.error('Mutltiple possible paths not handled');
 			return;
 		}
 		const mergePath = selectedMergePosition.path;

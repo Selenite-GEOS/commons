@@ -1,20 +1,20 @@
 /**
  * String utils for common string manipulation.
- * 
+ *
  * Examples are {@link capitalize} and {@link splitCamelCase}....
  * @module
  */
 
 // polyfill for set intersection
-import 'core-js/actual/set/intersection'
+import 'core-js/actual/set/intersection';
 import { upperFirst } from 'lodash-es';
 
 // Can't export pluralize functions directly
 // because pluralize is common js
 import pluralizePackage from 'pluralize';
 const pluralize = pluralizePackage;
-const {singular, isPlural, isSingular, plural} = pluralizePackage;
-export {singular, isPlural, isSingular, plural, pluralize};
+const { singular, isPlural, isSingular, plural } = pluralizePackage;
+export { singular, isPlural, isSingular, plural, pluralize };
 
 export function capitalize(str: string): string {
 	return str.charAt(0).toUpperCase() + str.slice(1);
@@ -66,6 +66,27 @@ export function camlelcaseize(str: string): string {
 	return capitalized.charAt(0).toLowerCase() + capitalized.slice(1);
 }
 
+function isWhitespaceChar(c: string) {
+	return (
+		c === ' ' ||
+		c === '\n' ||
+		c === '\t' ||
+		c === '\r' ||
+		c === '\f' ||
+		c === '\v' ||
+		c === '\u00a0' ||
+		c === '\u1680' ||
+		c === '\u2000' ||
+		c === '\u200a' ||
+		c === '\u2028' ||
+		c === '\u2029' ||
+		c === '\u202f' ||
+		c === '\u205f' ||
+		c === '\u3000' ||
+		c === '\ufeff'
+	);
+}
+
 /**
  * Splits a camel case string into an array of words.
  * @param str Camel case string to split.
@@ -79,6 +100,16 @@ export function splitCamelCase(str: string): string[] {
 	let nextLowerAfterCapIsWordEnd = false;
 	for (let j = 0; j < str.length; j++) {
 		const c = str[j];
+
+		// Whitespace
+		if (isWhitespaceChar(c)) {
+			if (nextCapIsWordStart) {
+				res.push(str.slice(i, j));
+				nextCapIsWordStart = false;
+			}
+			i = j + 1;
+			continue;
+		}
 
 		// Lowercase letter
 		if (c === c.toLowerCase()) {
@@ -94,7 +125,7 @@ export function splitCamelCase(str: string): string[] {
 			}
 			nextLowerAfterCapIsWordEnd = false;
 		}
-		// Uppercase letter 
+		// Uppercase letter
 		else {
 			nextLowerAfterCapIsWordEnd = true;
 			if (nextCapIsWordStart) {
@@ -114,24 +145,28 @@ export function splitCamelCase(str: string): string[] {
 
 /**
  * Turns an array of strings into an array of their shared words.
- * @param strings 
+ * @param strings
  */
 export function getSharedWords(strings: string[]): string[];
 /**
  * Turns an words of strings into an array of their shared words.
- * @param stringsWords 
+ * @param stringsWords
  */
 export function getSharedWords(stringsWords: string[][]): string[];
 
 /** @ignore */
 export function getSharedWords(strings: string[][] | string[]): string[] {
-	if (strings.length === 0) return []
-	let stringsWords : string[][]
+	if (strings.length === 0) return [];
+	let stringsWords: string[][];
 	if (!Array.isArray(strings[0])) {
-		stringsWords = (strings as string[]).map((s) => s.split(' ').flatMap(splitCamelCase).map(s => singular(s)));
-
+		stringsWords = (strings as string[]).map((s) =>
+			s
+				.split(' ')
+				.flatMap(splitCamelCase)
+				.map((s) => singular(s))
+		);
 	} else {
-		stringsWords = strings as string[][]
+		stringsWords = strings as string[][];
 	}
 
 	let res = new Set(stringsWords[0]);
@@ -144,14 +179,17 @@ export function getSharedWords(strings: string[][] | string[]): string[] {
 	return Array.from(res);
 }
 
-export function getSharedString(strings: string[] | string[][], options: {camelcase?: boolean}= {}): string {
-	const words = getSharedWords(strings as string[][])
+export function getSharedString(
+	strings: string[] | string[][],
+	options: { camelcase?: boolean } = {}
+): string {
+	const words = getSharedWords(strings as string[][]);
 	if (options.camelcase) {
 		if (words.length === 0) return '';
-		const firstWord = words.splice(0, 1)[0]
-		return words.reduce((acc, s) => acc + upperFirst(s), firstWord)
+		const firstWord = words.splice(0, 1)[0];
+		return words.reduce((acc, s) => acc + upperFirst(s), firstWord);
 	}
-	return words.join(' ')
+	return words.join(' ');
 }
 export function getVarsFromFormatString(formatString: string): string[] {
 	// return all matches of the regex

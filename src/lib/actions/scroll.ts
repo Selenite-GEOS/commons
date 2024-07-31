@@ -1,6 +1,6 @@
 /**
  * Actions to add scrolling behavior, like custom scrolling or scroll into view.
- * 
+ *
  * @see {@link horizontalScroll}
  * @see {@link scrollIntoView}
  * @module
@@ -12,7 +12,7 @@ import { get } from 'svelte/store';
 
 /**
  * Adds horizontal scrolling to an element.
- * 
+ *
  * This action removes the needs to press ctrl or right to scroll
  * horizontally.
  * @param node - The element to add horizontal scrolling to.
@@ -34,13 +34,17 @@ export const horizontalScroll: Action<HTMLElement, { duration?: number } | undef
 			isFirst = false;
 			return;
 		}
-		if (!isActionScroll)return;
+		if (!isActionScroll) return;
 		node.scrollLeft = value;
 	});
 
-	const stopClamingScroll = debounce(() => {
-		isActionScroll = false;
-	}, duration, {leading: false, trailing: true})
+	const stopClamingScroll = debounce(
+		() => {
+			isActionScroll = false;
+		},
+		duration,
+		{ leading: false, trailing: true }
+	);
 
 	const handleWheel = (e: WheelEvent) => {
 		if (e.deltaY === 0) return;
@@ -48,8 +52,8 @@ export const horizontalScroll: Action<HTMLElement, { duration?: number } | undef
 		const firstChildRect = node.firstElementChild?.getBoundingClientRect();
 		const lastChildRect = node.lastElementChild?.getBoundingClientRect();
 		if (!firstChildRect || !lastChildRect) {
-			console.warn("Horizontal scroll: No children found");
-			return
+			console.warn('Horizontal scroll: No children found');
+			return;
 		}
 		// Ensure offset stays valid
 		const maxOffset = lastChildRect.width + lastChildRect.x - firstChildRect.x;
@@ -60,12 +64,11 @@ export const horizontalScroll: Action<HTMLElement, { duration?: number } | undef
 
 	node.addEventListener('wheel', handleWheel, { passive: false });
 
-
 	node.addEventListener('scroll', (e) => {
 		if (!isActionScroll) {
-		scroll.set(node.scrollLeft);
+			scroll.set(node.scrollLeft);
 		}
-	})
+	});
 	return {
 		destroy() {
 			node.removeEventListener('wheel', handleWheel);
@@ -82,7 +85,11 @@ export const scrollIntoView: Action<HTMLElement, boolean | undefined> = (node, e
 
 	if (!enabled) return;
 
-	const parentRect = parent.getBoundingClientRect()
-	const nodeRect = node.getBoundingClientRect()
-	parent.scrollTo({ left: nodeRect.left - parentRect.left, top: nodeRect.top - parentRect.top,  behavior: 'smooth' });
+	const parentRect = parent.getBoundingClientRect();
+	const nodeRect = node.getBoundingClientRect();
+	parent.scrollTo({
+		left: nodeRect.left - parentRect.left,
+		top: nodeRect.top - parentRect.top,
+		behavior: 'smooth'
+	});
 };

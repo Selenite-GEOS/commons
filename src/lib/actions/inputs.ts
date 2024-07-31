@@ -1,15 +1,14 @@
-import type { Action } from "svelte/action";
-import baseAutosize from 'autosize'
+import type { Action } from 'svelte/action';
+import baseAutosize from 'autosize';
 
 export const autosize: Action<HTMLTextAreaElement> = (textarea) => {
-    baseAutosize(textarea)
+	baseAutosize(textarea);
 
-    // $effect.root()
-    
+	// $effect.root()
 
-    return {
-        destroy() {
-            baseAutosize.destroy(textarea)
-        },
-    }
-}
+	return {
+		destroy() {
+			baseAutosize.destroy(textarea);
+		}
+	};
+};

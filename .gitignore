@@ -1,5 +1,10 @@
 node_modules
 docs
+
+# Testing
+test-results
+coverage
+
 # Output
 .output
 .vercel

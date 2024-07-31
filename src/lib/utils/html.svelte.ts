@@ -1,5 +1,9 @@
 import type { Position } from './math';
-
+/**
+ * Reactive window state for use in svelte 5.
+ * 
+ * At the moment, it exposes with and height.
+ */
 export class WindowState {
 	width = $state<number>(NaN)
 	height = $state<number>(NaN)
@@ -29,8 +33,9 @@ export class WindowState {
 	}	
 }
 
-
-
+/**
+ * Returns whether the current environment is a browser, based on window being defined.
+ */
 export function isBrowser() {
 	return typeof window !== 'undefined';
 }
@@ -133,7 +138,6 @@ export function download(filename: string, data: unknown) {
 	a.click();
 	URL.revokeObjectURL(url);
 	document.body.removeChild(a);
-
 }
 
 export function downloadJSON(name: string, data: unknown) {
