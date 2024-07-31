@@ -98,6 +98,15 @@ export class ComplexType {
 	get uniqueChildren(): ChildProps[] {
 		return this.children.filter(c => c.unique);
 	}
+
+	toJSON() {
+		return {
+			name: this.name,
+			doc: this.doc,
+			attributes: this.attrs,
+			children: this.children
+		};
+	}
 }
 
 /**
