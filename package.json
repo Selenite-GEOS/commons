@@ -1,7 +1,14 @@
 {
 	"name": "@selenite/commons",
-	"version": "0.18.4",
+	"version": "0.18.5",
 	"repository": "github:ShaitanLyss/selenite-commons",
+  "keywords": [
+    "selenite",
+    "commons",
+    "svelte",
+    "utils",
+    "actions"
+  ],
 	"scripts": {
 		"dev": "vite dev",
 		"wasm": "wasm-pack build ./selenite-commons-rs --target web",
