@@ -23,4 +23,7 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: bun i -g wasm-pack
       - run: bun run wasm
-      - run: bun run wasmPublish
+      - uses: JS-DevTools/npm-publish@v3
+        with:
+          package: selenite-commons-rs/pkg
+          token: ${{ secrets.npm_token }}
