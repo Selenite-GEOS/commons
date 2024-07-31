@@ -7,6 +7,7 @@
     "selenite",
     "commons",
     "svelte",
+    "svelte5",
     "utils",
     "actions"
   ],
