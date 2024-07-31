@@ -1,4 +1,4 @@
-import { assert, describe, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import {
 	formatXml,
@@ -27,7 +27,7 @@ describe('parseXml', () => {
 				]
 			}
 		];
-		assert.deepEqual(parsed, expected);
+		expect(parsed).toEqual(expected)
 	});
 
 	it('parses xml with attributes', () => {
@@ -50,7 +50,7 @@ describe('parseXml', () => {
 				}
 			}
 		];
-		assert.deepEqual(parsed, expected);
+		expect(parsed).toEqual(expected);
 	});
 
 	it('parses xml with comments', () => {
@@ -76,7 +76,7 @@ describe('parseXml', () => {
 				]
 			}
 		];
-		assert.deepEqual(parsed, expected);
+		expect(parsed).toEqual(expected)
 	});
 });
 
@@ -85,19 +85,19 @@ describe('formatComment', () => {
 		const comment = 'test comment';
 		const formatted = formatComment(comment);
 		const expected = `<!-- test comment -->`;
-		assert.equal(formatted, expected);
+		expect(formatted).toEqual(expected)
 	});
 	it('formats comment and trims spaces', () => {
 		const comment = ' test comment   ';
 		const formatted = formatComment(comment);
 		const expected = `<!-- test comment -->`;
-		assert.equal(formatted, expected);
+		expect(formatted).toEqual(expected)
 	});
 	it('formats comments and preserves inner new lines', () => {
 		const comment = 'test\ncomment';
 		const formatted = formatComment(comment);
 		const expected = `<!-- test\ncomment -->`;
-		assert.equal(formatted, expected);
+		expect(formatted).toEqual(expected)
 	});
 });
 
@@ -120,14 +120,14 @@ describe('getElementFromParsedXml', () => {
 		];
 		const element = getElementFromParsedXml(xml[0]);
 		const expected = 'Z';
-		assert.equal(element, expected);
+		expect(element).toEqual(expected)
 	});
 	it('null if no element found', () => {
 		const xml: ParsedXmlNodes = [
 			{
 			}
 		];
-		assert.isNull(getElementFromParsedXml(xml[0]));
+		expect(getElementFromParsedXml(xml[0])).toBeNull()
 	});
 });
 
@@ -143,8 +143,10 @@ describe('findPossibleMergePositions', () => {
 		const expected: ReturnType<typeof findPossibleMergePositions> = [
 			{ path: [{ pos: 0, key: 'Z' }], withCursor: false }
 		];
-		assert.deepEqual(
-			findPossibleMergePositions({ baseXml, element: 'b', typesPaths, cursorTag }),
+		expect(
+		
+			findPossibleMergePositions({ baseXml, element: 'b', typesPaths, cursorTag })
+		).toEqual(
 			expected
 		);
 	});
@@ -165,8 +167,9 @@ describe('findPossibleMergePositions', () => {
 				withCursor: false
 			}
 		];
-		assert.deepEqual(
-			findPossibleMergePositions({ baseXml, element: 'a12', typesPaths, cursorTag }),
+		expect(
+			findPossibleMergePositions({ baseXml, element: 'a12', typesPaths, cursorTag })
+		).toEqual(
 			expected
 		);
 	});
@@ -193,8 +196,9 @@ describe('findPossibleMergePositions', () => {
 				withCursor: true
 			}
 		];
-		assert.deepEqual(
-			findPossibleMergePositions({ baseXml, element: 'a12', typesPaths, cursorTag: 'cursor' }),
+		expect(
+			findPossibleMergePositions({ baseXml, element: 'a12', typesPaths, cursorTag: 'cursor' })
+		).toEqual(
 			expected
 		);
 	});
@@ -225,8 +229,9 @@ describe('mergeParsedXml', () => {
 				]
 			}
 		];
-		assert.deepEqual(
-			mergeParsedXml({ baseXml, newXml, typesPaths }),
+		expect(
+			mergeParsedXml({ baseXml, newXml, typesPaths })
+		).toEqual(
 			expected
 		);
 	});
@@ -237,20 +242,20 @@ describe('formatXML', () => {
 		const xml = `<root><child></child></root>`;
 		const formatted = formatXml({ xml, indent: 2 });
 		const expected = `<root>\n  <child />\n</root>\n`;
-		assert.equal(formatted, expected);
+		expect(formatted).toEqual(expected)
 	});
 	//     it("preserves comments", () => {
 	//         const xml = `<!-- comment --><root><child>text</child></root>`;
 	//         const formatted = formatXml({ xml, indent: 2 });
 	//         const expected = `<!-- comment -->\n<root>\n  <child>text</child>\n</root>`;
-	//         assert.equal(formatted, expected);
+	//         expect(formatted).toEqual(expected)
 	//     });
 
 	//     it("sorts attributes alphabetically", () => {
 	//         const xml = `<root b="2" a="1"><child>text</child></root>`;
 	//         const formatted = formatXml({ xml, indent: 2 });
 	//         const expected = `<root a="1" b="2">\n  <child>text</child>\n</root>`;
-	//         assert.equal(formatted, expected);
+	//         expect(formatted).toEqual(expected)
 	//     });
 
 	//     it("puts each attribute on a new line", () => {
@@ -267,5 +272,5 @@ describe('formatXML', () => {
 	// ${_}${_}text
 	// ${_}</child>
 	// </root>`;
-	//         assert.equal(formatted, expected);
+	//         expect(formatted).toEqual(expected)
 });

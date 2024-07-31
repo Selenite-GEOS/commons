@@ -20,13 +20,9 @@ jobs:
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org/
-      # - uses: oven-sh/setup-bun@v2
-      - name: setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm run test run
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bun test
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}

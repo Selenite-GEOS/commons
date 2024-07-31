@@ -8,8 +8,12 @@
 // polyfill for set intersection
 import 'core-js/actual/set/intersection'
 import { upperFirst } from 'lodash-es';
-import { singular } from 'pluralize';
-export {isPlural, isSingular, plural, singular} from 'pluralize'
+
+// Can't export pluralize functions directly
+// because pluralize is common js
+import pluralize from 'pluralize';
+const {singular, isPlural, isSingular, plural} = pluralize;
+export {singular, isPlural, isSingular, plural, pluralize};
 
 export function capitalize(str: string): string {
 	return str.charAt(0).toUpperCase() + str.slice(1);
