@@ -5,7 +5,7 @@
 
 import init, { parse_xsd } from '@selenite/commons-rs';
 import { isBrowser } from './html.svelte';
-import type { PartialBy } from '$lib/type';
+import type { PartialBy, SaveData } from '$lib/type';
 
 /**
  * A simple datatype in an XML schema.
@@ -54,6 +54,18 @@ export class ChildProps {
 
 	get required(): boolean {
 		return this.minOccurs !== undefined && this.minOccurs >= 1;
+	}
+
+	static fromObject(obj: SaveData<ChildProps>): ChildProps {
+		return new ChildProps(obj);
+	}
+
+	toJSON() {
+		return {
+			type: this.type,
+			minOccurs: this.minOccurs,
+			maxOccurs: this.maxOccurs
+		};
 	}
 }
 
@@ -107,9 +119,19 @@ export class ComplexType {
 		return {
 			name: this.name,
 			doc: this.doc,
-			attributes: this.attrs,
-			children: this.children
+			attributes: Array.from(this.attrs.values()),
+			children: this.children.map(c => c.toJSON())
 		};
+	}
+
+	static fromObject({name, attributes, children,doc}: SaveData<ComplexType>): ComplexType {
+		const complex = new ComplexType({
+			name,
+			doc,
+			attributes,
+			children: children.map(c => ChildProps.fromObject(c))
+		});
+		return complex;
 	}
 }
 

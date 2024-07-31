@@ -78,15 +78,15 @@ describe('XMLSchema', () => {
 				const complex = new ComplexType({
 					name: 'Complex',
 					children: [
-						new ChildProps({ type: 'Child1', minOccurs: 1 }),
-						new ChildProps({ type: 'Child2' }), // optional
+						new ChildProps({ type: 'Events', minOccurs: 1, maxOccurs: 1 }),
+						new ChildProps({ type: 'FieldSpecifications', maxOccurs: 1 }), 
 						new ChildProps({ type: 'Child3', minOccurs: 0 }), // optional
 						new ChildProps({ type: 'Child4', minOccurs: 0, maxOccurs: 1 }), // optional
 						new ChildProps({ type: 'Child5', minOccurs: 10 })
 					]
 				});
 				expect(complex.optionalChildren).toEqual([
-					new ChildProps({ type: 'Child2' }),
+					new ChildProps({ type: 'FieldSpecifications', maxOccurs: 1 }),
 					new ChildProps({ type: 'Child3', minOccurs: 0 }),
 					new ChildProps({ type: 'Child4', minOccurs: 0, maxOccurs: 1 })
 				]);
