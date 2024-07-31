@@ -1,7 +1,8 @@
 {
 	"name": "@selenite/commons",
-	"version": "0.18.5",
+	"version": "0.18.6",
 	"repository": "github:ShaitanLyss/selenite-commons",
+  "license": "MIT",
   "keywords": [
     "selenite",
     "commons",
