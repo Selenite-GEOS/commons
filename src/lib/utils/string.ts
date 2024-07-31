@@ -144,7 +144,7 @@ export function getSharedWords(strings: string[][] | string[]): string[] {
 }
 
 export function getSharedString(strings: string[] | string[][], options: {camelcase?: boolean}= {}): string {
-	const words = getSharedWords(strings)
+	const words = getSharedWords(strings as string[][])
 	if (options.camelcase) {
 		if (words.length === 0) return '';
 		const firstWord = words.splice(0, 1)[0]
