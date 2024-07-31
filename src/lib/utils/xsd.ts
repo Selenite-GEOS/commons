@@ -91,6 +91,10 @@ export class ComplexType {
 		return this.children.filter(c => !c.required);
 	}
 
+	get optionalChildTypes(): string[] {
+		return this.optionalChildren.map(c => c.type);
+	}
+
 	get requiredChildren(): ChildProps[] {
 		return this.children.filter(c => c.required);
 	}
