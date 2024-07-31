@@ -28,7 +28,7 @@ An example of such a plugin is : https://github.com/nshen/vite-plugin-wasm-pack.
 import wasmPack from 'vite-plugin-wasm-pack'
 export default defineConfig({
 	plugins: [
-		wasmPack([], ['selenite-commons-rs']),
+		wasmPack([], ['@selenite/commons-rs']),
 ...
 ```
 
@@ -67,6 +67,4 @@ bun wasm-pack publish --access public
 ```
 
 ## TODO
-
-- Setup automatic rust code publishing
 - Document everything

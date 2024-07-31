@@ -84,7 +84,7 @@
 	"type": "module",
 	"dependencies": {
 		"@neodrag/svelte": "^2.0.6",
-		"@selenite/commons-rs": "^0.1.0",
+		"@selenite/commons-rs": "^0.1.1",
 		"@types/core-js": "^2.5.8",
 		"@types/pluralize": "^0.0.33",
 		"@types/uuid": "^10.0.0",
@@ -96,7 +96,6 @@
 		"ml-classify-text": "^2.0.1",
 		"pluralize": "^8.0.0",
 		"regenerator-runtime": "^0.14.1",
-		"selenite-commons-rs": "^0.1.0",
 		"uuid": "^10.0.0",
 		"wu": "^2.1.0"
 	}

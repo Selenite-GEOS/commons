@@ -14,7 +14,7 @@
  * import wasmPack from 'vite-plugin-wasm-pack'
  * export default defineConfig({
 	plugins: [
-		wasmPack([], ['selenite-commons-rs']),
+		wasmPack([], ['@selenite/commons-rs']),
  * ...
  * ```
  * @module
