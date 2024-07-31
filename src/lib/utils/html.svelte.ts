@@ -1,12 +1,12 @@
 import type { Position } from './math';
 /**
  * Reactive window state for use in svelte 5.
- * 
+ *
  * At the moment, it exposes with and height.
  */
 export class WindowState {
-	width = $state<number>(NaN)
-	height = $state<number>(NaN)
+	width = $state<number>(NaN);
+	height = $state<number>(NaN);
 
 	static #instance: WindowState | undefined = undefined;
 	private static get instance() {
@@ -23,14 +23,14 @@ export class WindowState {
 	}
 
 	private constructor() {
-		if (typeof window === "undefined") return;
+		if (typeof window === 'undefined') return;
 		this.width = window.innerWidth;
 		this.height = window.innerHeight;
-		window.addEventListener("resize", (e) => {
+		window.addEventListener('resize', (e) => {
 			this.width = window.innerWidth;
 			this.height = window.innerHeight;
-		})
-	}	
+		});
+	}
 }
 
 /**
@@ -50,11 +50,10 @@ export function posFromClient({
 	return { x, y };
 }
 
-
 /**
  * Definition of a rectangle..
  */
-export class Rect  {
+export class Rect {
 	x: number;
 	y: number;
 	width: number;
@@ -74,7 +73,6 @@ export class Rect  {
 	get bottom() {
 		return this.y + this.height;
 	}
-
 }
 
 /**
@@ -87,7 +85,7 @@ export namespace Rect {
 	export function intersection(rect: Rect, ...rects: Rect[]): Rect {
 		const res: Rect = new Rect();
 		Object.assign(res, rect);
-		
+
 		for (const r of rects) {
 			const a: Position = { x: Math.max(res.x, r.x), y: Math.max(res.y, r.y) };
 			const b: Position = { x: Math.min(res.right, r.right), y: Math.min(res.bottom, r.bottom) };
@@ -155,34 +153,39 @@ export function downloadJSON(name: string, data: unknown) {
 
 /**
  * Bounds of an element relative to the window.
- * 
+ *
  * All distances are measured from the edges of the window.
  */
 export type WindowBounds = {
 	top: number;
 	left: number;
 	right: number;
-	bottom: number
+	bottom: number;
 };
 
 /**
  * Returns the bounds of an element relative to the window.
- * @param element 
- * @returns 
+ * @param element
+ * @returns
  */
 export function getBounds(element?: Element): WindowBounds {
 	if (!element) return { top: 0, left: 0, right: 0, bottom: 0 };
 	const { x, y, width, height } = element.getBoundingClientRect();
-	return { left: x, top: y, right: WindowState.width - x - width, bottom: WindowState.height - y - height };
+	return {
+		left: x,
+		top: y,
+		right: WindowState.width - x - width,
+		bottom: WindowState.height - y - height
+	};
 }
 
 /**
  * Returns the union of the window bounds of multiple elements.
- * @param bounds 
- * @returns 
+ * @param bounds
+ * @returns
  */
 export function getBoundsUnion(bounds: (WindowBounds | Element | undefined)[]): WindowBounds {
-	const res: WindowBounds = {top: Infinity, left: Infinity, right: Infinity, bottom: Infinity};
+	const res: WindowBounds = { top: Infinity, left: Infinity, right: Infinity, bottom: Infinity };
 
 	for (const target of bounds) {
 		if (target === undefined) continue;
@@ -210,8 +213,10 @@ export function padBounds(bounds: WindowBounds, padding: number): WindowBounds {
 	};
 }
 
-export function getBoundsIntersection(...bounds: (WindowBounds | HTMLElement | undefined)[]): WindowBounds {
-	const res: WindowBounds = {top: 0, left: 0, right: 0, bottom: 0};
+export function getBoundsIntersection(
+	...bounds: (WindowBounds | HTMLElement | undefined)[]
+): WindowBounds {
+	const res: WindowBounds = { top: 0, left: 0, right: 0, bottom: 0 };
 
 	for (const target of bounds) {
 		if (target === undefined) continue;
@@ -224,22 +229,19 @@ export function getBoundsIntersection(...bounds: (WindowBounds | HTMLElement | u
 	return res;
 }
 
-
 export function getClosestElement(target: Element, elements: Element[]) {
 	let closestElement: Element | undefined = undefined;
 	let closestDistance = Infinity;
 	const tRect = target.getBoundingClientRect();
 	for (const e of elements) {
 		const eRect = e.getBoundingClientRect();
-		const distance = Math.sqrt(
-			Math.pow(eRect.x - tRect.x, 2) + Math.pow(eRect.y - tRect.y, 2)
-		);
+		const distance = Math.sqrt(Math.pow(eRect.x - tRect.x, 2) + Math.pow(eRect.y - tRect.y, 2));
 		if (distance < closestDistance) {
 			closestDistance = distance;
 			closestElement = e;
 		}
 	}
-	return closestElement
+	return closestElement;
 }
 
 export function getClosestElementIndex(target: Element, elements: Element[]) {
@@ -248,13 +250,11 @@ export function getClosestElementIndex(target: Element, elements: Element[]) {
 	const tRect = target.getBoundingClientRect();
 	for (const [i, e] of elements.entries()) {
 		const eRect = e.getBoundingClientRect();
-		const distance = Math.sqrt(
-			Math.pow(eRect.x - tRect.x, 2) + Math.pow(eRect.y - tRect.y, 2)
-		);
+		const distance = Math.sqrt(Math.pow(eRect.x - tRect.x, 2) + Math.pow(eRect.y - tRect.y, 2));
 		if (distance < closestDistance) {
 			closestDistance = distance;
 			closestIndex = i;
 		}
 	}
-	return closestIndex
+	return closestIndex;
 }

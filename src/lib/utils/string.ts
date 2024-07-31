@@ -181,7 +181,7 @@ export function getSharedWords(strings: string[][] | string[]): string[] {
 
 export function getSharedString(
 	strings: string[] | string[][],
-	options: { camelcase?: boolean, pluralize?: boolean } = {}
+	options: { camelcase?: boolean; pluralize?: boolean } = {}
 ): string {
 	const words = getSharedWords(strings as string[][]);
 	let res: string;

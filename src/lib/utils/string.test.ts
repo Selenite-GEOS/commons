@@ -83,12 +83,17 @@ describe('string utils', () => {
 		});
 		it('can return pluralized result', () => {
 			expect(
-				String.getSharedString(['who let the dog out', 'beware scary dog out there'], {pluralize: true})
+				String.getSharedString(['who let the dog out', 'beware scary dog out there'], {
+					pluralize: true
+				})
 			).toBe('dog outs');
-		})
+		});
 		it('can return pluralized camelcase result', () => {
 			expect(
-				String.getSharedString(['who let the dog out', 'beware scary dog out there'], { pluralize: true, camelcase: true })
+				String.getSharedString(['who let the dog out', 'beware scary dog out there'], {
+					pluralize: true,
+					camelcase: true
+				})
 			).toBe('dogOuts');
 		});
 	});
