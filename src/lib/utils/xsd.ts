@@ -5,6 +5,7 @@
 
 import init, { parse_xsd } from '@selenite/commons-rs';
 import { isBrowser } from './html.svelte';
+import type { PartialBy } from '$lib/type';
 
 /**
  * A simple datatype in an XML schema.
@@ -36,26 +37,68 @@ export type Attribute = {
 	required: boolean;
 };
 
-export type ChildProps = {
+export class ChildProps {
 	type: string;
-	minOccurs?: number
-	maxOccurs?: number
-};
+	minOccurs?: number;
+	maxOccurs?: number;
 
+	constructor(params: { type: string; minOccurs?: number; maxOccurs?: number }) {
+		this.type = params.type;
+		this.minOccurs = params.minOccurs;
+		this.maxOccurs = params.maxOccurs;
+	}
+
+	get unique(): boolean {
+		return this.maxOccurs !== undefined && this.maxOccurs <= 1;
+	}
+
+	get required(): boolean {
+		return this.minOccurs !== undefined && this.minOccurs >= 1;
+	}
+}
 
 /** A complex type in an XML schema definition.
  */
-export type ComplexType = {
+export class ComplexType {
 	/** Name of the complex type. */
 	name: string;
 	/** Documentation of the complex type. */
 	doc?: string;
 	/** Attributes of the complex type. */
-	attrs: Attribute[];
+	get attrs(): Attribute[] {
+		return Object.values(this.attributes);
+	}
 	attributes: Map<string, Attribute>;
 	children: ChildProps[];
-	childTypes: string[];
-};
+
+	constructor(params: {
+		name: string;
+		attributes?: Attribute[];
+		doc?: string;
+		children?: ChildProps[];
+	}) {
+		this.name = params.name;
+		this.doc = params.doc;
+		this.attributes = new Map(params.attributes?.map((a) => [a.name, a]));
+		this.children = params.children ?? [];
+	}
+
+	get childTypes(): string[] {
+		return this.children.map(c => c.type);
+	}
+
+	get optionalChildren(): ChildProps[] {
+		return this.children.filter(c => !c.required);
+	}
+
+	get requiredChildren(): ChildProps[] {
+		return this.children.filter(c => c.required);
+	}
+
+	get uniqueChildren(): ChildProps[] {
+		return this.children.filter(c => c.unique);
+	}
+}
 
 /**
  * A tree view of an XML schema.
@@ -85,6 +128,17 @@ export class XmlSchema {
 	/** Map which associates the names of complex XML types to their definitions. */
 	get typeMap(): Map<XMLTypeName, ComplexType> {
 		return this.complexTypes;
+	}
+
+	addComplexType(...complexs: ComplexType[]) {
+		for (const c of complexs) {
+			this.complexTypes.set(c.name, c);
+		}
+	}
+	addSimpleType(...simples: SimpleType[]) {
+		for (const s of simples) {
+			this.simpleTypes.set(s.name, s);
+		}
 	}
 
 	/** Map which associates the names of complex XML types to their parents' names. */
@@ -126,7 +180,7 @@ export class XmlSchema {
 					continue;
 				}
 				current[type] = {};
-				const children = this.typeMap.get(type)?.children.map(c => c.type);
+				const children = this.typeMap.get(type)?.children.map((c) => c.type);
 				if (!children) continue;
 				rec(current[type], children, [...already_visited, type]);
 			}
@@ -202,18 +256,23 @@ export async function parseXsd(xsd: string): Promise<XmlSchema | undefined> {
 				doc
 			};
 		});
-		res.complexTypes.set(name, {
+		res.complexTypes.set(
 			name,
-			get attrs() {
-				return Object.values(this.attributes) as Attribute[];
-			},
-			attributes: new Map(attrs.map((a) => [a.name, a])),
-			get childTypes() {
-				return (this.children as ChildProps[]).map(c => c.type);
-			},
-			doc,
-			children: children?.map(c => ({type: c.type_name, maxOccurs: c.max_occurs, minOccurs: c.min_occurs})) ?? []
-		});
+			new ComplexType({
+				name,
+				attributes: attrs,
+				doc,
+				children:
+					children?.map(
+						(c) =>
+							new ChildProps({
+								type: c.type_name,
+								maxOccurs: c.max_occurs,
+								minOccurs: c.min_occurs
+							})
+					) ?? []
+			})
+		);
 	}
 	schema.free();
 	return res;
