@@ -26,7 +26,7 @@ jobs:
       - uses: actions/setup-node@v4
       - uses: oven-sh/setup-bun@v2
       - run: bun install --frozen-lockfile
-      - run: bun run test run
+      - run: bunx --bun test run
       - run: bun package
       - uses: JS-DevTools/npm-publish@v3
         with:
