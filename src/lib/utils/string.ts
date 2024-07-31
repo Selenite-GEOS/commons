@@ -181,15 +181,18 @@ export function getSharedWords(strings: string[][] | string[]): string[] {
 
 export function getSharedString(
 	strings: string[] | string[][],
-	options: { camelcase?: boolean } = {}
+	options: { camelcase?: boolean, pluralize?: boolean } = {}
 ): string {
 	const words = getSharedWords(strings as string[][]);
+	let res: string;
 	if (options.camelcase) {
 		if (words.length === 0) return '';
 		const firstWord = words.splice(0, 1)[0];
-		return words.reduce((acc, s) => acc + upperFirst(s), firstWord);
+		res = words.reduce((acc, s) => acc + upperFirst(s), firstWord);
+	} else {
+		res = words.join(' ');
 	}
-	return words.join(' ');
+	return options.pluralize ? plural(res) : res;
 }
 export function getVarsFromFormatString(formatString: string): string[] {
 	// return all matches of the regex
