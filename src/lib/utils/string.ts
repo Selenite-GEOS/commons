@@ -11,8 +11,9 @@ import { upperFirst } from 'lodash-es';
 
 // Can't export pluralize functions directly
 // because pluralize is common js
-import pluralize from 'pluralize';
-const {singular, isPlural, isSingular, plural} = pluralize;
+import pluralizePackage from 'pluralize';
+const pluralize = pluralizePackage;
+const {singular, isPlural, isSingular, plural} = pluralizePackage;
 export {singular, isPlural, isSingular, plural, pluralize};
 
 export function capitalize(str: string): string {
