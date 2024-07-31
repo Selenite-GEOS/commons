@@ -1,4 +1,3 @@
-use std::collections::HashMap;
 
 use wasm_bindgen::prelude::wasm_bindgen;
 
@@ -36,11 +35,19 @@ pub struct Field {
 
 #[wasm_bindgen(getter_with_clone)]
 #[derive(Debug, Clone)]
+pub struct ChildProps {
+    pub type_name: String,
+    pub min_occurs: Option<u32>,
+    pub max_occurs: Option<u32>,
+}
+
+#[wasm_bindgen(getter_with_clone)]
+#[derive(Debug, Clone)]
 pub struct ComplexType {
     pub name: String,
     pub doc: Option<String>,
     pub fields: Vec<Field>,
-    pub children: Option<Vec<String>>,
+    pub children: Option<Vec<ChildProps>>,
 }
 
 #[wasm_bindgen(getter_with_clone)]
@@ -151,7 +158,11 @@ pub fn parse_xsd(contents: &str) -> Option<XmlSchema> {
                 xml_schema.complex_types.push(ComplexType {
                     name: name.trim_end_matches(type_suffix).to_string(),
                     doc: en.comment,
-                    children: Some(en.cases.iter().map(|c| c.name.clone()).collect()),
+                    children: Some(en.cases.iter().map(|c| ChildProps {
+                        type_name: c.name.clone(),
+                        max_occurs: c.max_occurs,
+                        min_occurs: c.min_occurs,
+                    }).collect()),
                     fields: en.subtypes.iter().flat_map(|subtype| match subtype {
                         parser::types::RsEntity::Struct(s) => {
                             s.fields.borrow().iter().filter(|f| !f.name.ends_with(choice_suffix)).map(|f| Field {

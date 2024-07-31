@@ -110,10 +110,13 @@ fn facets(node: &Node) -> Vec<Facet> {
 }
 
 fn cases(facets: &[Facet]) -> Vec<EnumCase> {
+        
     facets
         .iter()
         .filter_map(|f| match &f.facet_type {
             FacetType::Enumeration(value) => Some(EnumCase {
+                min_occurs: None,
+                max_occurs: None,
                 comment: f.comment.clone(),
                 name: value.clone(),
                 value: value.clone(),

@@ -13,7 +13,8 @@
 	],
 	"scripts": {
 		"dev": "bunx --bun vite dev",
-		"wasm": "wasm-pack build ./selenite-commons-rs --target web",
+		"wasm": "wasm-pack build ./selenite-commons-rs --target web --scope selenite",
+		"wasmPublish": "wasm-pack publish --access public",
 		"build": "vite build && npm run package",
 		"preview": "vite preview",
 		"package": "svelte-kit sync && svelte-package && publint",
@@ -83,6 +84,7 @@
 	"type": "module",
 	"dependencies": {
 		"@neodrag/svelte": "^2.0.6",
+		"@selenite/commons-rs": "^0.1.0",
 		"@types/core-js": "^2.5.8",
 		"@types/pluralize": "^0.0.33",
 		"@types/uuid": "^10.0.0",

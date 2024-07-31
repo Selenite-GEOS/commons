@@ -3,7 +3,7 @@
  * @module
  */
 
-import init, { parse_xsd } from 'selenite-commons-rs';
+import init, { parse_xsd } from '@selenite/commons-rs';
 import { isBrowser } from './html.svelte';
 
 /**
@@ -36,6 +36,13 @@ export type Attribute = {
 	required: boolean;
 };
 
+export type ChildProps = {
+	type: string;
+	minOccurs?: number
+	maxOccurs?: number
+};
+
+
 /** A complex type in an XML schema definition.
  */
 export type ComplexType = {
@@ -46,8 +53,8 @@ export type ComplexType = {
 	/** Attributes of the complex type. */
 	attrs: Attribute[];
 	attributes: Map<string, Attribute>;
-	children: string[];
-	childTypes: string[];
+	children: ChildProps[];
+	childTypes: ChildProps[];
 };
 
 /**
@@ -89,7 +96,7 @@ export class XmlSchema {
 		for (const { name: parentName, children } of this.complexTypes.values()) {
 			if (!children) continue;
 			for (const c of children) {
-				res.get(c)!.push(parentName);
+				res.get(c.type)!.push(parentName);
 			}
 		}
 		return res;
@@ -119,7 +126,7 @@ export class XmlSchema {
 					continue;
 				}
 				current[type] = {};
-				const children = this.typeMap.get(type)?.children;
+				const children = this.typeMap.get(type)?.children.map(c => c.type);
 				if (!children) continue;
 				rec(current[type], children, [...already_visited, type]);
 			}
@@ -205,7 +212,7 @@ export async function parseXsd(xsd: string): Promise<XmlSchema | undefined> {
 				return this.children;
 			},
 			doc,
-			children: children ?? []
+			children: children?.map(c => ({type: c.type_name, maxOccurs: c.max_occurs, minOccurs: c.min_occurs})) ?? []
 		});
 	}
 	schema.free();

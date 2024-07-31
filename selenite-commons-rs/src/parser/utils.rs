@@ -72,6 +72,10 @@ pub fn attributes_to_fields(node: &Node) -> Vec<StructField> {
         .collect()
 }
 
+pub fn get_uint_attr(element: &Node, key: &str) -> Option<u32> {
+    element.attribute(key).and_then(|v| v.parse::<u32>().ok())
+}
+
 pub fn attribute_groups_to_aliases(node: &Node) -> Vec<Alias> {
     node.children()
         .filter(|n| n.xsd_type() == ElementType::AttributeGroup)

@@ -162,6 +162,8 @@ pub struct EnumCase {
     pub comment: Option<String>,
     pub value: String,
     pub type_name: Option<String>,
+    pub min_occurs: Option<u32>,
+    pub max_occurs: Option<u32>,
     pub type_modifiers: Vec<TypeModifier>,
     pub source: EnumSource,
 }
