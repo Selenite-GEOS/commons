@@ -40,6 +40,11 @@ export function isBrowser() {
 	return typeof window !== 'undefined';
 }
 
+/**
+ * Constant indicating whether the current environment is a browser.
+ */
+export const browser = isBrowser();
+
 export function posFromClient({
 	clientX: x,
 	clientY: y
