@@ -232,6 +232,12 @@ describe('formatXML', () => {
 		const expected = `<root>\n  <child />\n</root>\n`;
 		expect(formatted).toEqual(expected);
 	});
+	it('formats XML with one element', () => {
+		const xml = '<root></root>'
+		const formatted = formatXml({ xml, indent: 2 });
+		const expected = '<root />\n';
+		expect(formatted).toEqual(expected);
+	})
 	//     it("preserves comments", () => {
 	//         const xml = `<!-- comment --><root><child>text</child></root>`;
 	//         const formatted = formatXml({ xml, indent: 2 });

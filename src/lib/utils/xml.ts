@@ -32,12 +32,14 @@ export function buildXml({
 	parsedXml,
 	indent = 2,
 	baseSpace = '',
-	cursorTag
+	cursorTag,
+	endWithNewLine = true
 }: {
 	parsedXml: ParsedXmlNodes;
 	indent?: number;
 	baseSpace?: string;
 	cursorTag?: string;
+	endWithNewLine?: boolean;
 }): string {
 	const space = ' '.repeat(indent);
 	const res: { xml: string; newLine?: boolean }[] = [];
@@ -67,7 +69,8 @@ export function buildXml({
 						parsedXml: children,
 						indent,
 						baseSpace: baseSpace + space,
-						cursorTag
+						cursorTag,
+						endWithNewLine: false
 					});
 					break;
 			}
@@ -93,7 +96,8 @@ export function buildXml({
 	let xml = wu(res)
 		.map(({ xml, newLine }) => (newLine ? xml + '\n' : xml))
 		.reduce((a, b) => a + (a ? '\n' : '') + b, '');
-	if (!xml.endsWith("\n")) xml += "\n";
+
+	if (endWithNewLine && xml.at(-1) !== '\n') xml += '\n';
 	return xml;
 }
 
