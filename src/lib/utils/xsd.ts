@@ -185,7 +185,7 @@ export class XmlSchema {
 		for (const { name: parentName, children } of this.complexTypes.values()) {
 			if (!children) continue;
 			for (const c of children) {
-				res.get(c.type)!.push(parentName);
+				res.get(c.type)?.push(parentName);
 			}
 		}
 		return res;

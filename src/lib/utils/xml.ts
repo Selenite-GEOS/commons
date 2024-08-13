@@ -90,9 +90,11 @@ export function buildXml({
 					newLine: true
 				});
 	}
-	return wu(res)
+	let xml = wu(res)
 		.map(({ xml, newLine }) => (newLine ? xml + '\n' : xml))
 		.reduce((a, b) => a + (a ? '\n' : '') + b, '');
+	if (!xml.endsWith("\n")) xml += "\n";
+	return xml;
 }
 
 export function getElementFromParsedXml(xml: Record<string, unknown>): string | null {
