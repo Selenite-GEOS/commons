@@ -261,7 +261,7 @@ export class XmlSchema {
 export async function parseXsd(xsd: string): Promise<XmlSchema | undefined> {
 	if (!isBrowser()) return;
 	await init(
-		import.meta.env.BASE_URL
+		import.meta.env.BASE_URL && import.meta.env.BASE_URL !== '/'
 			? import.meta.env.BASE_URL + '/assets/commons_rs_bg.wasm'
 			: undefined
 	);
