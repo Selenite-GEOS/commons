@@ -85,14 +85,14 @@ function makeShortcutListener<E extends Element>(
 	return (e) => {
 		if (params.repeats === false && triggered) return;
 		const target = e.target;
-		if (!(target instanceof HTMLElement)) return;
-
-		if (ignoreElements.includes(target?.tagName) || target.contentEditable === 'true') {
-			if (target?.tagName === 'INPUT') {
-				const input = target as HTMLInputElement;
-				if (input.type !== 'checkbox' && input.type !== 'radio') return;
-			} else {
-				return;
+		if (target instanceof HTMLElement) {
+			if (ignoreElements.includes(target?.tagName) || target.contentEditable === 'true') {
+				if (target?.tagName === 'INPUT') {
+					const input = target as HTMLInputElement;
+					if (input.type !== 'checkbox' && input.type !== 'radio') return;
+				} else {
+					return;
+				}
 			}
 		}
 		let triggeredShortcut: KeyboardShortcut | undefined = undefined;

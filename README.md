@@ -68,3 +68,4 @@ bun wasm-pack publish --access public
 
 ## TODO
 - Document everything
+- Try removing newline at end of xml format
