@@ -17,6 +17,8 @@ export * as XML from './xml';
 export * from './xml';
 export * as Storage from './storage.js';
 export * from './storage.js';
+export * as Promise from './promise.js';
+export * from './promise.js';
 export * as Layout from './layout';
 export * from './layout';
 export { v4 as uuidv4 } from 'uuid';
