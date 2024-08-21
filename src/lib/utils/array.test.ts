@@ -1,4 +1,4 @@
-import { sortedByIndex } from './array.js';
+import { sortedByIndex } from './array';
 import { describe, expect, test } from 'vitest';
 
 describe('Array sorting', () => {

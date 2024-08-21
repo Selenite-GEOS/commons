@@ -20,11 +20,11 @@
  * @module
  */
 
-export * as Action from './actions/index.js';
-export * from './actions/index.js';
-export * as Utils from './utils/index.js';
-export * from './utils/index.js';
-export * as Types from './type.js';
-export * from './type.js';
-export * as DataStructure from './datastructure.js';
-export * from './datastructure.js';
+export * as Action from './actions';
+export * from './actions';
+export * as Utils from './utils';
+export * from './utils';
+export * as Types from './type';
+export * from './type';
+export * as DataStructure from './datastructure';
+export * from './datastructure';

@@ -149,7 +149,7 @@ export function downloadJSON(name: string, data: unknown) {
 	const url = URL.createObjectURL(blob);
 	const a = document.createElement('a');
 	a.href = url;
-	a.download = `${name}.json`;
+	a.download = `${name}on`;
 	document.body.appendChild(a);
 	a.click();
 	URL.revokeObjectURL(url);

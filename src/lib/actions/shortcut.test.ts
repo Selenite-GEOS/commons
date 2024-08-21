@@ -1,4 +1,4 @@
-import { shortcutToString } from './shortcut.js';
+import { shortcutToString } from './shortcut';
 import { describe, test, expect } from 'vitest';
 
 describe('shortcutToString', () => {
