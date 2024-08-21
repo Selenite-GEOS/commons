@@ -78,7 +78,7 @@ export class ComplexType {
 	doc?: string;
 	/** Attributes of the complex type. */
 	get attrs(): Attribute[] {
-		return Object.values(this.attributes);
+		return [...this.attributes.values()];
 	}
 	attributes: Map<string, Attribute>;
 	children: ChildProps[];
@@ -150,6 +150,18 @@ export type XMLTypeName = string;
  * It defines the types allowed in an xml file, usually derived from an xsd file.
  */
 export class XmlSchema {
+	static fromJSON(data: SaveData<XmlSchema>): XmlSchema {
+		const schema = new XmlSchema();
+		schema.addSimpleType(...data.simpleTypes);
+		schema.addComplexType(...data.complexTypes.map(c => ComplexType.fromObject(c)));
+		return schema;
+	}
+	toJSON() {
+		return {
+			simpleTypes: Array.from(this.simpleTypes.values()),
+			complexTypes: Array.from(this.complexTypes.values()).map(c => c.toJSON())
+		};
+	}
 	/** Simple types of the xml schema. */
 	simpleTypes: Map<string, SimpleType> = new Map();
 	/** Complex types of the xml schema. */
