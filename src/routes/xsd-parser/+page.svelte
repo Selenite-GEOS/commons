@@ -75,13 +75,12 @@
 			<p class="truncate" title={complex.doc}>Doc : {complex.doc}</p>
 		{/if}
 		{#if complex.children}
-		<h4>Children:</h4>
+			<h4>Children:</h4>
 			{#each complex.children as child}
-			<p class="truncate" title={complex.children?.join(' | ')}>
-				{JSON.stringify(child)}
-			</p>
+				<p class="truncate" title={complex.children?.join(' | ')}>
+					{JSON.stringify(child)}
+				</p>
 			{/each}
-			
 		{/if}
 		{@render summary(
 			'Attributes',
@@ -96,7 +95,15 @@
 <section class="grid w-screen h-full columns-2 gap-x-4 place-content-start p-4">
 	{#if xmlSchema}
 		<h1 class="text-2xl font-bold mb-2 col-span-full">GEOS XML Schema</h1>
-		{@render summary('Simple types', SimpleType as Snippet<[unknown]>, Array.from(xmlSchema.simpleTypes.values()))}
-		{@render summary('Complex types', ComplexType as Snippet<[unknown]>, Array.from(xmlSchema.complexTypes.values()))}
+		{@render summary(
+			'Simple types',
+			SimpleType as Snippet<[unknown]>,
+			Array.from(xmlSchema.simpleTypes.values())
+		)}
+		{@render summary(
+			'Complex types',
+			ComplexType as Snippet<[unknown]>,
+			Array.from(xmlSchema.complexTypes.values())
+		)}
 	{/if}
 </section>

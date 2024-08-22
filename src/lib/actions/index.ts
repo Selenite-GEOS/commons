@@ -13,6 +13,8 @@ export * as Drag from './drag';
 export * from './drag';
 export * as Click from './click';
 export * from './click';
+export * as Keyboard from './keyboard';
+export * from './keyboard';
 let handleFocusLeaveRefCount = 0;
 let handleFocusLeaveCallbacks: ((isKeyboard: boolean) => void)[] = [];
 function handleKeydown(e: KeyboardEvent) {

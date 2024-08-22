@@ -7,5 +7,6 @@ edition = "2021"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
+giga-segy-in = "0.4.0"
 roxmltree = "0.20.0"
 wasm-bindgen = "0.2.93"
