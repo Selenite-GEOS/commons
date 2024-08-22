@@ -1,6 +1,8 @@
 // export * from './uuid';
 // export * from './context';
 // export { formatXml } from './xml';
+export * as SEGY from './segy';
+export * from './segy';
 export * as String from './string';
 export * from './string';
 export * as EventModifier from './eventModifier';

@@ -3,6 +3,7 @@ use wasm_bindgen::prelude::wasm_bindgen;
 
 mod parser;
 mod classifier;
+pub mod segy;
 
 #[wasm_bindgen]
 extern "C" {

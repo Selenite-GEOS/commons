@@ -156,10 +156,10 @@ describe('XMLSchema', () => {
 			);
 			schema.addSimpleType({
 				name: 'string',
-				doc: "oko"
+				doc: 'oko'
 			});
-			
-			expect(XmlSchema.fromJSON(schema.toJSON())).toEqual(schema)
+
+			expect(XmlSchema.fromJSON(schema.toJSON())).toEqual(schema);
 		});
 	});
 });

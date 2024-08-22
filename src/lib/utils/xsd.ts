@@ -96,23 +96,23 @@ export class ComplexType {
 	}
 
 	get childTypes(): string[] {
-		return this.children.map(c => c.type);
+		return this.children.map((c) => c.type);
 	}
 
 	get optionalChildren(): ChildProps[] {
-		return this.children.filter(c => !c.required);
+		return this.children.filter((c) => !c.required);
 	}
 
 	get optionalChildTypes(): string[] {
-		return this.optionalChildren.map(c => c.type);
+		return this.optionalChildren.map((c) => c.type);
 	}
 
 	get requiredChildren(): ChildProps[] {
-		return this.children.filter(c => c.required);
+		return this.children.filter((c) => c.required);
 	}
 
 	get uniqueChildren(): ChildProps[] {
-		return this.children.filter(c => c.unique);
+		return this.children.filter((c) => c.unique);
 	}
 
 	toJSON() {
@@ -120,16 +120,16 @@ export class ComplexType {
 			name: this.name,
 			doc: this.doc,
 			attributes: Array.from(this.attrs.values()),
-			children: this.children.map(c => c.toJSON())
+			children: this.children.map((c) => c.toJSON())
 		};
 	}
 
-	static fromObject({name, attributes, children,doc}: SaveData<ComplexType>): ComplexType {
+	static fromObject({ name, attributes, children, doc }: SaveData<ComplexType>): ComplexType {
 		const complex = new ComplexType({
 			name,
 			doc,
 			attributes,
-			children: children.map(c => ChildProps.fromObject(c))
+			children: children.map((c) => ChildProps.fromObject(c))
 		});
 		return complex;
 	}
@@ -153,13 +153,13 @@ export class XmlSchema {
 	static fromJSON(data: SaveData<XmlSchema>): XmlSchema {
 		const schema = new XmlSchema();
 		schema.addSimpleType(...data.simpleTypes);
-		schema.addComplexType(...data.complexTypes.map(c => ComplexType.fromObject(c)));
+		schema.addComplexType(...data.complexTypes.map((c) => ComplexType.fromObject(c)));
 		return schema;
 	}
 	toJSON() {
 		return {
 			simpleTypes: Array.from(this.simpleTypes.values()),
-			complexTypes: Array.from(this.complexTypes.values()).map(c => c.toJSON())
+			complexTypes: Array.from(this.complexTypes.values()).map((c) => c.toJSON())
 		};
 	}
 	/** Simple types of the xml schema. */

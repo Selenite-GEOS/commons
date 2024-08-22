@@ -17,18 +17,18 @@ export function sleep(ms?: number) {
 }
 
 export function animationFrame(n?: number): Promise<void> {
-	return new Promise(resolve => {
+	return new Promise((resolve) => {
 		let count = n ?? 1;
 
-        function rec() {
-            if (count <= 0) {
-                resolve();
-                return;
-            };
+		function rec() {
+			if (count <= 0) {
+				resolve();
+				return;
+			}
 
-            count--;
-            requestAnimationFrame(rec);
-        }
-        rec()
+			count--;
+			requestAnimationFrame(rec);
+		}
+		rec();
 	});
 }

@@ -2,11 +2,7 @@ name: Publish rust
 
 on:
   push:
-    paths:
-      [
-        'src-tauri/**',
-        '.github/workflows/rust-package.yml'
-      ]
+    paths: ['src-tauri/**', '.github/workflows/rust-package.yml']
     branches:
       - main
   release:
@@ -19,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
-          rustflags: ""
+          rustflags: ''
       - uses: oven-sh/setup-bun@v2
       - run: bun i -g wasm-pack
       - run: bun run wasm
