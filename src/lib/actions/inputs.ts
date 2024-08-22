@@ -27,17 +27,22 @@ export const checkbox: Action<HTMLInputElement> = (node) => {
 		isCheckboxSetup = true;
 		document.addEventListener('pointerdown', (event) => {
 			pointedDownCheckbox =
-				event.target instanceof HTMLInputElement && event.target.classList.contains('checkbox')
+				event.target instanceof HTMLInputElement && event.target.type === 'checkbox' && event.target.dataset['seleniteCheckbox'] === 'true'
 					? event.target
 					: undefined;
+			if (pointedDownCheckbox) {
+				document.body.style.userSelect = 'none';
+			}
 			console.log(pointedDownCheckbox);
 		});
 		document.addEventListener('pointerup', () => {
+			document.body.style.userSelect = '';
 			pointedDownCheckbox = undefined;
 			console.log(pointedDownCheckbox);
 		});
 	}
 	node.type = 'checkbox';
+	node.dataset['seleniteCheckbox'] = 'true';
 	node.classList.add('checkbox');
 
 	function triggerOnEnter(event: KeyboardEvent) {

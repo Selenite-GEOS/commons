@@ -9,7 +9,10 @@
 	<p class="mb-4">Hold to trigger multiple checkboxes.</p>
 	<ul class="grid gap-2 justify-center">
 		{#each range(10) as i}
+        <label class="flex gap-2 items-center">
+            {i}
 			<input use:checkbox use:keyboardNavigation />
+            </label>
 		{/each}
 	</ul>
 </section>
