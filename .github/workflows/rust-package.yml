@@ -2,7 +2,7 @@ name: Publish rust
 
 on:
   push:
-    paths: ['src-tauri/**', '.github/workflows/rust-package.yml']
+    paths: ['selenite-commons-rs/**', '.github/workflows/rust-package.yml']
     branches:
       - main
   release:
