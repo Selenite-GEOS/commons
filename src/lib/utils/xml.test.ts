@@ -8,7 +8,8 @@ import {
 	mergeParsedXml,
 	getElementFromParsedXml,
 	findPossibleMergePositions,
-	parseXMLArray
+	parseXMLArray,
+	formatXMLArray
 } from './xml';
 
 describe('parseXMLArray', () => {
@@ -45,7 +46,33 @@ describe('parseXMLArray', () => {
 	it('returns undefined if not a valid XML array', () => {
 		expect(parseXMLArray('{1,2,3,}')).toBeUndefined();
 	});
+	it('parsed mixed int and float XML array', () => {
+		expect(parseXMLArray('{0,0,-9.81}')).toEqual([0, 0, -9.81]);
+	});
 })
+describe('formatXMLArray', () => {
+	it('formats number XML array', () => {
+		expect(formatXMLArray([1, 2, 3])).toEqual('{1,2,3}');
+	})
+	it('formats float XML array', () => {
+		expect(formatXMLArray([1.1, 2.2, 3.3])).toEqual('{1.1,2.2,3.3}');
+	});
+	it('formats string XML array', () => {
+		expect(formatXMLArray(['a', 'b', 'c'])).toEqual('{a,b,c}');
+	})
+	it('formats scientific notation number XML array', () => {
+		expect(formatXMLArray(["1e-3", "2e-3", "3e-3"])).toEqual('{1e-3,2e-3,3e-3}');
+	});
+	it('formats mixed standard notation and scientific notation number XML array', () => {
+		expect(formatXMLArray([1, "2e-3", 3])).toEqual('{1,2e-3,3}');
+	});
+	it('formats 2d number XML array', () => {
+		expect(formatXMLArray([[1, 2], [3, 4]])).toEqual('{{1,2},{3,4}}');
+	});
+	it('formats 3d number XML array', () => {
+		expect(formatXMLArray([[[1, 2], [3, 4]], [[5, 6], [7, 8]]])).toEqual('{{{1,2},{3,4}},{{5,6},{7,8}}}');
+	});
+});
 describe('parseXml', () => {
 	it('parses basic xml', () => {
 		const xml = `<root><child>test text</child></root>`;

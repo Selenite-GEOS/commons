@@ -27,6 +27,13 @@ export function parseXMLArray(xml: string): unknown[] | undefined {
 	}
 }
 
+export function formatXMLArray(arr: unknown[]): string {
+	return JSON.stringify(arr)
+		.replaceAll('[', '{')
+		.replaceAll(']', '}')
+		.replaceAll(/"([^"]+)"/g, '$1');
+}
+
 const fxpSettings: X2jOptions & XmlBuilderOptions = {
 	preserveOrder: true,
 	attributeNamePrefix: '',
