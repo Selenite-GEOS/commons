@@ -9,6 +9,24 @@ import 'regenerator-runtime/runtime';
 import wu from 'wu';
 import type { XmlSchema } from './xsd';
 
+export function parseXMLArray(xml: string): unknown[] | undefined {
+	try {
+		return JSON.parse(
+			xml
+				.replaceAll('{', '[')
+				.replaceAll('}', ']')
+				.replaceAll(/[a-zA-Z0-9.\-_/]+/g, (t) => {
+					if (!isNaN(parseFloat(t)) && !t.includes('e')) return t;
+					// if (t === '') return '';
+					// if (t === ',') return ',';
+					return `"${t}"`;
+				})
+		);
+	} catch (e) {
+		return undefined;
+	}
+}
+
 const fxpSettings: X2jOptions & XmlBuilderOptions = {
 	preserveOrder: true,
 	attributeNamePrefix: '',

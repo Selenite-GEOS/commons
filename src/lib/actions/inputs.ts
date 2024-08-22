@@ -33,7 +33,6 @@ export const checkbox: Action<HTMLInputElement> = (node) => {
 			if (pointedDownCheckbox) {
 				document.body.style.userSelect = 'none';
 			}
-			console.log(pointedDownCheckbox);
 		});
 		document.addEventListener('pointerup', () => {
 			document.body.style.userSelect = '';

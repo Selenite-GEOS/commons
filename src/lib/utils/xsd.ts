@@ -6,6 +6,7 @@
 import init, { parse_xsd } from '@selenite/commons-rs';
 import { isBrowser } from './html.svelte';
 import type { PartialBy, SaveData } from '$lib/type';
+import { parseXMLArray } from './xml';
 
 /**
  * A simple datatype in an XML schema.
@@ -294,11 +295,16 @@ export async function parseXsd(xsd: string): Promise<XmlSchema | undefined> {
 
 	for (const { name, children, fields, doc } of schema.complex_types) {
 		const attrs = fields.map(({ name, doc, type_name: type, required, default: default_ }) => {
-			let parsedDefault: unknown = default_
+			let parsedDefault: unknown = default_;
 			if (default_) {
-				try {
-					parsedDefault = JSON.parse(default_);
-				} catch (e) {}
+				const arrayAttempt = parseXMLArray(default_);
+				if (arrayAttempt) {
+					parsedDefault = arrayAttempt;
+				} else {
+					try {
+						parsedDefault = JSON.parse(default_);
+					} catch (e) {}
+				}
 			}
 			return {
 				name,
