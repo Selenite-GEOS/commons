@@ -299,6 +299,9 @@ export async function parseXsd(xsd: string): Promise<XmlSchema | undefined> {
 					default_ = JSON.parse(default_);
 				} catch (e) {}
 			}
+			if (type === 'integer' && doc && doc.toLowerCase().includes('set to 1 to')) {
+				type = 'boolean';
+			}
 			return {
 				name,
 				type,
