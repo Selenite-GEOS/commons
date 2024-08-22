@@ -294,19 +294,17 @@ export async function parseXsd(xsd: string): Promise<XmlSchema | undefined> {
 
 	for (const { name, children, fields, doc } of schema.complex_types) {
 		const attrs = fields.map(({ name, doc, type_name: type, required, default: default_ }) => {
+			let parsedDefault: unknown = default_
 			if (default_) {
 				try {
-					default_ = JSON.parse(default_);
+					parsedDefault = JSON.parse(default_);
 				} catch (e) {}
-			}
-			if (type === 'integer' && doc && doc.toLowerCase().includes('set to 1 to')) {
-				type = 'boolean';
 			}
 			return {
 				name,
 				type,
 				required,
-				default: default_,
+				default: parsedDefault,
 				doc
 			};
 		});
