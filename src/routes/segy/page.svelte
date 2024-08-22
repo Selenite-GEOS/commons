@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	import { readSEGYInfo } from '$lib';
 
 	$effect(() => {
@@ -6,4 +6,4 @@
 			console.log(await readSEGYInfo());
 		})();
 	});
-</script>
+</script> -->
