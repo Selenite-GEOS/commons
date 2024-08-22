@@ -18,6 +18,10 @@ export function sleep(ms?: number) {
 
 export function animationFrame(n?: number): Promise<void> {
 	return new Promise((resolve) => {
+		if (typeof requestAnimationFrame === 'undefined') {
+			resolve();
+			return;
+		}
 		let count = n ?? 1;
 
 		function rec() {
