@@ -41,6 +41,7 @@ export type ResizeHandleParams<Element extends HTMLElement = HTMLElement> = {
 		height: number;
 		width: number;
 	}) => void;
+	onresizeend?: () => void;
 	sides?:
 		| { top?: boolean; left?: boolean; bottom?: boolean; right?: boolean; all?: boolean }
 		| undefined;
@@ -63,7 +64,8 @@ export function resizable<N extends HTMLElement = HTMLElement>(
 			if (!down) {
 				document.removeEventListener('pointermove', onpointermove);
 				removePointermoveCleanup?.();
-				document.body.style.cursor = '';
+				document.documentElement.style.cursor = '';
+				document.body.style.pointerEvents = '';
 				currentSide = null;
 			}
 		});
@@ -87,6 +89,7 @@ export function resizable<N extends HTMLElement = HTMLElement>(
 						baseWidth = undefined;
 						resetLastPosCleanup?.();
 						resetLastPosCleanup = undefined;
+						params.onresizeend?.();
 					}
 				});
 			}
@@ -108,6 +111,7 @@ export function resizable<N extends HTMLElement = HTMLElement>(
 			// const totalOffset = Vector2D.subtract(pos, downPos);
 			lastPos = pos;
 			document.body.style.userSelect = 'none';
+			document.body.style.pointerEvents = 'none';
 			
 			let width = rect.width;
 			let height = rect.height;
@@ -168,7 +172,7 @@ export function resizable<N extends HTMLElement = HTMLElement>(
 		const candidate = verticalLetter + horizontalLetter;
 		currentSide = candidate.length > 0 ? candidate as ResizeSide : null;
 		if (currentSide !== previousSide) {
-			document.body.style.cursor = currentSide !== null ? `${currentSide}-resize` : '';
+			document.documentElement.style.cursor = currentSide !== null ? `${currentSide}-resize` : '';
 		}
 	}
 

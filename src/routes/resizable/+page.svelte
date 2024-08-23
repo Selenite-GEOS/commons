@@ -25,7 +25,10 @@
     const onresize: ResizeHandleParams['onresize'] = ({width, height}) => {
         $persistedSize = {width, height}
     }
+    function onresizeend() {
+        console.log('resize end')
+    }
 </script>
 
-<h1 class="text-2xl font-bold">Resizable</h1>
-<div bind:this={node} class="h-[10rem] w-[10rem] bg-pink-50" style="height: {$persistedSize.height}px; width: {$persistedSize.width}px" use:resizable={{ onresize}}></div>
+<h1 class="text-2xl font-bold">Resizable</h1><button class="btn">Button</button>
+<div bind:this={node} class="h-[10rem] w-[10rem] bg-pink-50" style="height: {$persistedSize.height}px; width: {$persistedSize.width}px" use:resizable={{ onresize, onresizeend}}></div>
