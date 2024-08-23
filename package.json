@@ -1,6 +1,6 @@
 {
 	"name": "@selenite/commons",
-	"version": "0.22.2",
+	"version": "0.22.3",
 	"repository": "github:ShaitanLyss/selenite-commons",
 	"license": "MIT",
 	"keywords": [
@@ -41,14 +41,14 @@
 		"!dist/**/*.spec.*"
 	],
 	"peerDependencies": {
-		"svelte": "^5.0.0-next.232"
+		"svelte": "^5.0.0-next.235"
 	},
 	"devDependencies": {
 		"@happy-dom/global-registrator": "^14.12.3",
 		"@sveltejs/adapter-auto": "^3.2.2",
 		"@sveltejs/kit": "^2.5.18",
 		"@sveltejs/package": "^2.3.2",
-		"@sveltejs/vite-plugin-svelte": "^3.1.1",
+		"@sveltejs/vite-plugin-svelte": "^4.0.0-next.6",
 		"@types/autosize": "^4.0.3",
 		"@types/bun": "^1.1.6",
 		"@types/eslint": "^9.6.0",

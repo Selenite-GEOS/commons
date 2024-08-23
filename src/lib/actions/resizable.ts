@@ -11,8 +11,11 @@ const resizeHandleMap = new Map<
 	}
 >();
 const enteredNodes = new Set<HTMLElement>();
+
+let active: HTMLElement | undefined;
 function globalOnpointermove(e: PointerEvent) {
 	const pos = posFromClient(e);
+	
 	for (const [node, { onpointerenter, onpointerleave, threshold: m }] of resizeHandleMap) {
 		const rect = node.getBoundingClientRect();
 		if (
@@ -21,13 +24,27 @@ function globalOnpointermove(e: PointerEvent) {
 			pos.y >= rect.top - m &&
 			pos.y <= rect.bottom + m
 		) {
-			if (enteredNodes.has(node)) return;
+			if (enteredNodes.has(node)) continue;
 			enteredNodes.add(node);
-			onpointerenter(e);
+			// console.debug('Entered nodes', Array.from(enteredNodes));
+			if (!active || active === node) {
+				active = node;
+				onpointerenter(e);
+			}
 		} else {
-			if (!enteredNodes.has(node)) return;
+			if (!enteredNodes.has(node)) continue;
 			enteredNodes.delete(node);
-			onpointerleave(e);
+			// console.debug('Entered nodes', Array.from(enteredNodes));
+			if (active === node) {
+				onpointerleave(e);
+				if (PointerDownWatcher.instance.isPointerDown) {
+					return;
+				}
+				active = enteredNodes.values().next().value;
+				if (active) {
+					resizeHandleMap.get(active)?.onpointerenter(e);
+				}
+			}
 		}
 	}
 }
@@ -78,6 +95,7 @@ export function resizable<N extends HTMLElement = HTMLElement>(
 	let baseWidth: number | undefined;
 	let baseHeight: number | undefined;
 	function onpointermove(e: PointerEvent) {
+		if (enteredNodes.size > 1) return;
 		const pointerdownWatcher = PointerDownWatcher.instance;
 		const pointerdown = pointerdownWatcher.isPointerDown;
 		if (pointerdown && currentSide !== null) {
@@ -107,7 +125,7 @@ export function resizable<N extends HTMLElement = HTMLElement>(
 				lastPos = downPos;
 			}
 			const pos = posFromClient(e);
-			const offset = Vector2D.subtract(pos, lastPos);
+			// const offset = Vector2D.subtract(pos, lastPos);
 			// const totalOffset = Vector2D.subtract(pos, downPos);
 			lastPos = pos;
 			document.body.style.userSelect = 'none';
