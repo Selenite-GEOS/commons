@@ -98,6 +98,7 @@ export function resizable<N extends HTMLElement = HTMLElement>(
 		if (enteredNodes.size > 1) return;
 		const pointerdownWatcher = PointerDownWatcher.instance;
 		const pointerdown = pointerdownWatcher.isPointerDown;
+		if (pointerdown && currentSide === null) return;
 		if (pointerdown && currentSide !== null) {
 			if (!resetLastPosCleanup) {
 				resetLastPosCleanup = pointerdownWatcher.subscribe((down) => {
