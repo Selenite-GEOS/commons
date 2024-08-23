@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ResizeHandleParams } from '$lib';
-	import { persisted, PointerDownWatcher, resizeHandle as resizable } from '$lib';
-    let all = $state(true);
+	import { persisted, PointerDownWatcher, resizable } from '$lib';
+    let all = $state(true);resizable
 
 
     // $effect(() => {

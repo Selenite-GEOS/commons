@@ -48,7 +48,7 @@ export type ResizeHandleParams<Element extends HTMLElement = HTMLElement> = {
 
 export type ResizeSide = 'n' | 'w' | 's' | 'e' | 'ne' | 'se' | 'nw' | 'sw';
 
-export function resizeHandle<N extends HTMLElement = HTMLElement>(
+export function resizable<N extends HTMLElement = HTMLElement>(
 	node: N,
 	params: ResizeHandleParams<N> = {}
 ): ActionReturn<ResizeHandleParams<N>> {
