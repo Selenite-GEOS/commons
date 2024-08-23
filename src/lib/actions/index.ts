@@ -15,6 +15,7 @@ export * as Click from './click';
 export * from './click';
 export * as Keyboard from './keyboard';
 export * from './keyboard';
+export * from './resizable';
 let handleFocusLeaveRefCount = 0;
 let handleFocusLeaveCallbacks: ((isKeyboard: boolean) => void)[] = [];
 function handleKeydown(e: KeyboardEvent) {

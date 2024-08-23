@@ -1,3 +1,4 @@
+import { readable, type Readable, type Subscriber } from 'svelte/store';
 import type { Position } from './math';
 /**
  * Reactive window state for use in svelte 5.
@@ -262,4 +263,43 @@ export function getClosestElementIndex(target: Element, elements: Element[]) {
 		}
 	}
 	return closestIndex;
+}
+
+
+export class PointerDownWatcher {
+	isPointerDown = $state(false);
+	pos = $state<Position>();
+	static #instance: PointerDownWatcher | undefined = undefined;
+
+	static get instance() {
+		if (!this.#instance) this.#instance = new PointerDownWatcher();
+		return this.#instance;
+	}
+	private constructor() {
+		if (typeof document === 'undefined') return;
+		console.debug('Adding pointer down watcher.')
+		document.addEventListener('pointerdown', this.onpointerdown.bind(this));
+		document.addEventListener('pointerup', this.onpointerup.bind(this));
+	}
+
+	#subscribers = new Set<(value: boolean) => void>();
+	subscribe(run: (value: boolean) => void): () => void {
+		this.#subscribers.add(run);
+		run(this.isPointerDown);
+		return () => {
+			this.#subscribers.delete(run);
+		};
+	}
+
+	protected onpointerdown(e: PointerEvent) {
+		this.isPointerDown = true;
+		this.pos = posFromClient(e)
+		this.#subscribers.forEach((s) => s(true));
+	}
+
+	protected onpointerup(e: PointerEvent) {
+		this.isPointerDown = false;
+		this.pos = undefined;
+		this.#subscribers.forEach((s) => s(false));
+	}
 }
