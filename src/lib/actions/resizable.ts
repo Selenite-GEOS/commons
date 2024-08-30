@@ -151,6 +151,7 @@ export function resizable<N extends HTMLElement = HTMLElement>(
 			return;
 		}
 		document.body.style.userSelect = '';
+		document.body.style.pointerEvents = '';
 
 		const all =
 			params.sides?.all ??
