@@ -278,8 +278,8 @@ export class PointerDownWatcher {
 	private constructor() {
 		if (typeof document === 'undefined') return;
 		console.debug('Adding pointer down watcher.')
-		document.addEventListener('pointerdown', this.onpointerdown.bind(this));
-		document.addEventListener('pointerup', this.onpointerup.bind(this));
+		document.addEventListener('pointerdown', this.onpointerdown.bind(this), {capture: true});
+		document.addEventListener('pointerup', this.onpointerup.bind(this), {capture: true});
 	}
 
 	#subscribers = new Set<(value: boolean) => void>();
