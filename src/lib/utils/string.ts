@@ -66,6 +66,10 @@ export function camlelcaseize(str: string): string {
 	return capitalized.charAt(0).toLowerCase() + capitalized.slice(1);
 }
 
+export function unCamelCase(str: string): string {
+	return splitCamelCase(str).join(' ');
+}
+
 function isWhitespaceChar(c: string) {
 	return (
 		c === ' ' ||
