@@ -24,13 +24,32 @@ export * from './promise';
 export * as Layout from './layout';
 export * from './layout';
 export { v4 as uuidv4 } from 'uuid';
-import { v4 as uuid } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 let idCount = 0;
 export function newLocalId(baseName?: string) {
 	idCount += 1;
 	return `${baseName ?? 'local-unique-id'}-${idCount}`;
 }
 
+/**
+ * @deprecated Use `uuid` instead.
+ */
 export function newUuid(baseName?: string) {
-	return `${baseName ? baseName + '-' : ''}${uuid()}`;
+	if (baseName) {
+		return `${baseName}-${uuidv4()}`;
+	} else {
+		return uuidv4();
+	}
+}
+
+/**
+ * Generates a new v4 UUID, with an optional prefix.
+ * @param baseName prefix to add to the UUID
+ */
+export function uuid(baseName?: string) {
+	if (baseName) {
+		return `${baseName}-${uuidv4()}`;
+	} else {
+		return uuidv4();
+	}
 }
