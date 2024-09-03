@@ -22,12 +22,14 @@ export const autosize: Action<HTMLTextAreaElement, unknown | undefined> = (texta
 
 let isCheckboxSetup = false;
 let pointedDownCheckbox: HTMLInputElement | undefined = undefined;
-export const checkbox: Action<HTMLInputElement> = (node) => {
+export const checkbox: Action<HTMLInputElement, boolean | undefined> = (node, enabled : boolean | undefined = true ) => {
 	if (!isCheckboxSetup) {
 		isCheckboxSetup = true;
 		document.addEventListener('pointerdown', (event) => {
 			pointedDownCheckbox =
-				event.target instanceof HTMLInputElement && event.target.type === 'checkbox' && event.target.dataset['seleniteCheckbox'] === 'true'
+				event.target instanceof HTMLInputElement &&
+				event.target.type === 'checkbox' &&
+				event.target.dataset['seleniteCheckbox'] === 'true'
 					? event.target
 					: undefined;
 			if (pointedDownCheckbox) {
@@ -39,16 +41,12 @@ export const checkbox: Action<HTMLInputElement> = (node) => {
 			pointedDownCheckbox = undefined;
 		});
 	}
-	node.type = 'checkbox';
-	node.dataset['seleniteCheckbox'] = 'true';
-	node.classList.add('checkbox');
 
 	function triggerOnEnter(event: KeyboardEvent) {
 		if (event.key === 'Enter') {
 			node.click();
 		}
 	}
-	node.addEventListener('keydown', triggerOnEnter);
 
 	function triggerOnHoverWhenPointerDown() {
 		if (pointedDownCheckbox && pointedDownCheckbox !== node) {
@@ -56,20 +54,35 @@ export const checkbox: Action<HTMLInputElement> = (node) => {
 		}
 	}
 
-	node.addEventListener('pointerenter', triggerOnHoverWhenPointerDown);
-
 	function triggerOnLeaveWhenPointerDown() {
 		if (pointedDownCheckbox === node) {
 			node.click();
 		}
 	}
-	node.addEventListener('pointerleave', triggerOnLeaveWhenPointerDown);
+	function setup() {
+		node.dataset['seleniteCheckbox'] = 'true';
+		node.addEventListener('keydown', triggerOnEnter);
+		node.addEventListener('pointerenter', triggerOnHoverWhenPointerDown);
+		node.addEventListener('pointerleave', triggerOnLeaveWhenPointerDown);
+	}
+
+	function destroy() {
+		node.dataset['seleniteCheckbox'] = 'false';
+		node.removeEventListener('keydown', triggerOnEnter);
+		node.removeEventListener('pointerenter', triggerOnHoverWhenPointerDown);
+		node.removeEventListener('pointerleave', triggerOnLeaveWhenPointerDown);
+	}
+
+	if (enabled) setup();
 
 	return {
-		destroy() {
-			node.removeEventListener('keydown', triggerOnEnter);
-			node.removeEventListener('pointerenter', triggerOnHoverWhenPointerDown);
-			node.removeEventListener('pointerleave', triggerOnLeaveWhenPointerDown);
+		destroy,
+		update(enabled) {
+			if (enabled ?? true) {
+				setup();
+			} else {
+				destroy();
+			}
 		}
 	};
 };

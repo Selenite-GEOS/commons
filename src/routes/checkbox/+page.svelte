@@ -11,7 +11,7 @@
 		{#each range(10) as i}
         <label class="flex gap-2 items-center">
             {i}
-			<input use:checkbox use:keyboardNavigation />
+			<input type="checkbox" class="checkbox" use:checkbox use:keyboardNavigation />
             </label>
 		{/each}
 	</ul>
