@@ -7,7 +7,7 @@
 
 // polyfill for set intersection
 import 'core-js/actual/set/intersection';
-import { upperFirst } from 'lodash-es';
+import { upperCase, upperFirst } from 'lodash-es';
 
 // Can't export pluralize functions directly
 // because pluralize is common js
@@ -17,11 +17,11 @@ const { singular, isPlural, isSingular, plural } = pluralizePackage;
 export { singular, isPlural, isSingular, plural, pluralize };
 
 export function capitalize(str: string): string {
-	return str.charAt(0).toUpperCase() + str.slice(1);
+	return upperFirst(str);
 }
 
 export function capitalizeWords(str: string): string {
-	return str.split(' ').map(capitalize).join(' ');
+	return str.split(' ').map(upperFirst).join(' ');
 }
 
 export function isAlphaNumChar(str: string) {
@@ -60,12 +60,24 @@ export function initials(str: string): string {
 // 		.join(' ');
 // }
 
-// remove spaces and capitalize all but first letter
+/** Transforms a string into CamelCase. */
 export function camlelcaseize(str: string): string {
-	const capitalized = str.split(' ').map(capitalize).join('');
-	return capitalized.charAt(0).toLowerCase() + capitalized.slice(1);
+	const capitalized = str
+		.split(' ')
+		.map((s, i) => {
+			if (i === 0) {
+				const pieces = splitCamelCase(s);
+				if (pieces.length > 0) {
+					pieces[0] = pieces[0].toLowerCase();
+				}
+				return pieces.join('');
+			}
+			return upperFirst(s);
+		})
+		.join('');
+	return capitalized;
 }
-
+/** Transforms a Camelcase string into a normal space seperated string. */
 export function unCamelCase(str: string): string {
 	return splitCamelCase(str).join(' ');
 }

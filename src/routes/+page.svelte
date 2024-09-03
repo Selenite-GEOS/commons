@@ -11,7 +11,7 @@
 <ul class="menu bg-base-200 rounded-box text-xl">
     {#each routes as route}
         <li>
-            <a href={route}>{upperFirst(route.slice(1))}</a>
+            <a href={route}>{upperFirst(route.slice(1).split("-").join(" "))}</a>
         </li>
     {/each}
 </ul>
