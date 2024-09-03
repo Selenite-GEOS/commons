@@ -21,14 +21,13 @@ export const autosize: Action<HTMLTextAreaElement, unknown | undefined> = (texta
 };
 
 let isCheckboxSetup = false;
-let pointedDownCheckbox: HTMLInputElement | undefined = undefined;
-export const checkbox: Action<HTMLInputElement, boolean | undefined> = (node, enabled : boolean | undefined = true ) => {
+let pointedDownCheckbox: HTMLElement | undefined = undefined;
+export const checkbox: Action<HTMLElement, boolean | undefined> = (node, enabled : boolean | undefined = true ) => {
 	if (!isCheckboxSetup) {
 		isCheckboxSetup = true;
 		document.addEventListener('pointerdown', (event) => {
 			pointedDownCheckbox =
-				event.target instanceof HTMLInputElement &&
-				event.target.type === 'checkbox' &&
+				event.target instanceof HTMLElement &&
 				event.target.dataset['seleniteCheckbox'] === 'true'
 					? event.target
 					: undefined;
