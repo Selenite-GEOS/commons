@@ -35,11 +35,11 @@ export const checkbox: Action<HTMLInputElement, boolean | undefined> = (node, en
 			if (pointedDownCheckbox) {
 				document.body.style.userSelect = 'none';
 			}
-		});
+		}, {capture: true});
 		document.addEventListener('pointerup', () => {
 			document.body.style.userSelect = '';
 			pointedDownCheckbox = undefined;
-		});
+		}, {capture: true});
 	}
 
 	function triggerOnEnter(event: KeyboardEvent) {

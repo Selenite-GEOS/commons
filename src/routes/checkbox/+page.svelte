@@ -1,5 +1,5 @@
 <script>
-	import { checkbox, keyboardNavigation } from '$lib';
+	import { checkbox, keyboardNavigation, stopPropagation } from '$lib';
 	import { range } from 'lodash-es';
 </script>
 
@@ -11,7 +11,7 @@
 		{#each range(10) as i}
         <label class="flex gap-2 items-center">
             {i}
-			<input type="checkbox" class="checkbox" use:checkbox use:keyboardNavigation />
+			<input type="checkbox" class="checkbox" use:checkbox use:keyboardNavigation onpointerdown={stopPropagation} onpointerup={stopPropagation}/>
             </label>
 		{/each}
 	</ul>
