@@ -176,7 +176,7 @@ export function shortcut<E extends Element>(
 ): ActionReturn<ShortcutSettings<E>> {
 	let listener = makeShortcutListener(node, params);
 
-	document.addEventListener('keydown', listener);
+	document.addEventListener('keydown', listener, {capture: true});
 
 	return {
 		destroy() {
@@ -185,7 +185,7 @@ export function shortcut<E extends Element>(
 		update(params) {
 			document.removeEventListener('keydown', listener);
 			listener = makeShortcutListener(node, params);
-			document.addEventListener('keydown', listener);
+			document.addEventListener('keydown', listener, {capture: true});
 		}
 	};
 }
