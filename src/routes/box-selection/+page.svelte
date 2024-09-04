@@ -19,16 +19,17 @@
 	}}
 	class="bg-base-200 h-[50rem] w-[80rem] relative select-none overflow-clip cursor-move">
 	<div bind:this={holder} class="h-full w-full" use:draggable>
-		<button
-		onclick={(e) => e.currentTarget.classList.toggle('bg-secondary')}
-			class="absolute left-[20rem] top-[15rem] w-[10rem] h-[10rem] bg-base-300 grid place-content-center text-xl font-semibold">
-			A
-		</button>
-		<button
-		onclick={(e) => e.currentTarget.classList.toggle('bg-secondary')}
-			class="absolute right-[20rem] bottom-[15rem] w-[10rem] h-[10rem] bg-base-300 grid place-content-center text-xl font-semibold">
-			B
-		</button>
+		{#snippet Button(label: string, x: number, y: number)}
+			<button
+				type="button"
+				class="pointer-events-auto absolute w-[10rem] h-[10rem] bg-base-300 grid place-content-center text-xl font-semibold"
+				style="left: {x}rem; top: {y}rem"
+				onclick={(e) => e.currentTarget.classList.toggle('bg-secondary')}>
+				{label}
+			</button>
+		{/snippet}
+		{@render Button("A", 20, 15)}
+		{@render Button("B", 50, 23)}
 	</div>
 	<button
 		class="btn {boxSelectionEnabled ? 'btn-success' : 'btn-neutral'} absolute right-2 top-2"
