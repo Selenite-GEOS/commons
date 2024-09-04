@@ -44,6 +44,7 @@ export const boxSelection: Action<HTMLElement, BoxSelectionParams | undefined> =
 	let box: HTMLElement | undefined;
 	let startPos: Position | undefined;
 	function pDown(e: PointerEvent) {
+		if (e.button !== 0) return;
 		document.body.style.userSelect = 'none';
 		if (box) {
 			destroyBox();
