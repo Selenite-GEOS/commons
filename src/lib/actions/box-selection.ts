@@ -1,4 +1,4 @@
-import { posFromClient, Rect, type Position } from '$lib/utils';
+import { posFromClient, Rect, stopPropagation, type Position } from '$lib/utils';
 import type { Action } from 'svelte/action';
 
 /**
@@ -9,6 +9,9 @@ type BoxSelectionParams = {
 	enabled?: boolean;
 	/** Selection callback. */
 	onselection?: (nodes: Element[]) => void;
+
+	/** Element containing the elements to select. */
+	holder?: HTMLElement;
 };
 
 /**
@@ -26,7 +29,7 @@ export const boxSelection: Action<HTMLElement, BoxSelectionParams | undefined> =
 	}
 
 	function pLeave(e: PointerEvent) {
-		node.style.cursor = 'auto';
+		node.style.cursor = '';
 	}
 
 	function pMove(e: PointerEvent) {
@@ -37,8 +40,7 @@ export const boxSelection: Action<HTMLElement, BoxSelectionParams | undefined> =
 	let box: HTMLElement | undefined;
 	let startPos: Position | undefined;
 	function pDown(e: PointerEvent) {
-		if (e.target !== node) return;
-
+		stopPropagation(e)
 		document.body.style.userSelect = 'none';
 		if (box) {
 			destroyBox();
@@ -51,11 +53,12 @@ export const boxSelection: Action<HTMLElement, BoxSelectionParams | undefined> =
 		document.addEventListener('pointerup', pUp, { once: true, capture: true });
 	}
 	function pUp(e: PointerEvent) {
+		stopPropagation(e)
 		document.body.style.userSelect = '';
 		if (!box) return;
 		const selected: Element[] = [];
 		const selectionRect = box.getBoundingClientRect();
-		for (const n of node.children) {
+		for (const n of (params.holder ?? node).children) {
 			const r = n.getBoundingClientRect();
 			const intersection = Rect.intersection(selectionRect, r);
 			const a = Rect.area(r);
@@ -136,7 +139,7 @@ export const boxSelection: Action<HTMLElement, BoxSelectionParams | undefined> =
 		node.addEventListener('pointerdown', pDown, { capture: true });
 	}
 	function destroy() {
-		node.style.cursor = 'auto';
+		node.style.cursor = '';
 		node.removeEventListener('pointerover', pOver);
 		node.removeEventListener('pointerleave', pLeave);
 		node.removeEventListener('pointerdown', pDown, { capture: true });
