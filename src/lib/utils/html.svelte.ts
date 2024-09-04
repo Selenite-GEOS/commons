@@ -125,6 +125,10 @@ export namespace Rect {
 	export function area(rect: Rect): number {
 		return rect.width * rect.height;
 	}
+
+	export function pos(rect: Rect): Position {
+		return { x: rect.x, y: rect.y };
+	}
 }
 
 export function download(filename: string, data: unknown) {
