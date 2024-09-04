@@ -50,10 +50,10 @@ export function posFromClient({
  * Definition of a rectangle..
  */
 export class Rect {
-	x = $state(0)
-	y = $state(0)
-	width = $state(0)
-	height = $state(0)
+	x: number
+	y: number
+	width: number
+	height: number
 
 	constructor(x = 0, y = 0, width = 0, height = 0) {
 		this.x = x;
