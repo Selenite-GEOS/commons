@@ -1,4 +1,4 @@
-import { posFromClient, Rect, stopPropagation, type Position } from '$lib/utils';
+import { distance, posFromClient, Rect, stopPropagation, type Position } from '$lib/utils';
 import type { Action } from 'svelte/action';
 
 /**
@@ -57,6 +57,13 @@ export const boxSelection: Action<HTMLElement, BoxSelectionParams | undefined> =
 		document.addEventListener('pointerup', pUp, { once: true, capture: true });
 	}
 	function pUp(e: PointerEvent) {
+		if (startPos) {
+			const pos = posFromClient(e);
+			if (distance(startPos, pos) < 12) {
+				destroyBox();
+				return;
+			}
+		}
 		document.body.style.userSelect = '';
 		if (!box) return;
 		const selected: Element[] = [];
@@ -75,7 +82,6 @@ export const boxSelection: Action<HTMLElement, BoxSelectionParams | undefined> =
 		console.debug('Box selection', selected);
 		params.onselection?.(selected);
 		destroyBox();
-		box = undefined;
 	}
 
 	function setBoxPos(a: Position, b: Position) {
