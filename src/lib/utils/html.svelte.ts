@@ -275,6 +275,7 @@ export function getClosestElementIndex(target: Element, elements: Element[]) {
 export class PointerDownWatcher {
 	isPointerDown = $state(false);
 	pos = $state<Position>();
+	lastEvent = $state<PointerEvent>();
 	static #instance: PointerDownWatcher | undefined = undefined;
 
 	static get instance() {
@@ -299,6 +300,7 @@ export class PointerDownWatcher {
 
 	protected onpointerdown(e: PointerEvent) {
 		this.isPointerDown = true;
+		this.lastEvent = e;
 		this.pos = posFromClient(e)
 		this.#subscribers.forEach((s) => s(true));
 	}
