@@ -31,5 +31,5 @@ Trust was the first thing we lost that day"
 	onkeydown={(e) => e.key === 'Escape' && refInput?.blur()} />
 
 {#each content.split('\n') as line}
-	<p class="italic text-lg"><MatchHighlighter content={line} {ref} /></p>
+	<p class="italic text-lg"><MatchHighlighter content={line} {ref} outline={true}/></p>
 {/each}
