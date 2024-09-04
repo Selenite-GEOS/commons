@@ -53,7 +53,7 @@ export const boxSelection: Action<HTMLElement, BoxSelectionParams | undefined> =
 		}
 		createBox(posFromClient(e));
 
-		document.addEventListener('pointermove', pMove);
+		document.addEventListener('pointermove', pMove, {passive: true});
 		document.addEventListener('pointerup', pUp, { once: true, capture: true });
 	}
 	function pUp(e: PointerEvent) {

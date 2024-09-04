@@ -44,7 +44,7 @@ export function clickIfNoDrag<E extends HTMLElement>(
 	function onpointerdown(e: PointerEvent) {
 		pointerdownPos = posFromClient(e);
 		node.addEventListener('pointerup', onpointerup);
-		node.addEventListener('pointermove', onpointermove);
+		node.addEventListener('pointermove', onpointermove, {passive: true});
 	}
 
 	node.addEventListener('pointerdown', onpointerdown);
@@ -91,7 +91,7 @@ export function clickIfDrag<E extends HTMLElement>(
 		drag = false;
 		pointerdownPos = posFromClient(e);
 		node.addEventListener('pointerup', onpointerup);
-		node.addEventListener('pointermove', onpointermove);
+		node.addEventListener('pointermove', onpointermove, {passive: true});
 	}
 
 	node.addEventListener('pointerdown', onpointerdown);

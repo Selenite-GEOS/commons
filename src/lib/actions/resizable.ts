@@ -71,7 +71,7 @@ export function resizable<N extends HTMLElement = HTMLElement>(
 	params: ResizeHandleParams<N> = {}
 ): ActionReturn<ResizeHandleParams<N>> {
 	function onpointerenter(e: PointerEvent) {
-		document.addEventListener('pointermove', onpointermove);
+		document.addEventListener('pointermove', onpointermove, {passive: true});
 		removePointermoveCleanup?.();
 	}
 	let removePointermoveCleanup: (() => void) | undefined;
@@ -197,7 +197,7 @@ export function resizable<N extends HTMLElement = HTMLElement>(
 	}
 
 	if (resizeHandleMap.size === 0) {
-		document.addEventListener('pointermove', globalOnpointermove);
+		document.addEventListener('pointermove', globalOnpointermove, {passive: true});
 	}
 	resizeHandleMap.set(node, {
 		onpointerenter,
