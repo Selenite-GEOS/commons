@@ -18,7 +18,7 @@
 		}
 	}}
 	class="bg-base-200 h-[50rem] w-[80rem] relative select-none overflow-clip cursor-move">
-	<div bind:this={holder} class="h-full w-full" use:draggable>
+	<div bind:this={holder} class="h-full w-full relative" use:draggable>
 		{#snippet Button(label: string, x: number, y: number)}
 			<button
 				type="button"

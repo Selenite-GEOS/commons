@@ -36,8 +36,8 @@ export const boxSelection: Action<HTMLElement, BoxSelectionParams | undefined> =
 	}
 
 	function pMove(e: PointerEvent) {
-		stopPropagation(e);
 		if (!box) return;
+		stopPropagation(e);
 		setBoxPos(startPos!, posFromClient(e));
 	}
 
