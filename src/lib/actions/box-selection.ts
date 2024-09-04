@@ -4,7 +4,7 @@ import type { Action } from 'svelte/action';
 /**
  * Parameters of the box selection Svelte action.
  */
-type BoxSelectionParams = {
+export type BoxSelectionParams = {
 	/** Is the box selection active. */
 	enabled?: boolean;
 	/** Selection callback. */
