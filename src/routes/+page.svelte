@@ -6,7 +6,7 @@
     // console.log(routes)
 </script>
 
-<h1 class="text-2xl font-bold mb-4">Selenite Commons</h1>
+<h1 class="text-2xl font-bold my-4">Selenite Commons</h1>
 
 <ul class="menu bg-base-200 rounded-box text-xl">
     {#each routes as route}

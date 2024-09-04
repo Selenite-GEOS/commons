@@ -6,7 +6,6 @@
 	let holder = $state<HTMLElement>();
 </script>
 
-<h1 class="text-2xl font-bold m-auto mb-4">Box Selection</h1>
 <div
 	use:boxSelection={{
 		enabled: boxSelectionEnabled,

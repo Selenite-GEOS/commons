@@ -1,6 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import * as String from './string';
-
+const avatar =
+	"I'm blown away\n\
+Like a layer of dust on the floor\n\
+Of the hall where we first met\n\
+Trust was the first thing we lost that day";
 describe('string utils', () => {
 	describe('capitalize', () => {
 		it('should capitalize strings', () => {
@@ -12,7 +16,7 @@ describe('string utils', () => {
 		it('should handle strings with spaces', () => {
 			expect(String.capitalize('hello world')).toBe('Hello world');
 		});
-	})
+	});
 	describe('capitalize words', () => {
 		it('should capitalize words', () => {
 			expect(String.capitalizeWords('hello world')).toBe('Hello World');
@@ -20,7 +24,7 @@ describe('string utils', () => {
 		it('should handle empty strings', () => {
 			expect(String.capitalizeWords('')).toBe('');
 		});
-	})
+	});
 	describe('splitCamelcase', () => {
 		it('should split camelcase strings', () => {
 			expect(String.splitCamelCase('helloWorld')).toEqual(['hello', 'World']);
@@ -72,17 +76,17 @@ describe('string utils', () => {
 	describe('camelcaseize', () => {
 		it('should camelcaseize strings', () => {
 			expect(String.camlelcaseize('hello world')).toBe('helloWorld');
-		})
+		});
 		it('should handle all acronyms', () => {
 			expect(String.camlelcaseize('VTK')).toBe('vtk');
-		})
+		});
 		it('should handle acronyms', () => {
 			expect(String.camlelcaseize('VTKMesh')).toBe('vtkMesh');
-		})
+		});
 		it('should handle partial camelcase', () => {
 			expect(String.camlelcaseize('helloDarling myWorld')).toBe('helloDarlingMyWorld');
-		})
-	})
+		});
+	});
 	describe('getSharedWords', () => {
 		it(`should return empty array on empty strings' words`, () => {
 			expect(String.getSharedWords([])).toEqual([]);
@@ -129,6 +133,49 @@ describe('string utils', () => {
 					camelcase: true
 				})
 			).toBe('dogOuts');
+		});
+	});
+
+	describe('matchingParts', () => {
+		const matchingParts = String.matchingParts;
+		it('should return one matching part', () => {
+			expect(matchingParts('hello world', 'world')).toEqual([
+				{ part: 'hello ', match: false },
+				{ part: 'world', match: true }
+			]);
+		});
+		it('should return two matching parts', () => {
+			expect(matchingParts('world helloworld', 'world')).toEqual([
+				{ part: 'world', match: true },
+				{ part: ' hello', match: false },
+				{ part: 'world', match: true }
+			]);
+		});
+		it('should return one matching part with no case sensitivity', () => {
+			expect(matchingParts('hello world', 'WORLD', { caseInsensitive: true })).toEqual([
+				{ part: 'hello ', match: false },
+				{ part: 'world', match: true }
+			]);
+		});
+		it('should handle multi lines', () => {
+			expect(matchingParts('hello\nworld', 'world')).toEqual([
+				{ part: 'hello\n', match: false },
+				{ part: 'world', match: true }
+			]);
+		});
+		it('should handle no matching parts', () => {
+			expect(matchingParts('hello world', 'planet')).toEqual([
+				{ part: 'hello world', match: false }
+			]);
+		});
+		it('should handle no matching parts multiline', () => {
+			expect(matchingParts('hello\nworld', 'planet')).toEqual([
+				{ part: 'hello\nworld', match: false }
+			]);
+		});
+		it('should handle avatar', () => {
+			expect(matchingParts(avatar, 'avatar')).toEqual([{ part: avatar, match: false }]);
+			expect(matchingParts(avatar, '')).toEqual([{ part: avatar, match: false }]);
 		});
 	});
 });

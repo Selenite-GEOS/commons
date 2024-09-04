@@ -214,3 +214,35 @@ export function getVarsFromFormatString(formatString: string): string[] {
 	// return all matches of the regex
 	return Array.from(formatString.matchAll(/{(\w+).*?}/g)).map((match) => match[1]);
 }
+
+export function matchingParts(s: string, ref: string, options: {caseInsensitive?: boolean} = {}): { part: string; match: boolean }[] {
+	let flags = "s"
+	if (options.caseInsensitive) {
+		flags += "i"
+	}
+	const re = new RegExp(`(.*?)(${ref})`, flags);
+
+	let remainder = s;
+	const res: ReturnType<typeof matchingParts> = [];
+	let match: RegExpExecArray | null;
+
+	while ((match = re.exec(remainder))) {
+		if (match[0].length === 0) break;
+		if (match[1])
+			res.push({
+				part: match[1],
+				match: false
+			});
+		res.push({
+			part: match[2],
+			match: true
+		});
+		remainder = remainder.slice(match[0].length);
+	}
+	if (remainder)
+		res.push({
+			part: remainder,
+			match: false
+		});
+	return res;
+}
