@@ -12,6 +12,9 @@ type BoxSelectionParams = {
 
 	/** Element containing the elements to select. */
 	holder?: HTMLElement;
+
+	/** Treshold for elements to be considered inside the box selection. Defaults to 0.9. */
+	threshold?: number;
 };
 
 /**
@@ -65,7 +68,7 @@ export const boxSelection: Action<HTMLElement, BoxSelectionParams | undefined> =
 			const ai = Rect.area(intersection);
 
 			const k = ai / a;
-			if (k > 0.9) {
+			if (k > (params.threshold ?? 0.9)) {
 				selected.push(n);
 			}
 		}
