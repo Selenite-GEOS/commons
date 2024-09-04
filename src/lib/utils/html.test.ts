@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Rect, WindowState, download, isBrowser } from './html.svelte';
-import { Window } from 'happy-dom';
+import { Rect, WindowState, isBrowser } from './html.svelte';
 
 describe('WindowState', () => {
 	it('should return the window width', () => {

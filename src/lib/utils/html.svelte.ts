@@ -1,6 +1,6 @@
 import type { Position } from './math';
 
-const _windowState = $state({ width: NaN, height: NaN });
+const _windowState = $state({ width: 1879, height: 961 });
 let _isWindowStateSetup = false;
 /**
  * Reactive window state for use in svelte 5.
