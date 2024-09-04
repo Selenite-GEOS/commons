@@ -36,6 +36,7 @@ export const boxSelection: Action<HTMLElement, BoxSelectionParams | undefined> =
 	}
 
 	function pMove(e: PointerEvent) {
+		stopPropagation(e);
 		if (!box) return;
 		setBoxPos(startPos!, posFromClient(e));
 	}
@@ -43,7 +44,6 @@ export const boxSelection: Action<HTMLElement, BoxSelectionParams | undefined> =
 	let box: HTMLElement | undefined;
 	let startPos: Position | undefined;
 	function pDown(e: PointerEvent) {
-		stopPropagation(e)
 		document.body.style.userSelect = 'none';
 		if (box) {
 			destroyBox();
@@ -56,7 +56,6 @@ export const boxSelection: Action<HTMLElement, BoxSelectionParams | undefined> =
 		document.addEventListener('pointerup', pUp, { once: true, capture: true });
 	}
 	function pUp(e: PointerEvent) {
-		stopPropagation(e)
 		document.body.style.userSelect = '';
 		if (!box) return;
 		const selected: Element[] = [];

@@ -19,14 +19,16 @@
 	}}
 	class="bg-base-200 h-[50rem] w-[80rem] relative select-none overflow-clip cursor-move">
 	<div bind:this={holder} class="h-full w-full" use:draggable>
-		<div
+		<button
+		onclick={(e) => e.currentTarget.classList.toggle('bg-secondary')}
 			class="absolute left-[20rem] top-[15rem] w-[10rem] h-[10rem] bg-base-300 grid place-content-center text-xl font-semibold">
 			A
-		</div>
-		<div
+		</button>
+		<button
+		onclick={(e) => e.currentTarget.classList.toggle('bg-secondary')}
 			class="absolute right-[20rem] bottom-[15rem] w-[10rem] h-[10rem] bg-base-300 grid place-content-center text-xl font-semibold">
 			B
-		</div>
+		</button>
 	</div>
 	<button
 		class="btn {boxSelectionEnabled ? 'btn-success' : 'btn-neutral'} absolute right-2 top-2"
