@@ -5,11 +5,13 @@ import { Window } from 'happy-dom';
 describe('WindowState', () => {
 	it('should return the window width', () => {
 		window.innerWidth = 2;
-		expect(WindowState.width).toBe(2);
+		const windowState = new WindowState();
+		expect(windowState.width).toBe(2);
 	});
 	it('should return the window height', () => {
 		window.innerHeight = 2;
-		expect(WindowState.width).toBe(2);
+		const windowState = new WindowState();
+		expect(windowState.width).toBe(2);
 	});
 });
 

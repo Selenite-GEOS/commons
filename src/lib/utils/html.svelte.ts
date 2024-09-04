@@ -1,38 +1,25 @@
-import { readable, type Readable, type Subscriber } from 'svelte/store';
 import type { Position } from './math';
-import { untrack } from 'svelte';
+
+const _windowState = $state({ width: NaN, height: NaN });
+let _isWindowStateSetup = false;
 /**
  * Reactive window state for use in svelte 5.
  *
- * At the moment, it exposes with and height.
+ * At the moment, it exposes width and height.
  */
 export class WindowState {
-	width = $state<number>(NaN);
-	height = $state<number>(NaN);
+	width = $derived(_windowState.width);
+	height = $derived(_windowState.height);
 
-	static #instance: WindowState | undefined = undefined;
-	private static get instance() {
-		if (!this.#instance) this.#instance = new WindowState();
-		return this.#instance;
-	}
-
-	static get width() {
-		return this.instance.width;
-	}
-
-	static get height() {
-		return this.instance.height;
-	}
-
-	private constructor() {
+	constructor() {
 		if (typeof window === 'undefined') return;
-		untrack(() => {
+		if (_isWindowStateSetup) return;
+		_isWindowStateSetup = true;
+		_windowState.width = window.innerWidth;
+		_windowState.height = window.innerHeight;
+		window.addEventListener('resize', (e) => {
 			this.width = window.innerWidth;
 			this.height = window.innerHeight;
-			window.addEventListener('resize', (e) => {
-				this.width = window.innerWidth;
-				this.height = window.innerHeight;
-			});
 		});
 	}
 }
@@ -186,11 +173,12 @@ export type WindowBounds = {
 export function getBounds(element?: Element): WindowBounds {
 	if (!element) return { top: 0, left: 0, right: 0, bottom: 0 };
 	const { x, y, width, height } = element.getBoundingClientRect();
+	const windowState = new WindowState();
 	return {
 		left: x,
 		top: y,
-		right: WindowState.width - x - width,
-		bottom: WindowState.height - y - height
+		right: windowState.width - x - width,
+		bottom: windowState.height - y - height
 	};
 }
 
