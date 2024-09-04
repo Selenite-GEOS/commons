@@ -8,8 +8,8 @@ let _isWindowStateSetup = false;
  * At the moment, it exposes width and height.
  */
 export class WindowState {
-	width = $derived(_windowState.width);
-	height = $derived(_windowState.height);
+	readonly width = $derived(_windowState.width);
+	readonly height = $derived(_windowState.height);
 
 	constructor() {
 		if (typeof window === 'undefined') return;
@@ -18,8 +18,8 @@ export class WindowState {
 		_windowState.width = window.innerWidth;
 		_windowState.height = window.innerHeight;
 		window.addEventListener('resize', (e) => {
-			this.width = window.innerWidth;
-			this.height = window.innerHeight;
+			_windowState.width = window.innerWidth;
+			_windowState.height = window.innerHeight;
 		});
 	}
 }
