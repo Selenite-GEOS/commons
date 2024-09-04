@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { boxSelection } from '$lib';
+	import { boxSelection, shortcut } from '$lib';
 	import { draggable } from '@neodrag/svelte';
 
 	let boxSelectionEnabled = $state(true);
@@ -32,6 +32,7 @@
 		{@render Button("B", 50, 23)}
 	</div>
 	<button
+		use:shortcut={{key: 'b', action: () => boxSelectionEnabled = !boxSelectionEnabled}}
 		class="btn {boxSelectionEnabled ? 'btn-success' : 'btn-neutral'} absolute right-2 top-2"
 		onclick={() => (boxSelectionEnabled = !boxSelectionEnabled)}>Toggle Box Selection</button>
 </div>

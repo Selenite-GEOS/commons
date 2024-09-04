@@ -143,6 +143,7 @@ export const boxSelection: Action<HTMLElement, BoxSelectionParams | undefined> =
 	}
 
 	function setup() {
+		node.style.cursor = 'crosshair';
 		node.addEventListener('pointerover', pOver);
 		node.addEventListener('pointerleave', pLeave);
 		node.addEventListener('pointerdown', pDown, { capture: true });
