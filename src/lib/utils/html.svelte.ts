@@ -1,5 +1,6 @@
 import { readable, type Readable, type Subscriber } from 'svelte/store';
 import type { Position } from './math';
+import { untrack } from 'svelte';
 /**
  * Reactive window state for use in svelte 5.
  *
@@ -25,11 +26,13 @@ export class WindowState {
 
 	private constructor() {
 		if (typeof window === 'undefined') return;
-		this.width = window.innerWidth;
-		this.height = window.innerHeight;
-		window.addEventListener('resize', (e) => {
+		untrack(() => {
 			this.width = window.innerWidth;
 			this.height = window.innerHeight;
+			window.addEventListener('resize', (e) => {
+				this.width = window.innerWidth;
+				this.height = window.innerHeight;
+			});
 		});
 	}
 }
@@ -271,7 +274,6 @@ export function getClosestElementIndex(target: Element, elements: Element[]) {
 	return closestIndex;
 }
 
-
 export class PointerDownWatcher {
 	isPointerDown = $state(false);
 	pos = $state<Position>();
@@ -284,9 +286,9 @@ export class PointerDownWatcher {
 	}
 	private constructor() {
 		if (typeof document === 'undefined') return;
-		console.debug('Adding pointer down watcher.')
-		document.addEventListener('pointerdown', this.onpointerdown.bind(this), {capture: true});
-		document.addEventListener('pointerup', this.onpointerup.bind(this), {capture: true});
+		console.debug('Adding pointer down watcher.');
+		document.addEventListener('pointerdown', this.onpointerdown.bind(this), { capture: true });
+		document.addEventListener('pointerup', this.onpointerup.bind(this), { capture: true });
 	}
 
 	#subscribers = new Set<(value: boolean) => void>();
@@ -301,7 +303,7 @@ export class PointerDownWatcher {
 	protected onpointerdown(e: PointerEvent) {
 		this.isPointerDown = true;
 		this.lastEvent = e;
-		this.pos = posFromClient(e)
+		this.pos = posFromClient(e);
 		this.#subscribers.forEach((s) => s(true));
 	}
 
