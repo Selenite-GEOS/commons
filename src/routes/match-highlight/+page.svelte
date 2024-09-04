@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { isAlphaNumChar, shortcut } from '$lib';
-	import MatchHighlighter from '$lib/components/MatchHighlighter.svelte';
+	import { isAlphaNumChar, shortcut, MatchHighlighter } from '$lib';
 	let ref = $state('dust');
 	let content = $state(
 		"I'm blown away\n\

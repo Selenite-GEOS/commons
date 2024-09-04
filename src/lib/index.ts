@@ -24,6 +24,8 @@ export * as Action from './actions';
 export * from './actions';
 export * as Utils from './utils';
 export * from './utils';
+export * as Components from './components';
+export * from './components';
 export * as Types from './type';
 export * from './type';
 export * as DataStructure from './datastructure';

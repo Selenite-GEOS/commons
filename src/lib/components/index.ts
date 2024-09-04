@@ -1,0 +1,1 @@
+export {default as MatchHighlighter} from './MatchHighlighter.svelte';
