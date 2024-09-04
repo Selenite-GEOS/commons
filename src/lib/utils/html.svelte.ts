@@ -88,9 +88,12 @@ export namespace Rect {
 	/**
 	 * Returns the intersection of multiple bouding rectangles.
 	 */
-	export function intersection(rect: Rect, ...rects: Rect[]): Rect {
+	export function intersection(rect: Rect | DOMRect, ...rects: (Rect | DOMRect)[]): Rect {
 		const res: Rect = new Rect();
-		Object.assign(res, rect);
+		res.x = rect.x;
+		res.y = rect.y;
+		res.width = rect.width;
+		res.height = rect.height;
 
 		for (const r of rects) {
 			const a: Position = { x: Math.max(res.x, r.x), y: Math.max(res.y, r.y) };
@@ -109,7 +112,10 @@ export namespace Rect {
 	 */
 	export function union(rect: Rect, ...rects: Rect[]): Rect {
 		const res: Rect = new Rect();
-		Object.assign(res, rect);
+		res.x = rect.x;
+		res.y = rect.y;
+		res.width = rect.width;
+		res.height = rect.height;
 
 		for (const r of rects) {
 			const a: Position = { x: Math.min(res.x, r.x), y: Math.min(res.y, r.y) };

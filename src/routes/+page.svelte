@@ -3,7 +3,7 @@
 
     const routes = Object.keys(import.meta.glob("./**/+page.svelte")).map(path => path.slice(1, -"+page.svelte".length - 1))
 
-    console.log(routes)
+    // console.log(routes)
 </script>
 
 <h1 class="text-2xl font-bold mb-4">Selenite Commons</h1>

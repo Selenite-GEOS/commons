@@ -180,10 +180,10 @@ export function shortcut<E extends Element>(
 
 	return {
 		destroy() {
-			document.removeEventListener('keydown', listener);
+			document.removeEventListener('keydown', listener, {capture: true});
 		},
 		update(params) {
-			document.removeEventListener('keydown', listener);
+			document.removeEventListener('keydown', listener, {capture: true});
 			listener = makeShortcutListener(node, params);
 			document.addEventListener('keydown', listener, {capture: true});
 		}
