@@ -1,6 +1,8 @@
 import type { Action } from 'svelte/action';
 
-export type DocumentParams = DocumentEventMap & AddEventListenerOptions;
+export type DocumentParams = {
+    [key in keyof DocumentEventMap]: (event: DocumentEventMap[key]) => void;
+} & AddEventListenerOptions;
 export const documentListener: Action<Element, DocumentParams> = (node, params: DocumentParams) => {
 	function setup() {
 		Object.keys(params).forEach((key) => {
