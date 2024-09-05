@@ -42,3 +42,46 @@ export const keyboardNavigation: Action<HTMLElement> = (node) => {
 		}
 	};
 };
+
+
+type KeysHandler = (e: KeyboardEvent) => void;
+type SupportedKeys = 'escape' | 'enter' | 'up' | 'left' | 'down' | 'right' | 'backspace';
+type KeysParams = {[key in SupportedKeys]?: KeysHandler};
+export const keys: Action<HTMLElement, KeysParams | undefined> = (node, params: KeysParams = {}) => {
+	function kbListener(e: KeyboardEvent) {
+		switch (e.key) {
+			case 'ArrowUp':
+				params.up?.(e);
+				break;
+			case 'ArrowLeft':
+				params.left?.(e);
+				break;
+			case 'ArrowDown':
+				params.down?.(e);
+				break;
+			case 'ArrowRight':
+				params.right?.(e);
+				break;
+			case 'Enter':
+				params.enter?.(e);
+				break;
+			case 'Escape':
+				params.escape?.(e);
+				break;
+			case 'Backspace':
+				params.backspace?.(e);
+				break
+		}
+	}
+
+	node.addEventListener('keydown', kbListener);
+
+	return {
+		destroy() {
+			node.removeEventListener('keydown', kbListener);
+		},
+		update(newParams = {}) {
+			params = newParams;
+		},
+	}
+}

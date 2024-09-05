@@ -42,7 +42,10 @@
 	],
 	"peerDependencies": {
 		"svelte": "^5.0.0-next.242",
-		"lodash-es": "^4.17.21"
+		"lodash-es": "^4.17.21",
+		"svelte-floating-ui": "^1.5.9",
+		"wu": "^2.1.0",
+		"regenerator-runtime": "^0.14.1"
 	},
 	"devDependencies": {
 		"@happy-dom/global-registrator": "^14.12.3",
@@ -93,8 +96,6 @@
 		"fast-xml-parser": "^4.5.0",
 		"ml-classify-text": "^2.0.1",
 		"pluralize": "^8.0.0",
-		"regenerator-runtime": "^0.14.1",
-		"uuid": "^10.0.0",
-		"wu": "^2.1.0"
+		"uuid": "^10.0.0"
 	}
 }
