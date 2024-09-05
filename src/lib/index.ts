@@ -30,4 +30,3 @@ export * as Types from './type';
 export * from './type';
 export * as DataStructure from './datastructure';
 export * from './datastructure';
-export * from '@neodrag/svelte'
