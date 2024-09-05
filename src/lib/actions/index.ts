@@ -18,6 +18,7 @@ export * from './keyboard';
 export * from './resizable';
 export * from './box-selection'
 export * from '@neodrag/svelte';
+export * from './document';
 let handleFocusLeaveRefCount = 0;
 let handleFocusLeaveCallbacks: ((isKeyboard: boolean) => void)[] = [];
 function handleKeydown(e: KeyboardEvent) {
