@@ -1,6 +1,6 @@
 {
 	"name": "@selenite/commons",
-	"version": "0.24.10",
+	"version": "0.24.11",
 	"repository": "github:ShaitanLyss/selenite-commons",
 	"license": "MIT",
 	"keywords": [
@@ -42,7 +42,6 @@
 	],
 	"peerDependencies": {
 		"svelte": "^5.0.0-next.242",
-		"@neodrag/svelte": "^2.0.6",
 		"lodash-es": "^4.17.21"
 	},
 	"devDependencies": {
@@ -87,6 +86,7 @@
 	"types": "./dist/index.d.ts",
 	"type": "module",
 	"dependencies": {
+		"@neodrag/svelte": "^2.0.6",
 		"@selenite/commons-rs": "^0.1.2",
 		"autosize": "^6.0.1",
 		"core-js": "^3.38.1",
