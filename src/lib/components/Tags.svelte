@@ -5,15 +5,16 @@
 	import { flip } from 'svelte/animate';
 	import type { HTMLAttributes, HTMLButtonAttributes } from 'svelte/elements';
 	import MatchHighlighter from './MatchHighlighter.svelte';
-	import { fade, slide } from 'svelte/transition';
+	import { slide } from 'svelte/transition';
 
 	interface Props extends HTMLAttributes<HTMLUListElement> {
 		tags?: string[];
 		knownTags?: string[];
 		popupBg?: string;
+		tagProps?: HTMLButtonAttributes;
 	}
 
-	let { tags = $bindable([]), knownTags = [], popupBg = 'bg-base-200', ...props }: Props = $props();
+	let { tags = $bindable([]), knownTags = [], popupBg = 'bg-base-200', tagProps = {}, ...props }: Props = $props();
 
 	const tagsSet = $derived(new Set(tags));
 	let creatingTag = $state(false);
@@ -40,7 +41,7 @@
 </script>
 
 {#snippet Tag(label: string, props: HTMLButtonAttributes = {})}
-	<button type="button" {...props} class="badge badge-neutral my-2 {props.class}">
+	<button type="button" {...props} {...tagProps} class="badge my-2 {props.class} {tagProps.class}">
 		{label}
 	</button>
 {/snippet}
