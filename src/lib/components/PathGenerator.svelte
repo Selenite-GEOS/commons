@@ -45,10 +45,10 @@
 	// let showAddPopup = $state(true);
 	let creatingPart = $state(false);
 
-	function addCreatedPart() {
+	function addCreatedPart(b?: boolean) {
 		if (trimmedCreatedPart.length > 0) path.push(trimmedCreatedPart);
 		else if (focusedOption) path.push(focusedOption);
-		else if (optionsForCreatedPart[0]) path.push(optionsForCreatedPart[0]);
+		else if (b && optionsForCreatedPart[0]) path.push(optionsForCreatedPart[0]);
 		createdPart = '';
 		focusedOption = '';
 	}
@@ -74,7 +74,7 @@
 							type="button"
 							class="btn btn-ghost gap-0 {!isFocused ? '' : 'outline outline-accent outline-1'}"
 							class:outline-accent={isFocused}
-							class:outline-[0.5rem]={isFocused}
+							class:outline-[0.5]={isFocused}
 							use:keyboardNavigation
 							onpointerdown={async () => {
 								path.push(part);
@@ -95,10 +95,10 @@
 
 <div
 	{...props}
-	class="breadcrumbs {props.class} pe-1"
+	class="breadcrumbs py-0 {props.class} pe-1"
 	use:horizontalScroll
 	style="scrollbar-gutter: stable;">
-	<ul class="!min-h-12 flex items-center">
+	<ul class="flex items-center !min-h-14">
 		{#snippet Button(label: string, props: HTMLButtonAttributes & { action?: Action } = {})}
 			{#if props.action}
 				<button type="button" {...props} class="hover:link p-1 {props.class}" use:props.action>
@@ -131,7 +131,12 @@
 			</li>
 		{/snippet}
 
-		{@render pathButton('/', 0)}
+		{@render pathButton('/', 0, {
+			onclick: () => {
+				path.splice(0);
+				focusedOption = '';
+			}
+		})}
 
 		{#each path as part, i (i)}
 			{@render pathButton(part, i)}
@@ -157,13 +162,25 @@
 							return;
 						}
 						console.log(e);
-						if (createdPart) addCreatedPart();
+						if (blurDiscards) addCreatedPart();
 						if (blurDiscards) discardCreatedPart();
+					}}
+					use:keys={{
+						backspace: (e) => {
+							if (createdPart.length > 0 || path.length === 0) return;
+							e.preventDefault();
+							const tmp = path.pop()!;
+							if (optionsForCreatedPart.includes(tmp)) {
+								focusedOption = tmp;
+							} else {
+								createdPart = tmp;
+							}
+						}
 					}}
 					use:keys={{
 						preventDefault: true,
 						enter: async (e) => {
-							addCreatedPart();
+							addCreatedPart(true);
 							await tick();
 							await sleep();
 							e.target
@@ -181,16 +198,6 @@
 								(focusedOptionIndex - 1 + optionsForCreatedPart.length) %
 								optionsForCreatedPart.length;
 							focusedOption = optionsForCreatedPart[i];
-						},
-						backspace: (e) => {
-							if (createdPart.length > 0 || path.length === 0) return;
-							e.preventDefault();
-							const tmp = path.pop()!;
-							if (optionsForCreatedPart.includes(tmp)) {
-								focusedOption = tmp;
-							} else {
-								createdPart = tmp;
-							}
 						}
 					}} />
 			</li>

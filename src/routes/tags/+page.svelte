@@ -3,6 +3,12 @@
 
 	let tags: string[] = $state(["Fire", "Avatar"]);
 	let knownTags: string[] = $state(["Fire", "Water", "Earth", "Air", "Harmony", "Chi", "Energy", "Spirit", "State", "Ghost", "Cyborg", "Fallen Angel", "What"]);
+	// let knownTags: string[] = [];
 </script>
-
-<Tags bind:tags {knownTags} class="max-w-[20rem]"/>
+<div>
+<p>
+	The <code>Tags</code> component.
+</p>
+<Tags bind:tags {knownTags} class="w-[30rem]"/>
+Number of tags : {tags.length}
+</div>

@@ -40,7 +40,7 @@
 </script>
 
 {#snippet Tag(label: string, props: HTMLButtonAttributes = {})}
-	<button type="button" {...props} class="badge badge-neutral {props.class}">
+	<button type="button" {...props} class="badge badge-neutral my-2 {props.class}">
 		{label}
 	</button>
 {/snippet}
@@ -61,7 +61,7 @@
 	</div>
 {/if}
 
-<ul {...props} class="flex flex-wrap gap-2 {props.class}">
+<ul {...props} class="flex flex-wrap gap-2 items-center {props.class}">
 	{#each tags as tag, i (tag)}
 		<li animate:flip={{ duration: 200 }}>
 			{@render Tag(tag, { class: 'hover:badge-error', onclick: () => tags.splice(i, 1) })}
@@ -87,8 +87,8 @@
 				creatingTag = false;
 			}}
 			use:keys={{
-				preventDefault: true,
 				enter: (e) => {
+					e.preventDefault()
 					if (!e.target.value) {
 						addTag(filteredKnownTags[0]);
 						return;
