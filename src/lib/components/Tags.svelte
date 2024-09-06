@@ -103,6 +103,7 @@
 					return;
 				}
 				creatingTag = false;
+				
 			}}
 			use:keys={{
 				enter: (e) => {
@@ -125,7 +126,7 @@
 	<li>
 		{@render Tag('+ Add tag', {
 			...addTagProps,
-			class: `hover:badge-accent ${addTagProps.class}`,
+			class: `hover:badge-accent border-0 ${addTagProps.class}`,
 			onclick: (e) => {
 				if (creatingTag) {
 					addNewTag();
