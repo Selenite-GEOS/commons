@@ -52,31 +52,22 @@ export function keys<E extends HTMLElement>(
 ): ActionReturn<KeysParams<E>> {
 	function kbListener(e_: KeyboardEvent) {
 		const e = e_ as KeyboardEvent & { target: E };
-		if (params.preventDefault) 
-			e.preventDefault();
+
+		const keyToHandler: Record<string, KeysHandler<E> | undefined> = {
+			'ArrowUp': params.up,
+			'ArrowLeft': params.left,
+			'ArrowDown': params.down,
+			'ArrowRight': params.right,
+			'Enter': params.enter,
+			'Escape': params.escape,
+			'Backspace': params.backspace
+		}
 		
-		switch (e.key) {
-			case 'ArrowUp':
-				params.up?.(e);
-				break;
-			case 'ArrowLeft':
-				params.left?.(e);
-				break;
-			case 'ArrowDown':
-				params.down?.(e);
-				break;
-			case 'ArrowRight':
-				params.right?.(e);
-				break;
-			case 'Enter':
-				params.enter?.(e);
-				break;
-			case 'Escape':
-				params.escape?.(e);
-				break;
-			case 'Backspace':
-				params.backspace?.(e);
-				break;
+		const handler = keyToHandler[e.key];
+
+		if (handler) {
+			if (params.preventDefault) e.preventDefault();
+			handler(e);
 		}
 	}
 
