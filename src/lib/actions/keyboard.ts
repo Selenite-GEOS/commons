@@ -1,4 +1,4 @@
-import type { Action } from 'svelte/action';
+import type { Action, ActionReturn } from 'svelte/action';
 
 export {};
 
@@ -43,12 +43,15 @@ export const keyboardNavigation: Action<HTMLElement> = (node) => {
 	};
 };
 
-
-type KeysHandler = (e: KeyboardEvent) => void;
+type KeysHandler<E extends Element> = (e: KeyboardEvent & { target: E }) => void;
 type SupportedKeys = 'escape' | 'enter' | 'up' | 'left' | 'down' | 'right' | 'backspace';
-type KeysParams = {[key in SupportedKeys]?: KeysHandler};
-export const keys: Action<HTMLElement, KeysParams | undefined> = (node, params: KeysParams = {}) => {
-	function kbListener(e: KeyboardEvent) {
+type KeysParams<E extends Element> = { [key in SupportedKeys]?: KeysHandler<E> };
+export function keys<E extends HTMLElement>(
+	node: E,
+	params: KeysParams<E>
+): ActionReturn<KeysParams<E>> {
+	function kbListener(e_: KeyboardEvent) {
+		const e = e_ as KeyboardEvent & { target: E };
 		switch (e.key) {
 			case 'ArrowUp':
 				params.up?.(e);
@@ -70,7 +73,7 @@ export const keys: Action<HTMLElement, KeysParams | undefined> = (node, params: 
 				break;
 			case 'Backspace':
 				params.backspace?.(e);
-				break
+				break;
 		}
 	}
 
@@ -82,6 +85,6 @@ export const keys: Action<HTMLElement, KeysParams | undefined> = (node, params: 
 		},
 		update(newParams = {}) {
 			params = newParams;
-		},
-	}
+		}
+	};
 }
