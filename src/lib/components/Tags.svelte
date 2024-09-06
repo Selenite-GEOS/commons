@@ -40,7 +40,7 @@
 </script>
 
 {#snippet Tag(label: string, props: HTMLButtonAttributes = {})}
-	<button {...props} class="badge badge-neutral {props.class}">
+	<button type="button" {...props} class="badge badge-neutral {props.class}">
 		{label}
 	</button>
 {/snippet}
@@ -52,7 +52,7 @@
 			class="{popupBg} p-2 rounded-box gap-2 flex flex-wrap max-w-[20rem] max-h-[10rem] justify-center overflow-y-auto overflow-x-clip">
 			{#each filteredKnownTags as tag (tag)}
 				<li>
-					<button class="btn btn-neutral btn-sm tags-btn" onclick={() => addTag(tag)}>
+					<button type="button" class="btn btn-neutral btn-sm tags-btn" onclick={() => addTag(tag)}>
 						<MatchHighlighter content={tag} ref={newTag} />
 					</button>
 				</li>
@@ -87,6 +87,7 @@
 				creatingTag = false;
 			}}
 			use:keys={{
+				preventDefault: true,
 				enter: (e) => {
 					if (!e.target.value) {
 						addTag(filteredKnownTags[0]);

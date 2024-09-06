@@ -71,6 +71,7 @@
 					{@const isFocused = part === focusedOption}
 					<li>
 						<button
+							type="button"
 							class="btn btn-ghost gap-0 {!isFocused ? '' : 'outline outline-accent outline-1'}"
 							class:outline-accent={isFocused}
 							class:outline-[0.5rem]={isFocused}
@@ -92,15 +93,19 @@
 	</div>
 {/if}
 
-<div {...props} class="breadcrumbs {props.class} pe-1" use:horizontalScroll style="scrollbar-gutter: stable;">
+<div
+	{...props}
+	class="breadcrumbs {props.class} pe-1"
+	use:horizontalScroll
+	style="scrollbar-gutter: stable;">
 	<ul class="!min-h-12 flex items-center">
 		{#snippet Button(label: string, props: HTMLButtonAttributes & { action?: Action } = {})}
 			{#if props.action}
-				<button {...props} class="hover:link p-1 {props.class}" use:props.action>
+				<button type="button" {...props} class="hover:link p-1 {props.class}" use:props.action>
 					{label}
 				</button>
 			{:else}
-				<button {...props} class="hover:link p-1 {props.class}">
+				<button type="button" {...props} class="hover:link p-1 {props.class}">
 					{label}
 				</button>
 			{/if}
@@ -116,7 +121,7 @@
 					onpointerdown:
 						props.onclick ??
 						(async () => {
-                            await sleep()
+							await sleep();
 							focusedOption = path[i] ?? '';
 							path = path.slice(0, i);
 							console.log('focused', focusedOption);
@@ -156,12 +161,16 @@
 						if (blurDiscards) discardCreatedPart();
 					}}
 					use:keys={{
+						preventDefault: true,
 						enter: async (e) => {
-                            addCreatedPart()
-                            await tick()
-                            await sleep()
-                            e.target?.closest('.breadcrumbs').querySelector('.pathAddBtn')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-                        },
+							addCreatedPart();
+							await tick();
+							await sleep();
+							e.target
+								.closest('.breadcrumbs')
+								?.querySelector('.pathAddBtn')
+								?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+						},
 						escape: discardCreatedPart,
 						down: () => {
 							const i = (focusedOptionIndex + 1) % optionsForCreatedPart.length;
@@ -201,10 +210,10 @@
 					await tick();
 					await sleep();
 					blurDiscards = true;
-                    await tick()
-                    await sleep()
-                    // Scroll button into view
-                    e.target.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+					await tick();
+					await sleep();
+					// Scroll button into view
+					(e.target as HTMLButtonElement)?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 				}
 			})}
 		</li>
