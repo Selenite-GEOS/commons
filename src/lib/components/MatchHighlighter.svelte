@@ -12,7 +12,7 @@
 	const parts = $derived(matchingParts(content, ref, { caseInsensitive }));
 </script>
 
-{#snippet highlightPart({ match = false, part = '' }: { match: boolean; part: string })}
+{#snippet highlightPart({ match = false, part = '' } = {})}
 	{#if match}
 		<mark class="bg-accent text-accent-content" class:outline class:outline-accent={outline}
 			>{part}</mark>
