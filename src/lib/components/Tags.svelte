@@ -41,10 +41,10 @@
 		if (!trimmedTag || tags.includes(trimmedTag)) return;
 		tags.push(trimmedTag);
 	}
-	const loweredKnownTags = $derived(knownTags.map((t) => t.toLowerCase()));
-	const loweredNewTag = $derived(newTag);
+	const loweredNewTag = $derived(newTag.toLowerCase());
+	const loweredKnownTags = $derived(knownTags.map(t => t.toLowerCase()))
 	const filteredKnownTags = $derived(
-		loweredKnownTags.filter((t) => t.includes(loweredNewTag) && !tagsSet.has(t))
+		knownTags.filter((t,i) => loweredKnownTags[i].includes(loweredNewTag) && !tagsSet.has(t))
 	);
 
 	const [knowTagsRef, knowTagsPopup] = createFloatingActions({});

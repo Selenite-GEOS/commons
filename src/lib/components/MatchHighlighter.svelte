@@ -12,17 +12,21 @@
 	const parts = $derived(matchingParts(content, ref, { caseInsensitive }));
 </script>
 
+{#snippet highlightPart({ match = false, part = '' }: { match: boolean; part: string })}
+	{#if match}
+		<mark class="bg-accent text-accent-content" class:outline class:outline-accent={outline}
+			>{part}</mark>
+	{:else}
+		{part}
+	{/if}
+{/snippet}
+
 {#if parts.length <= 1}
-	{content}
+	{@render highlightPart(parts[0])}
 {:else}
 	<span>
-		{#each parts as { match, part }}
-			{#if match}
-				<mark class="bg-accent text-accent-content" class:outline class:outline-accent={outline}
-					>{part}</mark>
-			{:else}
-				{part}
-			{/if}
+		{#each parts as part}
+			{@render highlightPart(part)}
 		{/each}
 	</span>
 {/if}

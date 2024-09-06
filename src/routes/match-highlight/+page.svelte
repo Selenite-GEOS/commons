@@ -8,13 +8,14 @@ Of the hall where we first met\n\
 Trust was the first thing we lost that day"
 	);
 	let refInput = $state<HTMLInputElement>();
+	let outline = $state(false);
 </script>
 
 <input
 	bind:this={refInput}
 	bind:value={ref}
 	placeholder="Reference"
-	class="input input-bordered mb-4"
+	class="input input-bordered mb-2"
 	use:shortcut={{
 		shortcuts(e) {
 			if (e.ctrlKey || e.shiftKey || e.altKey) return false;
@@ -29,7 +30,15 @@ Trust was the first thing we lost that day"
 		}
 	}}
 	onkeydown={(e) => e.key === 'Escape' && refInput?.blur()} />
+<label class="flex items-center gap-4 cursor-pointer">
+	Outline
+	<input type="checkbox" class="checkbox" bind:checked={outline} />
+</label>
 
+<h2 class="mt-2 mb-2 font-bold">Song</h2>
 {#each content.split('\n') as line}
-	<p class="italic text-lg"><MatchHighlighter content={line} {ref} outline={true}/></p>
+	<p class="italic text-lg"><MatchHighlighter content={line} {ref} {outline} /></p>
 {/each}
+
+<h2 class="mt-8 mb-2 font-bold">Word</h2>
+<p class="italic text-lg"><MatchHighlighter content={'galaxy'} {ref} {outline} /></p>
