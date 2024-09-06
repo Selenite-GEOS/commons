@@ -50,10 +50,10 @@ export function posFromClient({
  * Definition of a rectangle..
  */
 export class Rect {
-	x: number
-	y: number
-	width: number
-	height: number
+	x: number;
+	y: number;
+	width: number;
+	height: number;
 
 	constructor(x = 0, y = 0, width = 0, height = 0) {
 		this.x = x;
@@ -304,4 +304,19 @@ export class PointerDownWatcher {
 		this.pos = undefined;
 		this.#subscribers.forEach((s) => s(false));
 	}
+}
+
+export function isOverflowing(el: HTMLElement): { vertical: boolean; horizontal: boolean } {
+	const curOverflow = el.style.overflow;
+
+	if (!curOverflow || curOverflow === 'visible') el.style.overflow = 'hidden';
+	
+	const res = {
+		vertical: el.scrollHeight > el.clientHeight,
+		horizontal: el.scrollWidth > el.clientWidth
+	};
+
+	el.style.overflow = curOverflow;
+
+	return res;
 }

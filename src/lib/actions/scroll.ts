@@ -5,6 +5,7 @@
  * @see {@link scrollIntoView}
  * @module
  */
+import { isOverflowing } from '$lib/utils';
 import { clamp, debounce } from 'lodash-es';
 import type { Action } from 'svelte/action';
 import { tweened } from 'svelte/motion';
@@ -47,6 +48,8 @@ export const horizontalScroll: Action<HTMLElement, { duration?: number } | undef
 	);
 
 	const handleWheel = (e: WheelEvent) => {
+		const overflowing = isOverflowing(node);
+		if (overflowing.vertical || !overflowing.horizontal) return;
 		if (e.deltaY === 0) return;
 		isActionScroll = true;
 		const firstChildRect = node.firstElementChild?.getBoundingClientRect();

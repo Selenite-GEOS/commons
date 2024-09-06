@@ -67,7 +67,6 @@ bun wasm-pack publish --access public
 ```
 
 ## TODO
-
 - Document everything
 - Create action to use text content as title | and which adds truncate by default (with css)
 - Try removing newline at end of xml format
