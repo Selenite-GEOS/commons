@@ -1,5 +1,6 @@
 import type { Action, ActionReturn } from 'svelte/action';
 import baseAutosize from 'autosize';
+import { tick } from 'svelte';
 
 /**
  * Action to make a textarea autosize.
@@ -7,38 +8,70 @@ import baseAutosize from 'autosize';
  * A parameter can be passed to the action to trigger an update when it changes.
  * @param {HTMLTextAreaElement} textarea - The textarea element to make autosize.
  */
-export const autosize: Action<HTMLTextAreaElement, unknown | undefined> = (textarea) => {
-	baseAutosize(textarea);
+export const autosize: Action<HTMLTextAreaElement, unknown | undefined> = (
+	textarea,
+	params: boolean | unknown | (Record<string | number, unknown> & { enabled?: boolean }) = true
+) => {
+	let enabled = false;
+
+	function updateBaseAutosize() {
+		const enabled_ =
+			typeof params === 'boolean'
+				? params
+				: typeof params !== 'object'
+					? true
+					: ((params as { enabled?: boolean } | null)?.enabled ?? true);
+		if (enabled && !enabled_) baseAutosize.destroy(textarea);
+		else if (!enabled && enabled_) baseAutosize(textarea);
+		else baseAutosize.update(textarea);
+		enabled = enabled_;
+	}
+	tick().then(() => {
+
+		updateBaseAutosize();
+	})
 
 	return {
 		destroy() {
 			baseAutosize.destroy(textarea);
 		},
-		update() {
-			baseAutosize.update(textarea);
+		update(params_) {
+			params = params_;
+			console.log("update autosize");
+			updateBaseAutosize();
 		}
 	};
 };
 
 let isCheckboxSetup = false;
 let pointedDownCheckbox: HTMLElement | undefined = undefined;
-export const checkbox: Action<HTMLElement, boolean | undefined> = (node, enabled : boolean | undefined = true ) => {
+export const checkbox: Action<HTMLElement, boolean | undefined> = (
+	node,
+	enabled: boolean | undefined = true
+) => {
 	if (!isCheckboxSetup) {
 		isCheckboxSetup = true;
-		document.addEventListener('pointerdown', (event) => {
-			pointedDownCheckbox =
-				event.target instanceof HTMLElement &&
-				event.target.dataset['seleniteCheckbox'] === 'true'
-					? event.target
-					: undefined;
-			if (pointedDownCheckbox) {
-				document.body.style.userSelect = 'none';
-			}
-		}, {capture: true});
-		document.addEventListener('pointerup', () => {
-			document.body.style.userSelect = '';
-			pointedDownCheckbox = undefined;
-		}, {capture: true});
+		document.addEventListener(
+			'pointerdown',
+			(event) => {
+				pointedDownCheckbox =
+					event.target instanceof HTMLElement && event.target.dataset['seleniteCheckbox'] === 'true'
+						? event.target
+						: undefined;
+				if (pointedDownCheckbox) {
+					document.body.style.userSelect = 'none';
+				}
+			},
+			{ capture: true }
+		);
+		document.addEventListener(
+			'pointerup',
+			() => {
+				document.body.style.userSelect = '';
+				pointedDownCheckbox = undefined;
+			},
+			{ capture: true }
+		);
 	}
 
 	function triggerOnEnter(event: KeyboardEvent) {
