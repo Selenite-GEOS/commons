@@ -42,3 +42,6 @@ Trust was the first thing we lost that day"
 
 <h2 class="mt-8 mb-2 font-bold">Word</h2>
 <p class="italic text-lg"><MatchHighlighter content={'galaxy'} {ref} {outline} /></p>
+
+<h2 class="mt-8 mb-2 font-bold">Backslashes</h2>
+<p class="italic text-lg"><MatchHighlighter content={'galaxy/super-nova'} {ref} {outline} /></p>

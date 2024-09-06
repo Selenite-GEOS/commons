@@ -177,5 +177,11 @@ describe('string utils', () => {
 			expect(matchingParts(avatar, 'avatar')).toEqual([{ part: avatar, match: false }]);
 			expect(matchingParts(avatar, '')).toEqual([{ part: avatar, match: false }]);
 		});
+		it('should handle backslashes', () => {
+			expect(matchingParts('hello\\n world\\', 'world\\')).toEqual([
+				{ part: 'hello\\n ', match: false },
+				{ part: 'world\\', match: true }
+			]);
+		})
 	});
 });

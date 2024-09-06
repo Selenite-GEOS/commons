@@ -7,7 +7,7 @@
 
 // polyfill for set intersection
 import 'core-js/actual/set/intersection';
-import { upperCase, upperFirst } from 'lodash-es';
+import { escapeRegExp, upperCase, upperFirst } from 'lodash-es';
 
 // Can't export pluralize functions directly
 // because pluralize is common js
@@ -220,7 +220,7 @@ export function matchingParts(s: string, ref: string, options: {caseInsensitive?
 	if (options.caseInsensitive) {
 		flags += "i"
 	}
-	const re = new RegExp(`(.*?)(${ref})`, flags);
+	const re = new RegExp(`(.*?)(${escapeRegExp(ref)})`, flags);
 
 	let remainder = s;
 	const res: ReturnType<typeof matchingParts> = [];
