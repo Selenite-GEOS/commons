@@ -9,6 +9,6 @@
 <p>
 	The <code>Tags</code> component.
 </p>
-<Tags bind:tags {knownTags} class="w-[30rem]"/>
+<Tags bind:tags {knownTags} class="w-[30rem]" />
 Number of tags : {tags.length}
 </div>

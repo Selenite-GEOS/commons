@@ -12,9 +12,19 @@
 		knownTags?: string[];
 		popupBg?: string;
 		tagProps?: HTMLButtonAttributes;
+		tagBadge?: string;
+		addTagProps?: HTMLButtonAttributes;
 	}
 
-	let { tags = $bindable([]), knownTags = [], popupBg = 'bg-base-200', tagProps = {}, ...props }: Props = $props();
+	let {
+		tags = $bindable([]),
+		knownTags = [],
+		popupBg = 'bg-base-200',
+		tagBadge = 'badge-secondary',
+		tagProps = {},
+		addTagProps = {},
+		...props
+	}: Props = $props();
 
 	const tagsSet = $derived(new Set(tags));
 	let creatingTag = $state(false);
@@ -41,7 +51,7 @@
 </script>
 
 {#snippet Tag(label: string, props: HTMLButtonAttributes = {})}
-	<button type="button" {...props} {...tagProps} class="badge my-2 {props.class} {tagProps.class}">
+	<button type="button" {...props} class="badge my-2 {props.class} {tagProps.class}">
 		{label}
 	</button>
 {/snippet}
@@ -65,7 +75,14 @@
 <ul {...props} class="flex flex-wrap gap-2 items-center {props.class}">
 	{#each tags as tag, i (tag)}
 		<li animate:flip={{ duration: 200 }}>
-			{@render Tag(tag, { class: 'hover:badge-error', onclick: () => tags.splice(i, 1) })}
+			{@render Tag(tag, {
+				...tagProps,
+				class: `hover:badge-error ${tagBadge} ${tagProps.class}`,
+				onclick: (e) => {
+					tagProps.onclick?.(e);
+					tags.splice(i, 1);
+				}
+			})}
 		</li>
 	{/each}
 	{#if creatingTag}
@@ -89,7 +106,7 @@
 			}}
 			use:keys={{
 				enter: (e) => {
-					e.preventDefault()
+					e.preventDefault();
 					if (!e.target.value) {
 						addTag(filteredKnownTags[0]);
 						return;
@@ -107,12 +124,14 @@
 	{/if}
 	<li>
 		{@render Tag('+ Add tag', {
-			class: 'hover:badge-accent',
-			onclick: () => {
+			...addTagProps,
+			class: `hover:badge-accent ${addTagProps.class}`,
+			onclick: (e) => {
 				if (creatingTag) {
 					addNewTag();
 				}
 				creatingTag = true;
+				addTagProps.onclick?.(e);
 			}
 		})}
 	</li>
