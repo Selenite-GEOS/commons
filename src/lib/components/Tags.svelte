@@ -51,7 +51,7 @@
 </script>
 
 {#snippet Tag(label: string, props: HTMLButtonAttributes = {})}
-	<button type="button" {...props} class="badge my-2 {props.class} {tagProps.class}">
+	<button type="button" {...props} class="badge my-2 {props.class}">
 		{label}
 	</button>
 {/snippet}
