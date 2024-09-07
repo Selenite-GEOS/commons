@@ -4,7 +4,6 @@ export function isForest<T>(
 ): candidate is { label: string; forest: Tree<T> } {
 	return (candidate as { label: string; forest: Tree<T> }).forest !== undefined;
 }
-export { default as TreeComponent } from './Tree.svelte'
 
 type TreeCollector<T> = { leaves: T[]; forest: Map<string, TreeCollector<T>> };
 

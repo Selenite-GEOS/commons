@@ -1,9 +1,10 @@
 <script lang="ts" generics="T">
 	import Fa from 'svelte-fa';
-	import { isForest, type TreeComponent, type Tree } from './tree';
+	import { isForest, type Tree } from './tree';
+	import type {TreeComponent} from '.'
 	import type { Snippet } from 'svelte';
 	import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
-
+	
 	type Props = {
 		tree: Tree<T>;
 		leaf: Snippet<[T]>;

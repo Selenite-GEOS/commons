@@ -12,6 +12,9 @@ export default defineConfig({
 			exclude: ['src/lib/**/index.{js,ts}']
 		}
 	},
+	ssr: {
+		noExternal: ['svelte-fa']
+	},
 	server: {
 		port: 5174
 	}
