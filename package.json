@@ -1,6 +1,6 @@
 {
 	"name": "@selenite/commons",
-	"version": "0.28.0",
+	"version": "0.28.1",
 	"repository": "github:ShaitanLyss/selenite-commons",
 	"license": "MIT",
 	"keywords": [
@@ -45,7 +45,10 @@
 		"lodash-es": "^4.17.21",
 		"svelte-floating-ui": "^1.5.9",
 		"wu": "^2.1.0",
-		"regenerator-runtime": "^0.14.1"
+		"regenerator-runtime": "^0.14.1",
+		"@fortawesome/free-solid-svg-icons": "^6.6.0",
+		"@skeletonlabs/floating-ui-svelte": "^0.3.1",
+		"svelte-fa": "^4.0.2"
 	},
 	"devDependencies": {
 		"@happy-dom/global-registrator": "^14.12.3",
@@ -65,7 +68,7 @@
 		"@vitest/coverage-v8": "^2.0.5",
 		"autoprefixer": "^10.4.20",
 		"daisyui": "^4.12.10",
-		"eslint": "^9.9.1",
+		"eslint": "^9.10.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.43.0",
 		"globals": "^15.9.0",
@@ -97,6 +100,7 @@
 		"fast-xml-parser": "^4.5.0",
 		"ml-classify-text": "^2.0.1",
 		"pluralize": "^8.0.0",
+		"svelte-portal": "^2.2.1",
 		"uuid": "^10.0.0"
 	}
 }
