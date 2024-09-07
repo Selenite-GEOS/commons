@@ -13,10 +13,11 @@
 		Item?: Snippet<[T]>;
 		Folder?: Snippet<[T]>;
 		solid?: boolean;
-        cols?: number
+        cols?: number;
+        query?: string;
 	}
 
-	let { items = [], pathKey = 'path' as ArrayKeys<T>, solid = false, cols = 4, Item, ...props }: Props = $props();
+	let { query = '', items = [], pathKey = 'path' as ArrayKeys<T>, solid = false, cols = 4, Item, ...props }: Props = $props();
 
 	type Path = string;
 	const pathsData = $derived.by(() => {
@@ -59,9 +60,10 @@
 </script>
 
 <section {...props} class="grid justify-center {props.class}">
+    <h1 class="font-bold text-xl px-2 text-nowrap truncate min-h-8" title="Number of macroblocks : 2">Macro Blocks</h1>
 	<div
         use:horizontalScroll
-		class="breadcrumbs text-sm rounded-box bg-base-200 px-2 border border-base-content border-opacity-15 mb-4" >
+		class="breadcrumbs text-sm rounded-box bg-base-200 px-2 border border-base-content border-opacity-15 mb-4 w-full" >
 		<ul>
 			{#snippet link(label: string, i: number)}
 				<li>
@@ -81,11 +83,11 @@
 	<div class="grid items-center gap-2" style="grid-template-columns: repeat({cols}, minmax(0, 1fr));">
 		<ul class="grid grid-cols-subgrid mb-2" style="grid-column: span {cols} / span {cols};">
 			{#if currentStr}
-				<FolderComponent folder={'..'} {solid} onclick={goBack} />
+				<FolderComponent {query} folder={'..'} {solid} onclick={goBack} />
 			{/if}
 			{#each pathsData.get(currentStr)?.folders ?? [] as folder (folder)}
 				<li animate:flip>
-					<FolderComponent {folder} {solid} onclick={() => current.push(folder)} />
+					<FolderComponent {query} {folder} {solid} onclick={() => current.push(folder)} />
 				</li>
 			{/each}
 		</ul>

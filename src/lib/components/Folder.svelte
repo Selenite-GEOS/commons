@@ -7,6 +7,7 @@
 	import Fa from 'svelte-fa';
 	import type { HTMLButtonAttributes } from 'svelte/elements';
 	import { fade } from 'svelte/transition';
+	import MatchHighlighter from './MatchHighlighter.svelte';
 
 	interface Props
 		extends Omit<
@@ -15,9 +16,10 @@
 		> {
 		folder?: string;
 		solid?: boolean;
+        query?: string;
 	}
 
-	let { folder = '', solid = false, ...props }: Props = $props();
+	let { query = '', folder = '', solid = false, ...props }: Props = $props();
 
 	let focused = $state(false);
 	let hovered = $state(false);
@@ -54,7 +56,7 @@
 			{/if}
 		</div>
 		<h1 class="text-sm truncate max-w-16" title={folder}>
-			{folder}
+			<MatchHighlighter content={folder} ref={query}/>
 		</h1>
 	</article>
 </button>
