@@ -15,3 +15,6 @@ export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
  * @typeParam T - The object type.
  */
 export type SaveData<T extends { toJSON: () => unknown }> = ReturnType<T['toJSON']>;
+
+
+export type ArrayKeys<T> = { [K in keyof T]: T[K] extends unknown[] ? K : never }[keyof T];

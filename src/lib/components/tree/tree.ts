@@ -7,19 +7,21 @@ export function isForest<T>(
 export { default as TreeComponent } from './Tree.svelte'
 
 type TreeCollector<T> = { leaves: T[]; forest: Map<string, TreeCollector<T>> };
-export function makeTree<T, K extends string>({
+
+
+export function makeTree<K extends string | number, T extends {[k in K]?: string[]}>({
 	items,
 	pathKey,
 	sort
 }: {
-	items: (T & { [k in K]: string[] })[];
+	items: T[];
 	pathKey: K;
 	sort?: (a: T, b: T) => number;
 }): Tree<T> {
 	const collector: TreeCollector<T> = { leaves: [], forest: new Map() };
 	for (const item of items) {
 		let current = collector;
-		for (const parent of item[pathKey]) {
+		for (const parent of item[pathKey] ?? []) {
 			if (!current.forest.has(parent)) {
 				current.forest.set(parent, { leaves: [], forest: new Map() });
 			}
@@ -28,7 +30,7 @@ export function makeTree<T, K extends string>({
 		current.leaves.push(item);
 	}
 
-	console.log('collector', collector);
+	// console.debug('collector', collector);
 
 	const res: Tree<T> = [];
 	function rec(current: Tree<T>, currentCollector: TreeCollector<T>) {
