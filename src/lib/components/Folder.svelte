@@ -33,14 +33,22 @@
 	});
 
 	const duration = 200;
+	// 	ondragenter={(e) => e.preventDefault()}
+	// ondragover={(e) => e.preventDefault()}
 </script>
 
 <button
 	type="button"
 	class="p-1"
 	{...props}
-	ondragenter={(e) => e.preventDefault()}
-	ondragover={(e) => e.preventDefault()}
+	ondragover={(e) => {
+		hovered = true;
+		e.preventDefault()
+	}}
+	ondragleave={(e) => {
+		hovered = false;
+		e.preventDefault()
+	}}
 	onfocusin={() => (focused = true)}
 	onfocusout={() => (focused = false)}
 	onpointerover={() => (hovered = true)}

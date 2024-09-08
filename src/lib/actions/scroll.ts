@@ -9,7 +9,6 @@ import { isOverflowing } from '$lib/utils';
 import { clamp, debounce } from 'lodash-es';
 import type { Action } from 'svelte/action';
 import { tweened } from 'svelte/motion';
-import { get } from 'svelte/store';
 
 /**
  * Adds horizontal scrolling to an element.
@@ -82,17 +81,27 @@ export const horizontalScroll: Action<HTMLElement, { duration?: number } | undef
 /**
  * Scrolls into view an element.
  */
-export const scrollIntoView: Action<HTMLElement, boolean | undefined> = (node, enabled) => {
-	const parent = node.parentElement;
-	if (!parent) return;
+export const scrollIntoView: Action<HTMLElement, boolean | undefined> = (node, enabled: boolean | undefined) => {
+	
+	function update(enabled_ = true) {
+		const parent = node.parentElement;
+		if (!parent) return;
+	
+		if (!enabled_) return;
 
-	if (!enabled) return;
+		const parentRect = parent.getBoundingClientRect();
+		const nodeRect = node.getBoundingClientRect();
+		parent.scrollTo({
+			left: nodeRect.left - parentRect.left,
+			top: nodeRect.top - parentRect.top,
+			behavior: 'smooth'
+		});
+		
+	}
 
-	const parentRect = parent.getBoundingClientRect();
-	const nodeRect = node.getBoundingClientRect();
-	parent.scrollTo({
-		left: nodeRect.left - parentRect.left,
-		top: nodeRect.top - parentRect.top,
-		behavior: 'smooth'
-	});
+	update(enabled);
+
+	return {
+		update,
+	}
 };

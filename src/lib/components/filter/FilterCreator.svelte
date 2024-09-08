@@ -1,6 +1,6 @@
 <script lang="ts" generics="T">
 	import { capitalize, uniq } from 'lodash-es';
-	import type { Filter, FilterDefinition } from './types';
+	import type { Filter, FilterDefinition } from '$lib/utils';
 	import { preventDefault, singular } from '$lib/utils';
 	import type { HTMLFormAttributes } from 'svelte/elements';
 	import { autofocus } from '$lib/actions';

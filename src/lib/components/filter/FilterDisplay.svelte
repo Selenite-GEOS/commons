@@ -1,6 +1,6 @@
 <script lang="ts" generics="T">
 	import type { HTMLButtonAttributes } from 'svelte/elements';
-	import type { Filter } from './types';
+	import type { Filter } from '$lib/utils';
 
 	interface Props extends HTMLButtonAttributes {
 		filter: Filter<T>;
@@ -14,7 +14,7 @@
 <button
 	type="button"
     {...props}
-	class="badge hover:outline-1 hover:outline-accent {filter.active ? 'badge-secondary' : 'badge-ghost'} {props.class}">
+	class="transition-colors badge hover:outline-1 hover:outline-accent {filter.active ? 'badge-secondary' : 'badge-ghost'} {props.class}">
 	{#if !isTag}{filter.key}:
 	{/if}{filter.value}
 </button>

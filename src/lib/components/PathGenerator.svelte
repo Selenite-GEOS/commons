@@ -124,7 +124,6 @@
 							await sleep();
 							focusedOption = path[i] ?? '';
 							path = path.slice(0, i);
-							console.log('focused', focusedOption);
 							creatingPart = true;
 						})
 				})}
@@ -150,7 +149,9 @@
 					bind:value={createdPart}
 					bind:this={creationInput}
 					class="input input-bordered"
-					oninput={() => (focusedOption = '')}
+					oninput={(e) => {
+						focusedOption = ''
+						}}
 					placeholder={(focusedOptionIndex === -1
 						? undefined
 						: optionsForCreatedPart[focusedOptionIndex]) ?? 'New folder'}
@@ -161,7 +162,6 @@
 						) {
 							return;
 						}
-						console.log(e);
 						if (blurDiscards) addCreatedPart();
 						if (blurDiscards) discardCreatedPart();
 					}}
@@ -176,6 +176,11 @@
 								createdPart = tmp;
 							}
 						}
+					}}
+					onkeydown={(e) => {
+						if (e.key !== '/') return;
+						e.preventDefault();
+						addCreatedPart(true)
 					}}
 					use:keys={{
 						preventDefault: true,

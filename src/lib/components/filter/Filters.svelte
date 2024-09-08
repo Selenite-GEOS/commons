@@ -2,7 +2,7 @@
 	import { createFloatingActions } from 'svelte-floating-ui';
 	import { offset, shift } from 'svelte-floating-ui/core';
 	import FilterCreator from './FilterCreator.svelte';
-	import type { Filter, FilterDefinition } from './types';
+	import type { Filter, FilterDefinition } from '$lib/utils/filter';
 	import FilterDisplay from './FilterDisplay.svelte';
 	import { flip } from 'svelte/animate';
 
