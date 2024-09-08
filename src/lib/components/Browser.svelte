@@ -18,7 +18,7 @@
 	import DefaultItem from './browser/DefaultItem.svelte';
 	import { fade } from 'svelte/transition';
 	import { modals } from './modal';
-	import { cloneDeep, range } from 'lodash-es';
+	import { range } from 'lodash-es';
 
 	interface Props extends HTMLAttributes<HTMLElement> {
 		items?: T[];
@@ -167,7 +167,7 @@
 
 <section
 	{...props}
-	class="grid grid-rows-[0fr,4.6rem,1fr] grid-cols-1 h-full w-full justify-stretch place-content-start {props.class}">
+	class="grid grid-rows-[0fr,4.6rem,1fr] h-full w-full justify-stretch place-content-start {props.class}">
 	<div class="grid">
 		{#if typeof header === 'function'}
 			{@render header()}
