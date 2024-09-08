@@ -3,15 +3,16 @@
 	import MatchHighlighter from '../MatchHighlighter.svelte';
 	import { getActiveFilters, type Filter } from '$lib/utils/filter';
 	import { horizontalScroll, scrollIntoView } from '$lib/actions';
+	import type { HTMLAttributes } from 'svelte/elements';
 
-	interface Props {
+	interface Props extends HTMLAttributes<HTMLElement> {
 		item?: unknown;
 		query?: string;
 		filters?: Iterable<Filter<T>>;
         itemToId?: Map<T, string>;
 	}
 
-	let { item = {}, query = '', filters, itemToId }: Props = $props();
+	let { item = {}, query = '', filters, itemToId, ...props }: Props = $props();
 	interface DefaultItem {
 		label?: string;
 		name?: string;
@@ -34,12 +35,18 @@
 </script>
 
 <article
-    {ondragstart}
-	class="transition-all flex flex-col items-center cursor-pointer bg-base-300 rounded-box p-4 border border-base-content border-opacity-15 overflow-clip"
-    title={o.description ?? o.descr}
+	title={o.description ?? o.descr}
+	draggable="true"
+	{...props}
+    ondragstart={(e) => {
+		props.ondragstart?.(e);
+		ondragstart(e);
+	}}
+	class="transition-all flex flex-col items-center cursor-pointer bg-base-300 rounded-box p-4 border border-base-content border-opacity-15 overflow-clip {props.class}"
 	in:fade
 	out:fade={{ duration: 50 }}
-	draggable="true">
+
+	>
 	<div class="text-nowrap truncate h-24 w-32 flex flex-col">
 		<span class="text-nowrap font-semibold mx-auto"
 			><MatchHighlighter content={label} ref={query} /></span>

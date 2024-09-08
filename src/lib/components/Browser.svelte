@@ -28,6 +28,7 @@
 		solid?: boolean;
 		cols?: number;
 		itemWidth?: number;
+		itemProps?: HTMLAttributes<HTMLElement>;
 		query?: string;
 		queriedKeys?: Iterable<StringKeys<T> | StringArrayKeys<T>>;
 		searchBar?: boolean;
@@ -53,6 +54,7 @@
 		itemWidth,
 		flipDuration = 200,
 		Item,
+		itemProps = {},
 		header = 'Browser',
 		filters = $bindable([]),
 		filterDefs = [],
@@ -278,7 +280,7 @@
 				{#each pathsData.get(currentStr)?.items ?? [] as item (item)}
 					<li animate:flip={{ duration: flipDuration }}>
 						{#if !Item}
-							<DefaultItem {item} {filters} {query} {itemToId} />
+							<DefaultItem {item} {filters} {query} {itemToId} {...itemProps} />
 						{:else}
 							{@render Item(item)}
 						{/if}
