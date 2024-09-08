@@ -39,6 +39,8 @@
 	type="button"
 	class="p-1"
 	{...props}
+	ondragenter={(e) => e.preventDefault()}
+	ondragover={(e) => e.preventDefault()}
 	onfocusin={() => (focused = true)}
 	onfocusout={() => (focused = false)}
 	onpointerover={() => (hovered = true)}

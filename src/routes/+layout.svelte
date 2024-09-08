@@ -12,7 +12,7 @@
 <a href="/">
 	<SeleniteLogo class="absolute m-2" />
 </a>
-<main class="p-4 min-h-screen grid justify-center gap-2 items-start place-content-start">
+<main class="p-4 min-h-screen w-screen grid justify-center gap-2 items-start place-content-start">
 	{#if title}
 		<a class="m-auto mb-2" href="/"><btn class="btn w-fit btn-sm">Main Page</btn></a>
 		<h1 class="text-2xl font-bold m-auto mb-4">{title}</h1>
