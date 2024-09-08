@@ -14,12 +14,14 @@
 	let { item = {}, query = '', filters, itemToId }: Props = $props();
 	interface DefaultItem {
 		label?: string;
+		name?: string;
+		title?: string;
 		tags?: string[];
         descr?: string;
         description?: string;
 	}
 	const o: DefaultItem = $derived(typeof item === 'object' && item ? item : {});
-	const label = $derived(o.label ?? (typeof item === 'string' ? item : 'Item'));
+	const label = $derived(o.title ?? o.name ?? o.label ?? (typeof item === 'string' ? item : 'Item'));
 
 	const activeFilters = $derived(getActiveFilters(filters));
 	const activeTags = $derived(activeFilters.get('tags' as keyof T) ?? new Set());
