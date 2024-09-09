@@ -240,7 +240,7 @@
 	<ul
 		use:horizontalScroll
 		style="scrollbar-width: thin;"
-		class="flex mb-4 row-start-2 overflow-x-auto overflow-y-visible w-full rounded-box transition-all {newFolder
+		class="flex mb-4 row-start-2 overflow-x-auto relative overflow-y-visible w-full rounded-box transition-all {newFolder
 			? 'outline outline-1 outline-accent'
 			: ''}"
 		bind:this={foldercontainer}
@@ -272,10 +272,13 @@
 				 />
 			</li>
 		{/each}
+		
 		{#if newFolder}
 			<div transition:fade={{ duration }} class="pointer-events-none opacity-50">
 				<FolderComponent folder={'New Folder'} />
 			</div>
+		{:else if folders.length === 0 && current.length === 0}
+		<span class="text-sm italic p-2 pointer-events-none absolute">No folders yet.</span>
 		{/if}
 	</ul>
 	<div class="relative" style="min-width: 100%; {widthStyle}">
