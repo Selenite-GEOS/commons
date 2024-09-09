@@ -31,6 +31,8 @@
 		itemProps?: HTMLAttributes<HTMLElement>;
 		itemDblClick?: (item: T) => void;
 		itemDragStart?: (item: T) => void;
+		itemAfterUpdate?: (item: T) => void;
+		itemDelete?: (item: T) => void;
 		query?: string;
 		queriedKeys?: Iterable<StringKeys<T> | StringArrayKeys<T>>;
 		searchBar?: boolean;
@@ -59,6 +61,8 @@
 		itemProps = {},
 		itemDblClick,
 		itemDragStart,
+		itemAfterUpdate,
+		itemDelete,
 		header = 'Browser',
 		filters = $bindable([]),
 		filterDefs = [],
@@ -165,6 +169,7 @@
 				if (!r || typeof r !== 'string') return;
 				const newPath = [...item.path ?? [], r];
 				item.path = newPath;
+				itemAfterUpdate?.(item as T);
 			}
 		});
 	}
@@ -211,6 +216,7 @@
 									const item = getDraggedItem(e);
 									if (!item) return;
 									(item[pathKey] as string[]) = current.slice(0, i + 1);
+									itemAfterUpdate?.(item);
 								}}
 								type="button"
 								class="link-hover cursor-pointer p-1 px-2"
@@ -247,6 +253,7 @@
 				const item = getDraggedItem(e);
 				if (!item) return;
 				(item[pathKey] as string[]) = current.slice(0, -1);
+				itemAfterUpdate?.(item);
 			}}
 			 folder={'..'} {solid} onclick={goBack} />
 		{/if}
@@ -257,6 +264,7 @@
 					const item = getDraggedItem(e);
 					if (!item) return;
 					(item[pathKey] as string[]) = [...current, folder];
+					itemAfterUpdate?.(item);
 				}}
 				{query} {folder} {solid} onclick={() => current.push(folder)}
 
@@ -284,7 +292,7 @@
 				{#each pathsData.get(currentStr)?.items ?? [] as item (item)}
 					<li animate:flip={{ duration: flipDuration }}>
 						{#if !Item}
-							<DefaultItem {item} {filters} {query} {itemToId} {...itemProps} {itemDragStart} {itemDblClick} />
+							<DefaultItem {item} {filters} {query} {itemToId} {...itemProps} {itemDragStart} {itemDblClick} {itemDelete} />
 						{:else}
 							{@render Item(item)}
 						{/if}
