@@ -23,6 +23,7 @@
 	interface Props extends HTMLAttributes<HTMLElement> {
 		items?: T[];
 		pathKey?: ArrayKeys<T>;
+		current?: string[];
 		Item?: Snippet<[Partial<T>]>;
 		Folder?: Snippet<[T]>;
 		solid?: boolean;
@@ -52,6 +53,7 @@
 		searchBar = true,
 		displayPath: pathDisplay = true,
 		items = $bindable([]),
+		current = $bindable<string[]>([]),
 		pathKey = 'path' as ArrayKeys<T>,
 		solid = false,
 		cols = 4,
@@ -95,7 +97,6 @@
 		return res;
 	});
 
-	let current: string[] = $state([]);
 	const currentStr = $derived(current.join('/'));
 
 	function goBack() {
