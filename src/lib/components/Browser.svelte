@@ -30,10 +30,10 @@
 		cols?: number;
 		itemWidth?: number;
 		itemProps?: HTMLAttributes<HTMLElement>;
-		itemDblClick?: (item: T) => void;
-		itemDragStart?: (item: T) => void;
+		itemDblClick?: (item: T, e: Event) => void;
+		itemDragStart?: (item: T, e: DragEvent) => void;
 		itemAfterUpdate?: (item: T) => void;
-		itemDelete?: (item: T) => void;
+		itemDelete?: (item: T, e: Event) => void;
 		query?: string;
 		queriedKeys?: Iterable<StringKeys<T> | StringArrayKeys<T>>;
 		searchBar?: boolean;

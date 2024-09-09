@@ -13,9 +13,9 @@
 		query?: string;
 		filters?: Iterable<Filter<T>>;
 		itemToId?: Map<T, string>;
-		itemDblClick?: (item: T) => void;
-		itemDragStart?: (item: T) => void;
-		itemDelete?: (item: T) => void;
+		itemDblClick?: (item: T, e: Event) => void;
+		itemDragStart?: (item: T, e: DragEvent) => void;
+		itemDelete?: (item: T, e: Event) => void;
 	}
 
 	let {
@@ -57,12 +57,12 @@
 	{...props}
 	ondblclick={(e) => {
 		props.ondblclick?.(e);
-		itemDblClick?.(o as T);
+		itemDblClick?.(o as T, e);
 	}}
 	ondragstart={(e) => {
 		ondragstart(e);
 		props.ondragstart?.(e);
-		itemDragStart?.(o as T);
+		itemDragStart?.(o as T, e);
 	}}
 	class="group relative transition-all flex flex-col items-center cursor-pointer bg-base-300 rounded-box p-4 border border-base-content border-opacity-15 overflow-clip {props.class}"
 	in:fade
@@ -70,8 +70,8 @@
 	{#if itemDelete}
 	<Button 
 	 	class="absolute opacity-0 group-hover:opacity-100 top-2 right-2 btn-xs btn-circle btn-ghost"
-		onclick={() => {
-			itemDelete?.(o as T);
+		onclick={(e) => {
+			itemDelete?.(o as T, e);
 		}}
 		>
 		<Fa icon={faTimes} />
