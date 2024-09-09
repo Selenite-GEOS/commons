@@ -29,6 +29,8 @@
 		cols?: number;
 		itemWidth?: number;
 		itemProps?: HTMLAttributes<HTMLElement>;
+		itemDblClick?: (item: T) => void;
+		itemDragStart?: (item: T) => void;
 		query?: string;
 		queriedKeys?: Iterable<StringKeys<T> | StringArrayKeys<T>>;
 		searchBar?: boolean;
@@ -55,6 +57,8 @@
 		flipDuration = 200,
 		Item,
 		itemProps = {},
+		itemDblClick,
+		itemDragStart,
 		header = 'Browser',
 		filters = $bindable([]),
 		filterDefs = [],
@@ -280,7 +284,7 @@
 				{#each pathsData.get(currentStr)?.items ?? [] as item (item)}
 					<li animate:flip={{ duration: flipDuration }}>
 						{#if !Item}
-							<DefaultItem {item} {filters} {query} {itemToId} {...itemProps} />
+							<DefaultItem {item} {filters} {query} {itemToId} {...itemProps} {itemDragStart} {itemDblClick} />
 						{:else}
 							{@render Item(item)}
 						{/if}

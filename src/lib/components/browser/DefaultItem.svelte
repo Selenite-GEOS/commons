@@ -10,9 +10,11 @@
 		query?: string;
 		filters?: Iterable<Filter<T>>;
         itemToId?: Map<T, string>;
+		itemDblClick?: (item: T) => void;
+		itemDragStart?: (item: T) => void;
 	}
 
-	let { item = {}, query = '', filters, itemToId, ...props }: Props = $props();
+	let { item = {}, query = '', filters, itemToId, itemDblClick, itemDragStart, ...props }: Props = $props();
 	interface DefaultItem {
 		label?: string;
 		name?: string;
@@ -38,8 +40,13 @@
 	title={o.description ?? o.descr}
 	draggable="true"
 	{...props}
+	ondblclick={(e) => {
+		props.ondblclick?.(e);
+		itemDblClick?.(o as T);
+	}}
     ondragstart={(e) => {
 		props.ondragstart?.(e);
+		itemDragStart?.(o as T);
 		ondragstart(e);
 	}}
 	class="transition-all flex flex-col items-center cursor-pointer bg-base-300 rounded-box p-4 border border-base-content border-opacity-15 overflow-clip {props.class}"
