@@ -16,9 +16,8 @@ jobs:
       - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           rustflags: ''
-      - uses: oven-sh/setup-bun@v2
-      - run: bun i -g wasm-pack
-      - run: bun run wasm
+      - run: npm install -g wasm-pack
+      - run: npm run wasm
       - uses: JS-DevTools/npm-publish@v3
         with:
           package: selenite-commons-rs/pkg
