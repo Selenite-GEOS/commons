@@ -10,7 +10,7 @@ on:
         'test/**',
         'package.json',
         'tsconfig.json',
-        'bun.lockb',
+        'pnpm-lock.yaml',
         '.github/workflows/npm-publish.yml'
       ]
     branches:
@@ -26,10 +26,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - uses: oven-sh/setup-bun@v2
-      - run: bun install --frozen-lockfile
-      - run: bun run test run
-      - run: bun package
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4.0.0      
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
+      - run: pnpm package
       - uses: JS-DevTools/npm-publish@v3
         with:
           token: ${{ secrets.npm_token }}
