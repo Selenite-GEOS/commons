@@ -28,7 +28,7 @@
 		"test:integration": "playwright test",
 		"test:unit": "vitest",
 		"coverage": "vitest --coverage",
-		"docgen": "typedoc --out ./docs ./src/lib/index.ts"
+		"docgen": "typedoc --out ./docs --navigation.excludeReferences true ./src/lib/index.ts"
 	},
 	"exports": {
 		".": {
