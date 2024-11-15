@@ -9,10 +9,10 @@
 	use:shortcut={{
 		ctrl: true,
 		repeats: false,
-		action(node, e) {
+		action() {
 			ctrl = true;
 		},
-		endAction(node, e) {
+		endAction() {
 			ctrl = false;
 		}
 	}}>
@@ -23,10 +23,10 @@
 	use:shortcut={{
 		alt: true,
 		repeats: true,
-		action(node, e) {
+		action() {
 			alt = true;
 		},
-		endAction(node, e) {
+		endAction() {
 			alt = false;
 		}
 	}}>

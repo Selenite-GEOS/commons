@@ -150,7 +150,7 @@ export function getJustifyBetweenOffsets(
 			whitespace += Math.max(minGap, Math.abs(b.x - a.x - a.w));
 		}
 		const gap = whitespace / (sortedRects.length - 1);
-		for (const [k, { i, r }] of sortedRects.entries()) {
+		for (const [, { i, r }] of sortedRects.entries()) {
 			res[i] = {
 				x: min + offset - r.x,
 				y: 0
@@ -211,7 +211,7 @@ export function getAlignBetweenOffsets(
 			whitespace += Math.max(minGap, Math.abs(b.y - a.y - a.h));
 		}
 		const gap = whitespace / (sortedRects.length - 1);
-		for (const [k, { i, r }] of sortedRects.entries()) {
+		for (const [, { i, r }] of sortedRects.entries()) {
 			res[i] = {
 				x: 0,
 				y: min + offset - r.y

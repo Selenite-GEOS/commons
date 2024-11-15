@@ -1,7 +1,7 @@
 <script lang="ts" generics="T">
 	import Fa from 'svelte-fa';
 	import { isForest, type Tree } from './tree';
-	import type { TreeComponent } from '.';
+	import TreeComponent from './Tree.svelte';
 	import type { Snippet } from 'svelte';
 	import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
@@ -73,8 +73,8 @@
 				</button>
 			</div>
 			{#if childExpanded[i] !== undefined}
-				<svelte:self
-					bind:this={childTrees[i] as TreeComponent<T>}
+				<TreeComponent
+					bind:this={childTrees[i]}
 					class="col-start-2"
 					tree={elmnt.forest}
 					bind:expanded={childExpanded[i]}

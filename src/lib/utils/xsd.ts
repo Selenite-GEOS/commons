@@ -5,7 +5,7 @@
 
 import init, { parse_xsd } from '@selenite/commons-rs';
 import { isBrowser } from './html.svelte';
-import type { PartialBy, SaveData } from '$lib/type';
+import type { SaveData } from '$lib/type';
 import { parseXMLArray } from './xml';
 
 /**
@@ -303,7 +303,9 @@ export async function parseXsd(xsd: string): Promise<XmlSchema | undefined> {
 				} else {
 					try {
 						parsedDefault = JSON.parse(default_);
-					} catch (e) {}
+					} catch {
+						/* keep default value as is */
+					}
 				}
 			}
 			return {

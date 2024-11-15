@@ -1,6 +1,6 @@
 import { Vector2D } from '$lib/datastructure';
 import { PointerDownWatcher, posFromClient } from '$lib/utils';
-import type { Action, ActionReturn } from 'svelte/action';
+import type { ActionReturn } from 'svelte/action';
 
 const resizeHandleMap = new Map<
 	HTMLElement,
@@ -70,12 +70,12 @@ export function resizable<N extends HTMLElement = HTMLElement>(
 	node: N,
 	params: ResizeHandleParams<N> = {}
 ): ActionReturn<ResizeHandleParams<N>> {
-	function onpointerenter(e: PointerEvent) {
+	function onpointerenter() {
 		document.addEventListener('pointermove', onpointermove, { passive: true });
 		removePointermoveCleanup?.();
 	}
 	let removePointermoveCleanup: (() => void) | undefined;
-	function onpointerleave(e: PointerEvent) {
+	function onpointerleave() {
 		// Wait for pointer up to stop resizing
 		removePointermoveCleanup = PointerDownWatcher.instance.subscribe((down) => {
 			if (!down) {

@@ -19,6 +19,7 @@
 
 	// Update position when menu is visible
 	$effect(() => {
+		/* eslint-disable @typescript-eslint/no-unused-expressions */
 		if (!menu.visible) return;
 		menu.pos.x;
 		menu.pos.y;
@@ -33,6 +34,7 @@
 	import { shortcut } from '$lib/actions';
 	let searchInput = $state<HTMLInputElement>();
 	let menuCmpnt = $state<Menu>();
+
 	$effect(() => {
 		menu.filteredItems;
 		if (menu.expanded) {
@@ -99,7 +101,7 @@
 			use:shortcut={{
 				ignoreElements: [],
 				key: 'Escape',
-				action(n, e) {
+				action() {
 					menu.visible = false;
 				}
 			}}

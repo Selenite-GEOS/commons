@@ -23,11 +23,11 @@ export const keyboardNavigation: Action<HTMLElement> = (node) => {
 			candidate.focus();
 		}
 	}
-	function handleFocusIn(e: Event) {
+	function handleFocusIn() {
 		console.debug('Add keydown listener');
 		node.addEventListener('keydown', handleKeydown);
 	}
-	function handleFocusOut(e: Event) {
+	function handleFocusOut() {
 		console.debug('Remove keydown listener');
 		node.removeEventListener('keydown', handleKeydown);
 	}

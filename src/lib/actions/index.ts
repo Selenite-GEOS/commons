@@ -39,7 +39,7 @@ export const handleFocusLeave: Action<HTMLElement, (isKeyboard: boolean) => void
 	}
 	handleFocusLeaveRefCount++;
 	handleFocusLeaveCallbacks.push(callback);
-	function handleFocusIn(e: Event) {}
+	function handleFocusIn() {}
 
 	function handleFocusOut() {
 		requestAnimationFrame(() => {

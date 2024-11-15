@@ -7,6 +7,7 @@ export type Vector2D = {
 	y: number;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Vector2D {
 	export const Zero = () =>
 		({

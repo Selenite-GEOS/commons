@@ -39,7 +39,7 @@
 			rootNode.style.transform = `translate3d(0,0,0)`; // on end of drag, remove translate so item returns to natural pos
 			translateY = 0;
 		},
-		transform({ offsetY }) {
+		transform() {
 			return `translate3d(0,${translateY}px,0)`; // apply calculated offset
 		}
 	};

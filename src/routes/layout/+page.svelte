@@ -67,7 +67,7 @@
 		applyOffsets(getJustifyBetweenOffsets(rects));
 	}
 
-	function alignBetween(event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement }) {
+	function alignBetween() {
 		applyOffsets(getAlignBetweenOffsets(rects));
 	}
 

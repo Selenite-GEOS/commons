@@ -21,32 +21,32 @@ export type BaseModalSettings = {
 	buttons?: ModalButtonSettings[];
 	response?: (r: unknown) => void;
 };
-
-export type ComponentModalSettings<Props extends Record<string, any> = {}> = {
-	component: Component<Props & { modal: ComponentModalSettings }, { getResponse?: () => unknown }>;
-	props: Props;
+type Props = Record<string, unknown>;
+export type ComponentModalSettings<P extends Props = Props> = {
+	component: Component<P & { modal: ComponentModalSettings }, { getResponse?: () => unknown }>;
+	props: P;
 } & BaseModalSettings;
 
-export type SnippetModalSettings<Props extends Record<string, any> = {}> = {
-	snippet: Snippet<[Props]>;
-	props: Props;
+export type SnippetModalSettings<P extends Props = Props> = {
+	snippet: Snippet<[P]>;
+	props: P;
 } & BaseModalSettings;
 
 export type PromptModalSettings = { prompt: string; initial?: string } & BaseModalSettings;
 
-export type ModalSettings<Props extends Record<string, any> = {}> =
+export type ModalSettings<P extends Props = Props> =
 	| PromptModalSettings
-	| ComponentModalSettings<Props>
-	| SnippetModalSettings<Props>;
+	| ComponentModalSettings<P>
+	| SnippetModalSettings<P>;
 
-export function isComponentModalSettings<Props extends Record<string, any>>(
-	modal: ModalSettings<Props>
-): modal is ComponentModalSettings<Props> {
+export function isComponentModalSettings<P extends Props>(
+	modal: ModalSettings<P>
+): modal is ComponentModalSettings<P> {
 	return 'component' in modal;
 }
-export function isSnippetModalSettings<Props extends Record<string, any>>(
-	modal: ModalSettings<Props>
-): modal is SnippetModalSettings<Props> {
+export function isSnippetModalSettings<P extends Props>(
+	modal: ModalSettings<P>
+): modal is SnippetModalSettings<P> {
 	return 'snippet' in modal;
 }
 
@@ -150,7 +150,7 @@ export class Modal {
 
 	private constructor() {}
 
-	show<Props extends Record<string, any>>(params: ModalSettings<Props>) {
+	show<P extends Props>(params: ModalSettings<P>) {
 		console.debug('Show modal', params);
 		if ('prompt' in params) {
 			params.buttons = params.buttons || ['cancel', 'promptConfirm'];

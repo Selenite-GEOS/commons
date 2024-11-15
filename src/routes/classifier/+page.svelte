@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Classifier from 'ml-classify-text';
 	import { persisted, autosize } from '$lib';
 
 	type ClassifierData = {

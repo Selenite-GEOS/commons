@@ -6,7 +6,7 @@
  */
 
 import { isArray } from 'lodash-es';
-import type { Action, ActionReturn } from 'svelte/action';
+import type { ActionReturn } from 'svelte/action';
 
 /**
  * Basic definition of a keyboard shortcut based on key and modifier keys.

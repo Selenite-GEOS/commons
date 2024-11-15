@@ -17,7 +17,7 @@ export class WindowState {
 		_isWindowStateSetup = true;
 		_windowState.width = window.innerWidth;
 		_windowState.height = window.innerHeight;
-		window.addEventListener('resize', (e) => {
+		window.addEventListener('resize', () => {
 			_windowState.width = window.innerWidth;
 			_windowState.height = window.innerHeight;
 		});
@@ -74,6 +74,7 @@ export class Rect {
 /**
  * Utils to compute intersection, union and area of bouding rectangles.
  */
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Rect {
 	/**
 	 * Returns the intersection of multiple bouding rectangles.
@@ -299,7 +300,7 @@ export class PointerDownWatcher {
 		this.#subscribers.forEach((s) => s(true));
 	}
 
-	protected onpointerup(e: PointerEvent) {
+	protected onpointerup() {
 		this.isPointerDown = false;
 		this.pos = undefined;
 		this.#subscribers.forEach((s) => s(false));

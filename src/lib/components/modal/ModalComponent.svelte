@@ -72,7 +72,7 @@
 			{/if}
 		</div>
 		<form method="dialog" class="backdrop">
-			<button></button>
+			<button aria-label="backdrop"></button>
 		</form>
 	</dialog>
 {/if}

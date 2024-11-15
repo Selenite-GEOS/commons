@@ -22,9 +22,9 @@ describe('eventModifier', () => {
 				nativeStopPropagationCalled = true;
 			};
 
-			let e = new Event('test');
+			const e = new Event('test');
 			expect(nativeStopPropagationCalled);
-			e = stopPropagation(e);
+			stopPropagation(e);
 			expect(nativeStopPropagationCalled).toBe(true);
 			Event.prototype.stopPropagation = nativeStopPropagation;
 		});

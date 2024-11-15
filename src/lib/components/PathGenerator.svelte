@@ -149,7 +149,7 @@
 					bind:value={createdPart}
 					bind:this={creationInput}
 					class="input input-bordered"
-					oninput={(e) => {
+					oninput={() => {
 						focusedOption = '';
 					}}
 					placeholder={(focusedOptionIndex === -1

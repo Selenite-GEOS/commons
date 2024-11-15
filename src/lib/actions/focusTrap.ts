@@ -90,7 +90,8 @@ export function focusTrap(node: HTMLElement, enabled: boolean) {
 	return {
 		update(newArgs: boolean) {
 			enabled = newArgs;
-			newArgs ? onScanElements(false) : onCleanUp();
+			if (newArgs) onScanElements(false);
+			else onCleanUp();
 		},
 		destroy() {
 			onCleanUp();

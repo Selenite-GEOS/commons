@@ -1,8 +1,6 @@
 <script lang="ts">
 	import type { ResizeHandleParams } from '$lib';
-	import { persisted, PointerDownWatcher, resizable } from '$lib';
-	let all = $state(true);
-	resizable;
+	import { persisted, resizable } from '$lib';
 
 	// $effect(() => {
 	//     let interval = setInterval(() => {
@@ -14,12 +12,6 @@
 	// })
 
 	let node = $state<HTMLElement>();
-	let width = 0;
-	$effect(() => {
-		if (node) {
-			width = node.getBoundingClientRect().width;
-		}
-	});
 
 	const persistedSize = persisted<{ height?: number; width?: number }>('views-resizable-box', {});
 	const onresize: ResizeHandleParams['onresize'] = ({ width, height }) => {

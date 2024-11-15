@@ -66,7 +66,7 @@ export const horizontalScroll: Action<HTMLElement, { duration?: number } | undef
 
 	node.addEventListener('wheel', handleWheel, { passive: false });
 
-	node.addEventListener('scroll', (e) => {
+	node.addEventListener('scroll', () => {
 		if (!isActionScroll) {
 			scroll.set(node.scrollLeft);
 		}

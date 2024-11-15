@@ -7,7 +7,7 @@
 
 // polyfill for set intersection
 import 'core-js/actual/set/intersection';
-import { escapeRegExp, upperCase, upperFirst } from 'lodash-es';
+import { escapeRegExp, upperFirst } from 'lodash-es';
 
 // Can't export pluralize functions directly
 // because pluralize is common js
@@ -28,7 +28,6 @@ export function isAlphaNumChar(str: string) {
 	return /^[a-z0-9]$/i.test(str);
 }
 
-const identity = (str: string) => str;
 export const words = capitalizeWords;
 
 // split on capital letters that are followed by non capital letters or

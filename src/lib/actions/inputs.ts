@@ -1,4 +1,4 @@
-import type { Action, ActionReturn } from 'svelte/action';
+import type { Action } from 'svelte/action';
 import baseAutosize from 'autosize';
 import { tick } from 'svelte';
 

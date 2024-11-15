@@ -22,7 +22,7 @@ export function parseXMLArray(xml: string): unknown[] | undefined {
 					return `"${t}"`;
 				})
 		);
-	} catch (e) {
+	} catch {
 		return undefined;
 	}
 }
@@ -87,7 +87,7 @@ export function buildXml({
 					break;
 				case '#text':
 					break;
-				default:
+				default: {
 					tag = key;
 					const children = props as ParsedXmlNodes;
 					childXml = buildXml({
@@ -98,6 +98,7 @@ export function buildXml({
 						endWithNewLine: false
 					});
 					break;
+				}
 			}
 		}
 		const preppedAttrs =
@@ -164,7 +165,7 @@ export function findPossibleMergePositions({
 		}
 
 		return wu(xml.entries())
-			.filter(([i, xmlNode]) => getElementFromParsedXml(xmlNode) === elementPath[0])
+			.filter(([, xmlNode]) => getElementFromParsedXml(xmlNode) === elementPath[0])
 			.map(([i, xmlNode]) =>
 				rec(
 					elementPath.slice(1),
