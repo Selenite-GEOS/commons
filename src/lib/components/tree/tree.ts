@@ -7,8 +7,7 @@ export function isForest<T>(
 
 type TreeCollector<T> = { leaves: T[]; forest: Map<string, TreeCollector<T>> };
 
-
-export function makeTree<K extends string | number, T extends {[k in K]?: string[]}>({
+export function makeTree<K extends string | number, T extends { [k in K]?: string[] }>({
 	items,
 	pathKey,
 	sort

@@ -13,8 +13,8 @@ export type DocumentParams = {
 export const documentListener: Action<Element, DocumentParams> = (node, params: DocumentParams) => {
 	function setup() {
 		Object.keys(params).forEach((key) => {
-            const p = params as Record<string, EventListener | boolean>;
-            if (typeof p[key] !== "function") return;
+			const p = params as Record<string, EventListener | boolean>;
+			if (typeof p[key] !== 'function') return;
 			document.addEventListener(key, p[key], params);
 		});
 	}
@@ -23,8 +23,8 @@ export const documentListener: Action<Element, DocumentParams> = (node, params: 
 	return {
 		destroy() {
 			Object.keys(params).forEach((key) => {
-                const p = params as Record<string, EventListener | boolean>;
-                if (typeof p[key] !== 'function') return;
+				const p = params as Record<string, EventListener | boolean>;
+				if (typeof p[key] !== 'function') return;
 				document.removeEventListener(key, p[key], params);
 			});
 		},

@@ -176,16 +176,16 @@ export function shortcut<E extends Element>(
 ): ActionReturn<ShortcutSettings<E>> {
 	let listener = makeShortcutListener(node, params);
 
-	document.addEventListener('keydown', listener, {capture: true});
+	document.addEventListener('keydown', listener, { capture: true });
 
 	return {
 		destroy() {
-			document.removeEventListener('keydown', listener, {capture: true});
+			document.removeEventListener('keydown', listener, { capture: true });
 		},
 		update(params) {
-			document.removeEventListener('keydown', listener, {capture: true});
+			document.removeEventListener('keydown', listener, { capture: true });
 			listener = makeShortcutListener(node, params);
-			document.addEventListener('keydown', listener, {capture: true});
+			document.addEventListener('keydown', listener, { capture: true });
 		}
 	};
 }

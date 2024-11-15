@@ -45,7 +45,9 @@ export const keyboardNavigation: Action<HTMLElement> = (node) => {
 
 type KeysHandler<E extends Element> = (e: KeyboardEvent & { target: E }) => void;
 type SupportedKeys = 'escape' | 'enter' | 'up' | 'left' | 'down' | 'right' | 'backspace';
-type KeysParams<E extends Element> = { [key in SupportedKeys]?: KeysHandler<E> } & {preventDefault?: boolean};
+type KeysParams<E extends Element> = { [key in SupportedKeys]?: KeysHandler<E> } & {
+	preventDefault?: boolean;
+};
 export function keys<E extends HTMLElement>(
 	node: E,
 	params: KeysParams<E>
@@ -54,15 +56,15 @@ export function keys<E extends HTMLElement>(
 		const e = e_ as KeyboardEvent & { target: E };
 
 		const keyToHandler: Record<string, KeysHandler<E> | undefined> = {
-			'ArrowUp': params.up,
-			'ArrowLeft': params.left,
-			'ArrowDown': params.down,
-			'ArrowRight': params.right,
-			'Enter': params.enter,
-			'Escape': params.escape,
-			'Backspace': params.backspace
-		}
-		
+			ArrowUp: params.up,
+			ArrowLeft: params.left,
+			ArrowDown: params.down,
+			ArrowRight: params.right,
+			Enter: params.enter,
+			Escape: params.escape,
+			Backspace: params.backspace
+		};
+
 		const handler = keyToHandler[e.key];
 
 		if (handler) {

@@ -42,9 +42,9 @@
 		tags.push(trimmedTag);
 	}
 	const loweredNewTag = $derived(newTag.toLowerCase());
-	const loweredKnownTags = $derived(knownTags.map(t => t.toLowerCase()))
+	const loweredKnownTags = $derived(knownTags.map((t) => t.toLowerCase()));
 	const filteredKnownTags = $derived(
-		knownTags.filter((t,i) => loweredKnownTags[i].includes(loweredNewTag) && !tagsSet.has(t))
+		knownTags.filter((t, i) => loweredKnownTags[i].includes(loweredNewTag) && !tagsSet.has(t))
 	);
 
 	const [knowTagsRef, knowTagsPopup] = createFloatingActions({});
@@ -103,7 +103,6 @@
 					return;
 				}
 				creatingTag = false;
-				
 			}}
 			use:keys={{
 				enter: (e) => {

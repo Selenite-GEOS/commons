@@ -27,11 +27,11 @@
 				{label}
 			</button>
 		{/snippet}
-		{@render Button("A", 20, 15)}
-		{@render Button("B", 50, 23)}
+		{@render Button('A', 20, 15)}
+		{@render Button('B', 50, 23)}
 	</div>
 	<button
-		use:shortcut={{key: 'b', action: () => boxSelectionEnabled = !boxSelectionEnabled}}
+		use:shortcut={{ key: 'b', action: () => (boxSelectionEnabled = !boxSelectionEnabled) }}
 		class="btn {boxSelectionEnabled ? 'btn-success' : 'btn-neutral'} absolute right-2 top-2"
 		onclick={() => (boxSelectionEnabled = !boxSelectionEnabled)}>Toggle Box Selection</button>
 </div>

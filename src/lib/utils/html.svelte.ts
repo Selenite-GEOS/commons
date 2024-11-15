@@ -310,7 +310,7 @@ export function isOverflowing(el: HTMLElement): { vertical: boolean; horizontal:
 	const curOverflow = el.style.overflow;
 
 	if (!curOverflow || curOverflow === 'visible') el.style.overflow = 'hidden';
-	
+
 	const res = {
 		vertical: el.scrollHeight > el.clientHeight,
 		horizontal: el.scrollWidth > el.clientWidth

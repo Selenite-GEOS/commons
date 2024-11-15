@@ -24,7 +24,7 @@ export const horizontalScroll: Action<HTMLElement, { duration?: number } | undef
 	{ duration = 150 } = {}
 ) => {
 	let isActionScroll = false;
-	let scroll = tweened(node.scrollLeft, {
+	const scroll = tweened(node.scrollLeft, {
 		duration,
 		interpolate: (a, b) => (t) => a + (b - a) * t
 	});
@@ -81,12 +81,14 @@ export const horizontalScroll: Action<HTMLElement, { duration?: number } | undef
 /**
  * Scrolls into view an element.
  */
-export const scrollIntoView: Action<HTMLElement, boolean | undefined> = (node, enabled: boolean | undefined) => {
-	
+export const scrollIntoView: Action<HTMLElement, boolean | undefined> = (
+	node,
+	enabled: boolean | undefined
+) => {
 	function update(enabled_ = true) {
 		const parent = node.parentElement;
 		if (!parent) return;
-	
+
 		if (!enabled_) return;
 
 		const parentRect = parent.getBoundingClientRect();
@@ -96,12 +98,11 @@ export const scrollIntoView: Action<HTMLElement, boolean | undefined> = (node, e
 			top: nodeRect.top - parentRect.top,
 			behavior: 'smooth'
 		});
-		
 	}
 
 	update(enabled);
 
 	return {
-		update,
-	}
+		update
+	};
 };

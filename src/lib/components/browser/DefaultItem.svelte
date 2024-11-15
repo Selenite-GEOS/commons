@@ -68,14 +68,13 @@
 	in:fade
 	out:fade={{ duration: 50 }}>
 	{#if itemDelete}
-	<Button 
-	 	class="absolute opacity-0 group-hover:opacity-100 top-2 right-2 btn-xs btn-circle btn-ghost"
-		onclick={(e) => {
-			itemDelete?.(o as T, e);
-		}}
-		>
-		<Fa icon={faTimes} />
-	</Button>
+		<Button
+			class="absolute opacity-0 group-hover:opacity-100 top-2 right-2 btn-xs btn-circle btn-ghost"
+			onclick={(e) => {
+				itemDelete?.(o as T, e);
+			}}>
+			<Fa icon={faTimes} />
+		</Button>
 	{/if}
 	<div class="text-nowrap truncate h-24 w-32 flex flex-col">
 		<span class="text-nowrap font-semibold mx-auto"

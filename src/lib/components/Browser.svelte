@@ -77,7 +77,7 @@
 	const filteredItems = $derived(filterItems({ items, filters }));
 	const queriedItems = $derived(getQueriedItems({ items: filteredItems, query, queriedKeys }));
 	const pathsData = $derived.by(() => {
-		console.debug("Computing paths data")
+		console.debug('Computing paths data');
 		const res = new Map<Path, { items: T[]; folders: Set<string> }>();
 		for (const item of queriedItems) {
 			const path = (item[pathKey] as string[]) ?? [];
@@ -85,7 +85,7 @@
 			if (!res.has(strPath)) res.set(strPath, { items: [], folders: new Set() });
 			res.get(strPath)!.items.push(item);
 
-			for (const i of range(-1, path.length)) {	
+			for (const i of range(-1, path.length)) {
 				const parentPath = path.slice(0, i);
 				const strParentPath = parentPath.join('/');
 				if (!res.has(strParentPath)) res.set(strParentPath, { items: [], folders: new Set() });
@@ -168,7 +168,7 @@
 			prompt: 'Folder',
 			response(r) {
 				if (!r || typeof r !== 'string') return;
-				const newPath = [...item.path ?? [], r];
+				const newPath = [...(item.path ?? []), r];
 				item.path = newPath;
 				itemAfterUpdate?.(item as T);
 			}
@@ -197,22 +197,22 @@
 				class="breadcrumbs text-sm rounded-box bg-base-200 px-2 border border-base-content border-opacity-15 mb-4 w-full">
 				<ul>
 					{#snippet link(label: string, i: number)}
-					{@const classes = ['outline', 'outline-1', 'outline-accent', 'rounded-box']}
+						{@const classes = ['outline', 'outline-1', 'outline-accent', 'rounded-box']}
 						<li>
 							<button
 								ondragover={(e) => {
-									e.preventDefault()
-									if (!(e.target instanceof HTMLElement)) return
-									e.target.classList.add(...classes)
+									e.preventDefault();
+									if (!(e.target instanceof HTMLElement)) return;
+									e.target.classList.add(...classes);
 								}}
 								ondragleave={(e) => {
 									if (e.target instanceof HTMLElement) {
-										e.target.classList.remove(...classes)
+										e.target.classList.remove(...classes);
 									}
 								}}
 								ondrop={(e) => {
 									if (e.target instanceof HTMLElement) {
-										e.target.classList.remove(...classes)
+										e.target.classList.remove(...classes);
 									}
 									const item = getDraggedItem(e);
 									if (!item) return;
@@ -250,35 +250,38 @@
 		ondragleave={() => (newFolder = false)}>
 		{#if currentStr}
 			<FolderComponent
-			ondrop={(e) => {
-				const item = getDraggedItem(e);
-				if (!item) return;
-				(item[pathKey] as string[]) = current.slice(0, -1);
-				itemAfterUpdate?.(item);
-			}}
-			 folder={'..'} {solid} onclick={goBack} />
-		{/if}
-		{#each folders as folder (folder)}
-			<li animate:flip={{ duration: flipDuration }} class="w-fit">
-				<FolderComponent 
 				ondrop={(e) => {
 					const item = getDraggedItem(e);
 					if (!item) return;
-					(item[pathKey] as string[]) = [...current, folder];
+					(item[pathKey] as string[]) = current.slice(0, -1);
 					itemAfterUpdate?.(item);
 				}}
-				{query} {folder} {solid} onclick={() => current.push(folder)}
-
-				 />
+				folder={'..'}
+				{solid}
+				onclick={goBack} />
+		{/if}
+		{#each folders as folder (folder)}
+			<li animate:flip={{ duration: flipDuration }} class="w-fit">
+				<FolderComponent
+					ondrop={(e) => {
+						const item = getDraggedItem(e);
+						if (!item) return;
+						(item[pathKey] as string[]) = [...current, folder];
+						itemAfterUpdate?.(item);
+					}}
+					{query}
+					{folder}
+					{solid}
+					onclick={() => current.push(folder)} />
 			</li>
 		{/each}
-		
+
 		{#if newFolder}
 			<div transition:fade={{ duration }} class="pointer-events-none opacity-50">
 				<FolderComponent folder={'New Folder'} />
 			</div>
 		{:else if folders.length === 0 && current.length === 0}
-		<span class="text-sm italic p-2 pointer-events-none absolute">No folders yet.</span>
+			<span class="text-sm italic p-2 pointer-events-none absolute">No folders yet.</span>
 		{/if}
 	</ul>
 	<div class="relative" style="min-width: 100%; {widthStyle}">
@@ -296,7 +299,15 @@
 				{#each pathsData.get(currentStr)?.items ?? [] as item (item)}
 					<li animate:flip={{ duration: flipDuration }}>
 						{#if !Item}
-							<DefaultItem {item} {filters} {query} {itemToId} {...itemProps} {itemDragStart} {itemDblClick} {itemDelete} />
+							<DefaultItem
+								{item}
+								{filters}
+								{query}
+								{itemToId}
+								{...itemProps}
+								{itemDragStart}
+								{itemDblClick}
+								{itemDelete} />
 						{:else}
 							{@render Item(item)}
 						{/if}

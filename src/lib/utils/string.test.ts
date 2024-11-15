@@ -182,6 +182,6 @@ describe('string utils', () => {
 				{ part: 'hello\\n ', match: false },
 				{ part: 'world\\', match: true }
 			]);
-		})
+		});
 	});
 });

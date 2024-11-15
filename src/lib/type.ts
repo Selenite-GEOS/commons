@@ -16,9 +16,14 @@ export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
  */
 export type SaveData<T extends { toJSON: () => unknown }> = ReturnType<T['toJSON']>;
 
+export type ArrayKeys<T> = {
+	[K in keyof T]: T[K] extends unknown[] | undefined ? K : never;
+}[keyof T];
 
-export type ArrayKeys<T> = { [K in keyof T]: T[K] extends unknown[] | undefined ? K : never }[keyof T];
+export type StringKeys<T> = {
+	[K in keyof T]: T[K] extends string | undefined ? K : never;
+}[keyof T];
 
-export type StringKeys<T> = { [K in keyof T]: T[K] extends string | undefined ? K : never }[keyof T];
-
-export type StringArrayKeys<T> = { [K in keyof T]: T[K] extends string[] | undefined ? K : never }[keyof T];
+export type StringArrayKeys<T> = {
+	[K in keyof T]: T[K] extends string[] | undefined ? K : never;
+}[keyof T];

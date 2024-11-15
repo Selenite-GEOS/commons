@@ -106,7 +106,7 @@ export class Queue<T> {
 	}
 
 	private swapStacks() {
-		let mem = this.#outStack;
+		const mem = this.#outStack;
 		this.#outStack = this.#inStack;
 		this.#inStack = mem;
 		this.#outStack.reverse();

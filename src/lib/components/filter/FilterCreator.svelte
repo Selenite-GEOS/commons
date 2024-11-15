@@ -7,7 +7,7 @@
 
 	interface Props extends HTMLFormAttributes {
 		filterDefs?: FilterDefinition<T>[];
-        filters?: Filter<T>[];
+		filters?: Filter<T>[];
 		filter?: Filter<T>;
 		autofocus?: boolean;
 	}
@@ -19,24 +19,24 @@
 			key: 'tags' as keyof T,
 			value: ''
 		}),
-        filters = $bindable([]),
+		filters = $bindable([]),
 		autofocus: bAutofocus = true,
-        ...props
+		...props
 	}: Props = $props();
 
-	const filterTypes = $derived(uniq(filterDefs.map(f => f.key)));
+	const filterTypes = $derived(uniq(filterDefs.map((f) => f.key)));
 
 	let input: HTMLInputElement;
 </script>
 
 <form
-    {...props}
+	{...props}
 	class="join border border-base-content border-opacity-15 {props.class}"
 	onsubmit={(e) => {
 		preventDefault(e);
-        props.onsubmit?.(e);
-		filters.push($state.snapshot(filter) as Filter<T>)
-		filter = $state.snapshot(filter) as Filter<T>
+		props.onsubmit?.(e);
+		filters.push($state.snapshot(filter) as Filter<T>);
+		filter = $state.snapshot(filter) as Filter<T>;
 		requestAnimationFrame(() => {
 			input.focus();
 			input.select();

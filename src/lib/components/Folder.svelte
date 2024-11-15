@@ -16,7 +16,7 @@
 		> {
 		folder?: string;
 		solid?: boolean;
-        query?: string;
+		query?: string;
 	}
 
 	let { query = '', folder = '', solid = false, ...props }: Props = $props();
@@ -43,11 +43,11 @@
 	{...props}
 	ondragover={(e) => {
 		hovered = true;
-		e.preventDefault()
+		e.preventDefault();
 	}}
 	ondragleave={(e) => {
 		hovered = false;
-		e.preventDefault()
+		e.preventDefault();
 	}}
 	onfocusin={() => (focused = true)}
 	onfocusout={() => (focused = false)}
@@ -66,7 +66,7 @@
 			{/if}
 		</div>
 		<h1 class="text-sm truncate max-w-16" title={folder}>
-			<MatchHighlighter content={folder} ref={query}/>
+			<MatchHighlighter content={folder} ref={query} />
 		</h1>
 	</article>
 </button>

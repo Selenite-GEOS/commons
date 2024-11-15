@@ -86,8 +86,7 @@
 				on:click={() => {
 					if (onclick) onclick();
 					item.action();
-				}}>{item.label}</button
-			>
+				}}>{item.label}</button>
 		{/snippet}
 	</TreeComponent>
 </div>

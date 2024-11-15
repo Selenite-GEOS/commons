@@ -41,7 +41,7 @@ describe('Rect', () => {
 			const b = new Rect(348, 312, 160, 160);
 			const res = Rect.intersection(a, b);
 			expect(res).toEqual(new Rect(348, 312, 160, 160));
-		})
+		});
 		it('should return the intersection of three rects', () => {
 			const rect1 = new Rect(0, 0, 10, 10);
 			const rect2 = new Rect(5, 5, 10, 10);

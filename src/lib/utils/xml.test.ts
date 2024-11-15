@@ -15,24 +15,36 @@ import {
 describe('parseXMLArray', () => {
 	it('parses number XML array', () => {
 		expect(parseXMLArray('{1,2,3}')).toEqual([1, 2, 3]);
-	})
+	});
 	it('parses float XML array', () => {
 		expect(parseXMLArray('{1.1,2.2,3.3}')).toEqual([1.1, 2.2, 3.3]);
 	});
 	it('parses string XML array', () => {
 		expect(parseXMLArray('{a,b,c}')).toEqual(['a', 'b', 'c']);
-	})
+	});
 	it('parses scientific notation number XML array', () => {
-		expect(parseXMLArray('{1e-3,2e-3,3e-3}')).toEqual(["1e-3", "2e-3", "3e-3"]);
+		expect(parseXMLArray('{1e-3,2e-3,3e-3}')).toEqual(['1e-3', '2e-3', '3e-3']);
 	});
 	it('parses mixed standard notation and scientific notation number XML array', () => {
-		expect(parseXMLArray('{1,2e-3,3}')).toEqual([1, "2e-3", 3]);
+		expect(parseXMLArray('{1,2e-3,3}')).toEqual([1, '2e-3', 3]);
 	});
 	it('parses 2d number XML array', () => {
-		expect(parseXMLArray('{{1,2},{3,4}}')).toEqual([[1, 2], [3, 4]]);
+		expect(parseXMLArray('{{1,2},{3,4}}')).toEqual([
+			[1, 2],
+			[3, 4]
+		]);
 	});
 	it('parses 3d number XML array', () => {
-		expect(parseXMLArray('{{{1,2},{3,4}},{{5,6},{7,8}}}')).toEqual([[[1, 2], [3, 4]], [[5, 6], [7, 8]]]);
+		expect(parseXMLArray('{{{1,2},{3,4}},{{5,6},{7,8}}}')).toEqual([
+			[
+				[1, 2],
+				[3, 4]
+			],
+			[
+				[5, 6],
+				[7, 8]
+			]
+		]);
 	});
 	it('returns undefined if not a valid XML array', () => {
 		expect(parseXMLArray('1,2,3')).toBeUndefined();
@@ -49,28 +61,44 @@ describe('parseXMLArray', () => {
 	it('parsed mixed int and float XML array', () => {
 		expect(parseXMLArray('{0,0,-9.81}')).toEqual([0, 0, -9.81]);
 	});
-})
+});
 describe('formatXMLArray', () => {
 	it('formats number XML array', () => {
 		expect(formatXMLArray([1, 2, 3])).toEqual('{1,2,3}');
-	})
+	});
 	it('formats float XML array', () => {
 		expect(formatXMLArray([1.1, 2.2, 3.3])).toEqual('{1.1,2.2,3.3}');
 	});
 	it('formats string XML array', () => {
 		expect(formatXMLArray(['a', 'b', 'c'])).toEqual('{a,b,c}');
-	})
+	});
 	it('formats scientific notation number XML array', () => {
-		expect(formatXMLArray(["1e-3", "2e-3", "3e-3"])).toEqual('{1e-3,2e-3,3e-3}');
+		expect(formatXMLArray(['1e-3', '2e-3', '3e-3'])).toEqual('{1e-3,2e-3,3e-3}');
 	});
 	it('formats mixed standard notation and scientific notation number XML array', () => {
-		expect(formatXMLArray([1, "2e-3", 3])).toEqual('{1,2e-3,3}');
+		expect(formatXMLArray([1, '2e-3', 3])).toEqual('{1,2e-3,3}');
 	});
 	it('formats 2d number XML array', () => {
-		expect(formatXMLArray([[1, 2], [3, 4]])).toEqual('{{1,2},{3,4}}');
+		expect(
+			formatXMLArray([
+				[1, 2],
+				[3, 4]
+			])
+		).toEqual('{{1,2},{3,4}}');
 	});
 	it('formats 3d number XML array', () => {
-		expect(formatXMLArray([[[1, 2], [3, 4]], [[5, 6], [7, 8]]])).toEqual('{{{1,2},{3,4}},{{5,6},{7,8}}}');
+		expect(
+			formatXMLArray([
+				[
+					[1, 2],
+					[3, 4]
+				],
+				[
+					[5, 6],
+					[7, 8]
+				]
+			])
+		).toEqual('{{{1,2},{3,4}},{{5,6},{7,8}}}');
 	});
 });
 describe('parseXml', () => {

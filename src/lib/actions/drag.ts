@@ -79,7 +79,7 @@ export const draggableItem: Action<HTMLElement, DragItemOptions> = (node, params
 			drag: true
 		},
 		// Apply transform to clone
-		transform({ offsetX, offsetY, rootNode }) {
+		transform({ offsetX, offsetY }) {
 			if (!clone) return;
 			clone.style.left = `${base.x + offsetX - baseOffset.x}px`;
 			clone.style.top = `${base.y + offsetY - baseOffset.y}px`;

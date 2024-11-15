@@ -27,9 +27,8 @@ export const autosize: Action<HTMLTextAreaElement, unknown | undefined> = (
 		enabled = enabled_;
 	}
 	tick().then(() => {
-
 		updateBaseAutosize();
-	})
+	});
 
 	return {
 		destroy() {
@@ -37,7 +36,7 @@ export const autosize: Action<HTMLTextAreaElement, unknown | undefined> = (
 		},
 		update(params_) {
 			params = params_;
-			console.log("update autosize");
+			console.log('update autosize');
 			updateBaseAutosize();
 		}
 	};

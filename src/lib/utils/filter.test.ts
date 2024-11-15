@@ -68,44 +68,54 @@ describe('filter', () => {
 
 function queriableItems(): { label?: string; path?: string[]; tags?: string[] }[] {
 	return [
-		{label: 'A', path: ['1']},
-		{label: 'a', path:['1']},
-		{label: 'B'},
-		{label: '__a__b__'},
-		{label: '__A_b__'},
-		{label: 'Z', path: ['a']}
+		{ label: 'A', path: ['1'] },
+		{ label: 'a', path: ['1'] },
+		{ label: 'B' },
+		{ label: '__a__b__' },
+		{ label: '__A_b__' },
+		{ label: 'Z', path: ['a'] }
 	];
 }
 
 describe('queriedItems', () => {
 	it('should query all items when query is empty', () => {
 		const items = queriableItems();
-		expect(getQueriedItems({items, query: ''})).toEqual(items)
-		expect(getQueriedItems({items})).toEqual(items)
+		expect(getQueriedItems({ items, query: '' })).toEqual(items);
+		expect(getQueriedItems({ items })).toEqual(items);
 	});
 	it('should query no items when query is present but no queried keys', () => {
 		const items = queriableItems();
-		expect(getQueriedItems({items, query: 'query'})).toEqual([])
-		expect(getQueriedItems({items, query: 'a'})).toEqual([])
-	})
+		expect(getQueriedItems({ items, query: 'query' })).toEqual([]);
+		expect(getQueriedItems({ items, query: 'a' })).toEqual([]);
+	});
 	it('should query the right items when query is present and one queried key in a case insentive fashion', () => {
-		const items = queriableItems()
-		expect(getQueriedItems({items, query: 'a', queriedKeys: ['label']})).toEqual([items[0], items[1], items[3], items[4]])
-	})
+		const items = queriableItems();
+		expect(getQueriedItems({ items, query: 'a', queriedKeys: ['label'] })).toEqual([
+			items[0],
+			items[1],
+			items[3],
+			items[4]
+		]);
+	});
 	it('should query the right items when query is present and one queried key in a case insentive fashion', () => {
 		const items = queriableItems();
 		expect(getQueriedItems({ items, query: 'b', queriedKeys: ['label'] })).toEqual([
-			items[2], items[3], items[4]
+			items[2],
+			items[3],
+			items[4]
 		]);
 	});
 	it('should query no items when query is present but the queried key is empty string array', () => {
-		expect(getQueriedItems({items: queriableItems(), query: ' ', queriedKeys: ['path']})).toEqual([])
-	})
+		expect(getQueriedItems({ items: queriableItems(), query: ' ', queriedKeys: ['path'] })).toEqual(
+			[]
+		);
+	});
 	it('should query no items when query is present but the queried key is empty string array', () => {
-		expect(getQueriedItems({ items: queriableItems(), query: '1', queriedKeys: ['path'] })).toEqual([
-			{ label: 'A', path: ['1'] },
-			{ label: 'a', path: ['1'] }
-		]);
+		expect(getQueriedItems({ items: queriableItems(), query: '1', queriedKeys: ['path'] })).toEqual(
+			[
+				{ label: 'A', path: ['1'] },
+				{ label: 'a', path: ['1'] }
+			]
+		);
 	});
 });
-

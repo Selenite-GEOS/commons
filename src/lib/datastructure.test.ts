@@ -17,7 +17,7 @@ describe('datastructures', () => {
 		});
 		test('should be FIFO', () => {
 			const queue = new Queue([1, 2, 3]);
-			let res: number[] = [];
+			const res: number[] = [];
 			let c = 0;
 			while (queue.size > 0) {
 				c++;

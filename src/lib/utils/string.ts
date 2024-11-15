@@ -215,10 +215,14 @@ export function getVarsFromFormatString(formatString: string): string[] {
 	return Array.from(formatString.matchAll(/{(\w+).*?}/g)).map((match) => match[1]);
 }
 
-export function matchingParts(s: string, ref: string, options: {caseInsensitive?: boolean} = {}): { part: string; match: boolean }[] {
-	let flags = "s"
+export function matchingParts(
+	s: string,
+	ref: string,
+	options: { caseInsensitive?: boolean } = {}
+): { part: string; match: boolean }[] {
+	let flags = 's';
 	if (options.caseInsensitive) {
-		flags += "i"
+		flags += 'i';
 	}
 	const re = new RegExp(`(.*?)(${escapeRegExp(ref)})`, flags);
 

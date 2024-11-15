@@ -150,8 +150,8 @@
 					bind:this={creationInput}
 					class="input input-bordered"
 					oninput={(e) => {
-						focusedOption = ''
-						}}
+						focusedOption = '';
+					}}
 					placeholder={(focusedOptionIndex === -1
 						? undefined
 						: optionsForCreatedPart[focusedOptionIndex]) ?? 'New folder'}
@@ -180,7 +180,7 @@
 					onkeydown={(e) => {
 						if (e.key !== '/') return;
 						e.preventDefault();
-						addCreatedPart(true)
+						addCreatedPart(true);
 					}}
 					use:keys={{
 						preventDefault: true,

@@ -1,10 +1,10 @@
 <script lang="ts" generics="T">
 	import Fa from 'svelte-fa';
 	import { isForest, type Tree } from './tree';
-	import type {TreeComponent} from '.'
+	import type { TreeComponent } from '.';
 	import type { Snippet } from 'svelte';
 	import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
-	
+
 	type Props = {
 		tree: Tree<T>;
 		leaf: Snippet<[T]>;
@@ -55,8 +55,7 @@
 <div
 	bind:this={element}
 	class="grid items-start grid-cols-[1rem,1fr] gap-1 {classes}"
-	class:hidden={!expanded}
->
+	class:hidden={!expanded}>
 	{#each tree as elmnt, i (i)}
 		{#if isForest(elmnt)}
 			<div class="grid items-start grid-cols-subgrid grid-rows-subgrid col-span-2">
@@ -64,14 +63,12 @@
 				<button
 					type="button"
 					class="ps-2 text-start gap-4 grid items-start grid-cols-subgrid grid-rows-subgrid items-center col-span-2 truncate"
-					on:click={() => toggleExpanded(i)}
-				>
+					on:click={() => toggleExpanded(i)}>
 					<Fa
 						icon={faCaretRight}
 						size="sm"
 						class="transition-all"
-						style="transform: rotate({childExpanded[i] ? 90 : 0}deg);"
-					/>
+						style="transform: rotate({childExpanded[i] ? 90 : 0}deg);" />
 					{elmnt.label}
 				</button>
 			</div>
@@ -82,8 +79,7 @@
 					tree={elmnt.forest}
 					bind:expanded={childExpanded[i]}
 					{leaf}
-					isRoot={false}
-				/>
+					isRoot={false} />
 			{/if}
 		{:else}
 			<div class="col-span-2">

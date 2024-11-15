@@ -9,9 +9,9 @@
 {#if children}
 	{#if Object.keys(props).length === 0}
 		{@render children()}
-    {:else}
-        <div {...props}>
-            {@render children()}
-        </div>
+	{:else}
+		<div {...props}>
+			{@render children()}
+		</div>
 	{/if}
 {/if}

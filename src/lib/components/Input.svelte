@@ -4,7 +4,7 @@
 	interface Props extends HTMLInputAttributes {
 		bordered?: boolean;
 		label?: string;
-    labelProps?: HTMLLabelAttributes
+		labelProps?: HTMLLabelAttributes;
 	}
 
 	let {
@@ -12,7 +12,7 @@
 		label = '',
 		checked = $bindable(),
 		bordered = true,
-    labelProps = {},
+		labelProps = {},
 		...props
 	}: Props = $props();
 </script>
@@ -20,14 +20,19 @@
 {#snippet input(defaultProps: HTMLInputAttributes = {})}
 	{#if props.type === 'checkbox'}
 		<input
-      {...defaultProps}
+			{...defaultProps}
 			{...props}
 			type="checkbox"
 			class="input {props.class}"
 			class:input-bordered={bordered}
 			bind:checked />
 	{:else}
-		<input {...defaultProps} {...props} class="input {props.class}" class:input-bordered={bordered} bind:value />
+		<input
+			{...defaultProps}
+			{...props}
+			class="input {props.class}"
+			class:input-bordered={bordered}
+			bind:value />
 	{/if}
 {/snippet}
 
@@ -36,6 +41,6 @@
 {:else}
 	<label {...labelProps}>
 		{label}
-		{@render input({placeholder: label})}
+		{@render input({ placeholder: label })}
 	</label>
 {/if}

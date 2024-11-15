@@ -69,11 +69,8 @@
 
 {#if menu.visible}
 	<Portal target={menu.target}>
-		<div
-			class="floating"
-			bind:this={floating.elements.reference}
-			style="left: {x}px; top: {y}px"
-		></div>
+		<div class="floating" bind:this={floating.elements.reference} style="left: {x}px; top: {y}px">
+		</div>
 		<!-- svelte-ignore event_directive_deprecated -->
 		<div
 			on:contextmenu={preventDefault}
@@ -139,16 +136,14 @@
 			on:blur={() => {
 				menu.focused = false;
 			}}
-			class="floating z-20 grid items-start grid-rows-[0fr,1fr] context-menu flex-col overflow-x-clip scrollbar-corner-rounded-full scrollbar-thin scrollbar-track-rounded-full scrollbar-thumb-rounded-full scrollbar-thumb-slate-300 scrollbar-track-slate-900 overflow-y-auto rounded-box border shadow-lg border-base-300"
-		>
+			class="floating z-20 grid items-start grid-rows-[0fr,1fr] context-menu flex-col overflow-x-clip scrollbar-corner-rounded-full scrollbar-thin scrollbar-track-rounded-full scrollbar-thumb-rounded-full scrollbar-thumb-slate-300 scrollbar-track-slate-900 overflow-y-auto rounded-box border shadow-lg border-base-300">
 			{#if menu.searchbar}
 				<input
 					bind:this={searchInput}
 					type="text"
 					class="p-3 rounded-t-box row-start-1"
 					placeholder="Search..."
-					bind:value={menu.query}
-				/>
+					bind:value={menu.query} />
 			{/if}
 			<Menu
 				bind:this={menuCmpnt}
@@ -157,8 +152,7 @@
 				sort={menu.sort && menu.query.trim() === ''}
 				onclick={() => {
 					menu.visible = false;
-				}}
-			/>
+				}} />
 		</div>
 	</Portal>
 {/if}

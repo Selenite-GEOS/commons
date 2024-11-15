@@ -15,7 +15,7 @@ const enteredNodes = new Set<HTMLElement>();
 let active: HTMLElement | undefined;
 function globalOnpointermove(e: PointerEvent) {
 	const pos = posFromClient(e);
-	
+
 	for (const [node, { onpointerenter, onpointerleave, threshold: m }] of resizeHandleMap) {
 		const rect = node.getBoundingClientRect();
 		if (
@@ -71,7 +71,7 @@ export function resizable<N extends HTMLElement = HTMLElement>(
 	params: ResizeHandleParams<N> = {}
 ): ActionReturn<ResizeHandleParams<N>> {
 	function onpointerenter(e: PointerEvent) {
-		document.addEventListener('pointermove', onpointermove, {passive: true});
+		document.addEventListener('pointermove', onpointermove, { passive: true });
 		removePointermoveCleanup?.();
 	}
 	let removePointermoveCleanup: (() => void) | undefined;
@@ -131,7 +131,7 @@ export function resizable<N extends HTMLElement = HTMLElement>(
 			lastPos = pos;
 			document.body.style.userSelect = 'none';
 			document.body.style.pointerEvents = 'none';
-			
+
 			let width = rect.width;
 			let height = rect.height;
 			if (currentSide.includes('e')) {
@@ -159,7 +159,7 @@ export function resizable<N extends HTMLElement = HTMLElement>(
 				params.sides?.left === undefined &&
 				params.sides?.bottom === undefined &&
 				params.sides?.right === undefined);
-		
+
 		const top = params.sides?.top ?? all;
 		const left = params.sides?.left ?? all;
 		const bottom = params.sides?.bottom ?? all;
@@ -176,8 +176,8 @@ export function resizable<N extends HTMLElement = HTMLElement>(
 		const m = threshold;
 
 		const previousSide = currentSide;
-				
-		let verticalLetter: 's' | 'n' | '' =  '';
+
+		let verticalLetter: 's' | 'n' | '' = '';
 		let horizontalLetter: 'e' | 'w' | '' = '';
 		if (left && dx < m) {
 			horizontalLetter = 'w';
@@ -190,14 +190,14 @@ export function resizable<N extends HTMLElement = HTMLElement>(
 			verticalLetter = 's';
 		}
 		const candidate = verticalLetter + horizontalLetter;
-		currentSide = candidate.length > 0 ? candidate as ResizeSide : null;
+		currentSide = candidate.length > 0 ? (candidate as ResizeSide) : null;
 		if (currentSide !== previousSide) {
 			document.documentElement.style.cursor = currentSide !== null ? `${currentSide}-resize` : '';
 		}
 	}
 
 	if (resizeHandleMap.size === 0) {
-		document.addEventListener('pointermove', globalOnpointermove, {passive: true});
+		document.addEventListener('pointermove', globalOnpointermove, { passive: true });
 	}
 	resizeHandleMap.set(node, {
 		onpointerenter,

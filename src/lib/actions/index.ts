@@ -16,12 +16,12 @@ export * from './click';
 export * as Keyboard from './keyboard';
 export * from './keyboard';
 export * from './resizable';
-export * from './box-selection'
+export * from './box-selection';
 export * from '@neodrag/svelte';
 export * from './document';
 export * from './focus';
 let handleFocusLeaveRefCount = 0;
-let handleFocusLeaveCallbacks: ((isKeyboard: boolean) => void)[] = [];
+const handleFocusLeaveCallbacks: ((isKeyboard: boolean) => void)[] = [];
 function handleKeydown(e: KeyboardEvent) {
 	if (e.key === 'Escape') {
 		if (handleFocusLeaveCallbacks.length === 0) return;
@@ -45,7 +45,7 @@ export const handleFocusLeave: Action<HTMLElement, (isKeyboard: boolean) => void
 		requestAnimationFrame(() => {
 			if (!node.contains(document.activeElement)) {
 				const closestPopup = document.activeElement?.closest('.popup');
-				let isDescendantOfPopup = closestPopup !== null && closestPopup !== undefined;
+				const isDescendantOfPopup = closestPopup !== null && closestPopup !== undefined;
 				if (isDescendantOfPopup) return;
 				callback(false);
 				handleFocusLeaveCallbacks.pop();

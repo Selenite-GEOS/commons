@@ -33,7 +33,7 @@ export function filterItems<T>({
 	const res: T[] = [];
 
 	const activeFilters = getActiveFilters(filters);
-    if (activeFilters.size === 0) return Array.from(items);
+	if (activeFilters.size === 0) return Array.from(items);
 	for (const item of items) {
 		for (const [key, set] of activeFilters) {
 			const v = item[key];
@@ -54,29 +54,32 @@ export function filterItems<T>({
 	return res;
 }
 
-
 export function getQueriedItems<T>({
 	items = [],
 	query,
 	queriedKeys = []
-}: {items?: Iterable<T>, query?: string, queriedKeys?: Iterable<StringKeys<T> | StringArrayKeys<T>>}): T[] {
-	if (!query) return Array.from(items)
+}: {
+	items?: Iterable<T>;
+	query?: string;
+	queriedKeys?: Iterable<StringKeys<T> | StringArrayKeys<T>>;
+}): T[] {
+	if (!query) return Array.from(items);
 	if (isEmpty(queriedKeys)) return [];
 
 	query = query.toLowerCase();
 
-	const res: T[] = []
+	const res: T[] = [];
 
 	for (const item of items) {
 		for (const key of queriedKeys) {
-			let v = item[key];
+			const v = item[key];
 			if (!v) continue;
 			if (!Array.isArray(v)) {
 				if (typeof v !== 'string' || !(v as string).toLowerCase().includes(query)) {
 					continue;
 				}
 			} else {
-				if (!v.some(s => (s as string).toLowerCase().includes(query))) {
+				if (!v.some((s) => (s as string).toLowerCase().includes(query))) {
 					continue;
 				}
 			}
@@ -86,5 +89,4 @@ export function getQueriedItems<T>({
 	}
 
 	return res;
-
 }

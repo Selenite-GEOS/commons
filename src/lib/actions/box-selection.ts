@@ -15,7 +15,7 @@ export interface BoxSelectionParams {
 
 	/** Treshold for elements to be considered inside the box selection. Defaults to 0.9. */
 	threshold?: number;
-};
+}
 
 /**
  * Action to enable box selection on an element.
@@ -27,11 +27,11 @@ export const boxSelection: Action<HTMLElement, BoxSelectionParams | undefined> =
 	node,
 	params: BoxSelectionParams = {}
 ) => {
-	function pOver(e: PointerEvent) {
+	function pOver() {
 		node.style.cursor = 'crosshair';
 	}
 
-	function pLeave(e: PointerEvent) {
+	function pLeave() {
 		node.style.cursor = '';
 	}
 
@@ -53,7 +53,7 @@ export const boxSelection: Action<HTMLElement, BoxSelectionParams | undefined> =
 		}
 		createBox(posFromClient(e));
 
-		document.addEventListener('pointermove', pMove, {passive: true});
+		document.addEventListener('pointermove', pMove, { passive: true });
 		document.addEventListener('pointerup', pUp, { once: true, capture: true });
 	}
 	function pUp(e: PointerEvent) {

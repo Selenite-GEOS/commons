@@ -1,7 +1,7 @@
 // import type { ShowContextMenu } from '$graph-editor/plugins/context-menu';
 
-import type { Position } from "$lib/utils";
-import type { MenuItem } from "./types";
+import type { Position } from '$lib/utils';
+import type { MenuItem } from './types';
 
 /**
  * This class is a singleton that represents the state of the context menu.
