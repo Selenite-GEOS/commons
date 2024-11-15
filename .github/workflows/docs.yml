@@ -2,7 +2,7 @@ name: Deploy docs
 
 on:
   push:
-    paths: ['src/**', 'test/**', 'tsconfig.json', '.github/workflows/docs.yml', 'pnpm-lock.yaml', 'vite.config.ts']
+    paths: ['src/**', 'test/**', 'tsconfig.json', '.github/workflows/docs.yml', 'pnpm-lock.yaml', 'vite.config.ts', 'package.json']
     branches:
       - main
   release:
