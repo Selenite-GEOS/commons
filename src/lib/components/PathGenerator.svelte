@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { createFloatingActions } from 'svelte-floating-ui';
-	import { flip, offset } from 'svelte-floating-ui/core';
+	import { flip, offset } from 'svelte-floating-ui/dom';
 	import type { HTMLAttributes, HTMLButtonAttributes } from 'svelte/elements';
 	import { autofocus, horizontalScroll, keyboardNavigation, keys, sleep } from '$lib';
 	import { tick } from 'svelte';

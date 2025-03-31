@@ -1,6 +1,6 @@
 {
 	"name": "@selenite/commons",
-	"version": "0.30.11",
+	"version": "0.30.12",
 	"repository": "github:ShaitanLyss/selenite-commons",
 	"license": "MIT",
 	"packageManager": "pnpm@9.13.2",

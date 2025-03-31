@@ -1,6 +1,6 @@
 <script lang="ts" generics="T">
 	import { createFloatingActions } from 'svelte-floating-ui';
-	import { offset, shift } from 'svelte-floating-ui/core';
+	import { offset, shift } from 'svelte-floating-ui/dom';
 	import FilterCreator from './FilterCreator.svelte';
 	import type { Filter, FilterDefinition } from '$lib/utils/filter';
 	import FilterDisplay from './FilterDisplay.svelte';
