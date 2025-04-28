@@ -28,6 +28,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4.0.0
       - run: pnpm install --frozen-lockfile
+      - run: pnpm svelte-kit sync
       - run: pnpm docgen
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
