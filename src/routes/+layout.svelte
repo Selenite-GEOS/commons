@@ -23,7 +23,7 @@
 	contextMenu.visible = false;
 }} oncontextmenu={(e) => {
 	preventDefault(e);
-	showContextMenu({items: [{label: "A"}, {label: "B"}], pos: posFromClient(e), autoHide: false, searchbar: true});
+	showContextMenu({items: [{label: "A"}, {label: "Ba", path: ["B"]}, {label: "b-b", path: ["B"]}], pos: posFromClient(e), autoHide: false, searchbar: true});
 }}>
 	{#if title}
 		<a class="m-auto mb-2" href="/"><btn class="btn w-fit btn-sm">Main Page</btn></a>
