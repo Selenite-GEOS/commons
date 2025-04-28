@@ -1,7 +1,7 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vitest/config';
 import wasmPack from 'vite-plugin-wasm-pack';
-import tailwind from '@tailwindcss/vite'
+import tailwind from '@tailwindcss/vite';
 export default defineConfig({
 	plugins: [tailwind(), sveltekit(), wasmPack([], '@selenite/commons-rs')],
 	test: {

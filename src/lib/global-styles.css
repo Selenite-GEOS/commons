@@ -1,3 +1,4 @@
-button, select {
-    cursor: pointer;
+button,
+select {
+	cursor: pointer;
 }

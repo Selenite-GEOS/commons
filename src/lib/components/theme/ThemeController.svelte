@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { upperFirst } from 'lodash-es';
 	import { persisted, scrollIntoView } from '$lib';
-	import {themes as defaultThemes} from './theme';
+	import { themes as defaultThemes } from './theme';
 
 	interface Props {
 		themes?: string[];

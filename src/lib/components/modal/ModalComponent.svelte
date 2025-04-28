@@ -43,7 +43,7 @@
 						value={lastModal.initial}
 						bind:this={modals.promptInput}
 						placeholder={lastModal.prompt}
-						class="input  w-full"
+						class="input w-full"
 						onkeydown={(e) => {
 							if (e.key === 'Enter') {
 								lastModal.response?.(modals.promptInput?.value);

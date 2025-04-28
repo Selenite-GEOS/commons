@@ -148,7 +148,7 @@
 					use:autofocus
 					bind:value={createdPart}
 					bind:this={creationInput}
-					class="input "
+					class="input"
 					oninput={() => {
 						focusedOption = '';
 					}}

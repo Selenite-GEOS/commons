@@ -1,3 +1,3 @@
 <script lang="ts">
-    import "./global-styles.css"
+	import './global-styles.css';
 </script>

@@ -87,7 +87,7 @@
 	{/each}
 	{#if creatingTag}
 		<input
-			class="input  input-sm"
+			class="input input-sm"
 			placeholder="New tag"
 			use:knowTagsRef
 			use:autofocus

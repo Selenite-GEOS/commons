@@ -12,10 +12,7 @@
 	let searchInput = $state<HTMLInputElement>();
 </script>
 
-<label
-	role="search"
-	{...props}
-	class="flex gap-2 input  items-center mb-2 {props.class}">
+<label role="search" {...props} class="flex gap-2 input items-center mb-2 {props.class}">
 	<input bind:this={searchInput} bind:value={query} placeholder="Search" class="grow" />
 	{#if query.trim().length > 0}
 		<Button class="btn-xs btn-circle btn-ghost" onclick={() => (query = '')}>

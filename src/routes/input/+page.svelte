@@ -15,8 +15,6 @@
 
 <h1 class="text-2xl font-bold mx-auto">Textarea Autosize</h1>
 <div class="grid justify-center items-center">
-	<textarea
-		use:autosize={content}
-		bind:value={content}
-		class="w-[20rem] textarea  textarea-primary"></textarea>
+	<textarea use:autosize={content} bind:value={content} class="w-[20rem] textarea textarea-primary"
+	></textarea>
 </div>

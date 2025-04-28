@@ -166,7 +166,7 @@ export class ContextMenuState {
 		return this.#hovered;
 	}
 
-	private constructor() { }
+	private constructor() {}
 }
 
 export const contextMenu = ContextMenuState.instance;

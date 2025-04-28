@@ -15,7 +15,7 @@ Trust was the first thing we lost that day"
 	bind:this={refInput}
 	bind:value={ref}
 	placeholder="Reference"
-	class="input  mb-2"
+	class="input mb-2"
 	use:shortcut={{
 		shortcuts(e) {
 			if (e.ctrlKey || e.shiftKey || e.altKey) return false;

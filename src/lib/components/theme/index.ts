@@ -1,2 +1,2 @@
-export * from './theme'
+export * from './theme';
 export { default as ThemeController } from './ThemeController.svelte';

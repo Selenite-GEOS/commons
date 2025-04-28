@@ -139,10 +139,10 @@
 				menu.focused = false;
 			}}
 			class="floating z-20 grid items-start
-			 grid-rows-[0fr_1fr] context-menu flex-col 
+			 grid-rows-[0fr_1fr] context-menu flex-col
 			 overflow-x-clip scrollbar-corner-rounded-full
-			  scrollbar-thin scrollbar-track-rounded-full 
-			  scrollbar-thumb-rounded-full scrollbar-thumb-slate-300 scrollbar-track-slate-900 overflow-y-auto 
+			  scrollbar-thin scrollbar-track-rounded-full
+			  scrollbar-thumb-rounded-full scrollbar-thumb-slate-300 scrollbar-track-slate-900 overflow-y-auto
 			  rounded-box border shadow-lg border-base-300">
 			{#if menu.searchbar}
 				<input
