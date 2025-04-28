@@ -34,14 +34,12 @@ export default defineConfig({
 
 ## Development
 
-The project is developed with Typescript and uses vitest for testing. It uses [Bun](https://bun.sh/docs/installation) as a package manager and builder. Be aware that at the time of writing, Bun is still unstable on Windows.
-
-> If you need to works on Windows and encounter issues, don't hesitate to edit the project to use another package manager like pnpm. Do note that you will need to update the github action to reflect that change so that lockfiles match between dev and build.
+The project is developed with Typescript and uses vitest for testing. It uses [pnpm](https://pnpm.io/installation) as a package manager and builder.
 
 You can start the dev server with :
 
 ```bash
-bun dev
+pnpm dev
 ```
 
 ## Documentation
@@ -49,7 +47,7 @@ bun dev
 The documentation is generated with TypeDoc and can be built with the following command :
 
 ```bash
-bun docgen
+pnpm docgen
 ```
 
 It will then be accessible in the [docs folder](./docs).
@@ -63,7 +61,7 @@ You can manually publish it on npm with the following command :
 ```bash
 npm publish --access public
 # rust code (selenite-commons-rs)
-bun wasm-pack publish --access public
+pnpm wasm-pack publish --access public
 ```
 
 ## TODO
