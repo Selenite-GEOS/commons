@@ -98,7 +98,7 @@
 	class="breadcrumbs py-0 {props.class} pe-1"
 	use:horizontalScroll
 	style="scrollbar-gutter: stable;">
-	<ul class="flex items-center !min-h-14">
+	<ul class="flex items-center min-h-14!">
 		{#snippet Button(label: string, props: HTMLButtonAttributes & { action?: Action } = {})}
 			{#if props.action}
 				<button type="button" {...props} class="hover:link p-1 {props.class}" use:props.action>

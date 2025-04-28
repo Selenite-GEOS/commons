@@ -138,18 +138,23 @@
 			on:blur={() => {
 				menu.focused = false;
 			}}
-			class="floating z-20 grid items-start grid-rows-[0fr,1fr] context-menu flex-col overflow-x-clip scrollbar-corner-rounded-full scrollbar-thin scrollbar-track-rounded-full scrollbar-thumb-rounded-full scrollbar-thumb-slate-300 scrollbar-track-slate-900 overflow-y-auto rounded-box border shadow-lg border-base-300">
+			class="floating z-20 grid items-start
+			 grid-rows-[0fr_1fr] context-menu flex-col 
+			 overflow-x-clip scrollbar-corner-rounded-full
+			  scrollbar-thin scrollbar-track-rounded-full 
+			  scrollbar-thumb-rounded-full scrollbar-thumb-slate-300 scrollbar-track-slate-900 overflow-y-auto 
+			  rounded-box border shadow-lg border-base-300">
 			{#if menu.searchbar}
 				<input
 					bind:this={searchInput}
 					type="text"
-					class="p-3 rounded-t-box row-start-1"
+					class="p-3 rounded-t-box row-start-1 bg-base-100"
 					placeholder="Search..."
 					bind:value={menu.query} />
 			{/if}
 			<Menu
 				bind:this={menuCmpnt}
-				class="row-start-2 h-full"
+				class="row-start-2 h-full min-h-10"
 				items={menu.filteredItems}
 				sort={menu.sort && menu.query.trim() === ''}
 				onclick={() => {

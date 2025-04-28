@@ -179,7 +179,7 @@
 
 <section
 	{...props}
-	class="grid grid-rows-[0fr,4.6rem,1fr] h-full w-full justify-stretch place-content-start {props.class}">
+	class="grid grid-rows-[0fr_4.6rem_1fr] h-full w-full justify-stretch place-content-start {props.class}">
 	<div class="grid">
 		{#if typeof header === 'function'}
 			{@render header()}

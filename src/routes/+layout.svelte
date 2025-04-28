@@ -1,10 +1,12 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	
 	import '../app.css';
-	import { capitalizeWords, SeleniteLogo } from '$lib';
+	import { capitalizeWords, contextMenu, posFromClient, preventDefault, SeleniteLogo, showContextMenu } from '$lib';
 	import ModalComponent from '$lib/components/modal/ModalComponent.svelte';
+	import ContextMenu from '$lib/components/menu/ContextMenu.svelte';
+	import { page } from '$app/state';
 	let { children } = $props();
-	const title = $derived(capitalizeWords($page.route.id?.slice(1).split('-').join(' ') ?? ''));
+	const title = $derived(capitalizeWords(page.route.id?.slice(1).split('-').join(' ') ?? ''));
 </script>
 
 <svelte:head>
@@ -14,7 +16,15 @@
 	<SeleniteLogo class="absolute m-2" />
 </a>
 <ModalComponent />
-<main class="p-4 min-h-screen w-screen grid justify-center gap-2 items-start place-content-start">
+<ContextMenu />
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<main class="p-4 min-h-screen w-screen grid justify-center gap-2 items-start place-content-start" onclick={() => {
+	contextMenu.visible = false;
+}} oncontextmenu={(e) => {
+	preventDefault(e);
+	showContextMenu({items: [{label: "A"}, {label: "B"}], pos: posFromClient(e), autoHide: false, searchbar: true});
+}}>
 	{#if title}
 		<a class="m-auto mb-2" href="/"><btn class="btn w-fit btn-sm">Main Page</btn></a>
 		<h1 class="text-2xl font-bold m-auto mb-4">{title}</h1>

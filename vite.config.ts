@@ -12,7 +12,7 @@ export default defineConfig({
 		}
 	},
 	ssr: {
-		noExternal: ['svelte-fa']
+		noExternal: ['svelte-fa', '@skeletonlabs/floating-ui-svelte']
 	},
 	server: {
 		port: 5174

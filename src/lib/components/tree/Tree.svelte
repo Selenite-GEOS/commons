@@ -54,7 +54,7 @@
 
 <div
 	bind:this={element}
-	class="grid items-start grid-cols-[1rem,1fr] gap-1 {classes}"
+	class="grid items-start grid-cols-[1rem_1fr] gap-1 {classes}"
 	class:hidden={!expanded}>
 	{#each tree as elmnt, i (i)}
 		{#if isForest(elmnt)}

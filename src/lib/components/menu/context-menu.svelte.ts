@@ -126,13 +126,27 @@ export class ContextMenuState {
 	/** Timeout to hide the menu. */
 	#hideTimeout: NodeJS.Timeout | null = null;
 
+	#autohide = $state(true);
+
+	get autohide() {
+		return this.#autohide;
+	}
+
+	set autohide(v: boolean) {
+		this.#autohide = v;
+		this.updateAutohide();
+	}
+
 	private updateAutohide() {
-		if (this.#hovered) {
+		if (this.#hovered || !this.#autohide) {
 			if (this.#hideTimeout) {
 				clearTimeout(this.#hideTimeout);
 				this.#hideTimeout = null;
 			}
 		} else {
+			if (!this.#autohide) {
+				return;
+			}
 			this.#hideTimeout = setTimeout(() => {
 				if (!this.#hovered) {
 					this.visible = false;
@@ -152,7 +166,7 @@ export class ContextMenuState {
 		return this.#hovered;
 	}
 
-	private constructor() {}
+	private constructor() { }
 }
 
 export const contextMenu = ContextMenuState.instance;
@@ -165,6 +179,7 @@ export type ShowContextMenu = (params: {
 	items: Partial<MenuItem>[];
 	searchbar?: boolean;
 	onHide?: () => void;
+	autoHide?: boolean;
 	target?: HTMLElement;
 }) => void;
 
@@ -180,9 +195,11 @@ export const showContextMenu: ShowContextMenu = ({
 	searchbar = false,
 	onHide,
 	expand = false,
+	autoHide: autohide = true,
 	target
 }) => {
 	const menu = ContextMenuState.instance;
+	menu.autohide = autohide;
 	menu.minHeight = undefined;
 	menu.minWidth = undefined;
 	menu.target = target;

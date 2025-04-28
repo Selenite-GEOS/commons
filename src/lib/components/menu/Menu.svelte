@@ -81,7 +81,7 @@
 			<button
 				type="button"
 				id={item.id}
-				class="transition-all truncate duration-100 p-0.5 px-4 rounded-btn w-full text-start bg-transparent hover:bg-base-300 hover:text-base-content"
+				class="transition-all cursor-pointer truncate duration-100 p-0.5 px-4 rounded-btn w-full text-start bg-transparent hover:bg-base-300 hover:text-base-content"
 				title={item.description.trim().length > 0 ? item.description : item.label}
 				on:click={() => {
 					if (onclick) onclick();
