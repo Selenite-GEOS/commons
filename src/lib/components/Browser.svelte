@@ -187,7 +187,7 @@
 			<h1 class="font-bold text-xl px-2 text-nowrap truncate min-h-8 mb-1">{header}</h1>
 		{/if}
 		{#if searchBar}
-			<SearchBar bind:query />
+			<SearchBar bind:query class="w-full" />
 		{/if}
 
 		<!-- Path display -->

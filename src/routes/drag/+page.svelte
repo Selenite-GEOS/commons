@@ -8,7 +8,7 @@
 </script>
 
 <div class="w-full grid justify-center">
-	<div class="tabs tabs-lifted justify-start bg-base-300">
+	<div class="tabs tabs-lift justify-start bg-base-300">
 		{#each tabs as tab (tab)}
 			<button
 				class="tab relative"
