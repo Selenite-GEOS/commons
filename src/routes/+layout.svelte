@@ -12,6 +12,7 @@
 	import ModalComponent from '$lib/components/modal/ModalComponent.svelte';
 	import ContextMenu from '$lib/components/menu/ContextMenu.svelte';
 	import { page } from '$app/state';
+	import { range } from 'lodash-es';
 	let { children } = $props();
 	const title = $derived(capitalizeWords(page.route.id?.slice(1).split('-').join(' ') ?? ''));
 </script>
@@ -36,7 +37,7 @@
 	oncontextmenu={(e) => {
 		preventDefault(e);
 		showContextMenu({
-			items: [{ label: 'A' }, { label: 'Ba', path: ['B'] }, { label: 'b-b', path: ['B'] }],
+			items: [{ label: 'A' }, { label: 'Ba', path: ['B'] }, { label: 'b-b', path: ['B'] }, ...range(50).map((i) => ({ label: `Item ${i}` }))],
 			pos: posFromClient(e),
 			autoHide: false,
 			searchbar: true

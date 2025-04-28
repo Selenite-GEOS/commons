@@ -154,7 +154,7 @@
 			{/if}
 			<Menu
 				bind:this={menuCmpnt}
-				class="row-start-2 h-full min-h-10"
+				class="row-start-2 min-h-10"
 				items={menu.filteredItems}
 				sort={menu.sort && menu.query.trim() === ''}
 				onclick={() => {
