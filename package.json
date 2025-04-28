@@ -1,6 +1,6 @@
 {
 	"name": "@selenite/commons",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"repository": "github:ShaitanLyss/selenite-commons",
 	"license": "MIT",
 	"packageManager": "pnpm@9.13.2",
@@ -59,7 +59,7 @@
 		"@sveltejs/kit": "^2.20.7",
 		"@sveltejs/package": "^2.3.11",
 		"@sveltejs/vite-plugin-svelte": "^5.0.3",
-		"@tailwindcss/postcss": "^4.1.4",
+		"@tailwindcss/vite": "^4.1.4",
 		"@types/autosize": "^4.0.3",
 		"@types/core-js": "^2.5.8",
 		"@types/eslint": "^9.6.1",

@@ -64,7 +64,7 @@
 		props.ondragstart?.(e);
 		itemDragStart?.(o as T, e);
 	}}
-	class="group relative transition-all flex flex-col items-center cursor-pointer bg-base-300 rounded-box p-4 border border-base-content border-opacity-15 overflow-clip {props.class}"
+	class="group relative transition-all flex flex-col items-center cursor-pointer bg-base-300 rounded-box p-4 border border-base-content/15 overflow-clip {props.class}"
 	in:fade
 	out:fade={{ duration: 50 }}>
 	{#if itemDelete}

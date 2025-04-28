@@ -124,11 +124,7 @@ export const boxSelection: Action<HTMLElement, BoxSelectionParams | undefined> =
 		if (box) return;
 		box = document.createElement('div');
 		box.style.position = 'absolute';
-		box.style.border = '1px solid';
-		box.classList.add('border-accent-content');
-		box.classList.add('border-opacity-50');
-		box.classList.add('bg-accent');
-		box.classList.add('bg-opacity-25');
+		box.classList.add('border', 'border-accent-content/50', 'bg-accent/25');
 		box.style.pointerEvents = 'none';
 		document.body.appendChild(box);
 		setBoxPos(pos, pos);

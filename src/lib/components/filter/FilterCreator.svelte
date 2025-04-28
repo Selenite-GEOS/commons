@@ -31,7 +31,7 @@
 
 <form
 	{...props}
-	class="join border border-base-content border-opacity-15 {props.class}"
+	class="join {props.class}"
 	onsubmit={(e) => {
 		preventDefault(e);
 		props.onsubmit?.(e);

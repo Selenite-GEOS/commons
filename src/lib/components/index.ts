@@ -14,4 +14,6 @@ export { default as Portal } from 'svelte-portal';
 export { default as Browser } from './Browser.svelte';
 export { default as Input } from './Input.svelte';
 export { default as SearchBar } from './SearchBar.svelte';
+
 export * from './modal';
+export * from './theme';

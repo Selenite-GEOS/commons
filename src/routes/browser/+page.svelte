@@ -41,6 +41,6 @@
 <div class="m-auto">
 	<Input type="number" label="Columns" bind:value={cols} class="w-24" />
 </div>
-<div class="border h-[45rem] rounded-box border-base-content border-opacity-30 p-4">
+<div class="border h-[45rem] rounded-box border-base-content/30 p-4">
 	<Browser {cols} bind:items {knownTags} {filterDefs} bind:filters bind:query />
 </div>

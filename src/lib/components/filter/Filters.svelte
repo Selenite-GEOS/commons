@@ -52,9 +52,9 @@
 				type="button"
 				onclick={() => (showAddFilterPopup = !showAddFilterPopup)}
 				use:addFilterRef
-				class="text-sm badge border-opacity-0 {showAddFilterPopup
-					? 'dbadge-neutral'
-					: 'hover:border-opacity-100 hover:badge-accent'}">+ Add filter</button>
+				class="text-sm badge not-hover:border-current/0 {showAddFilterPopup
+					? 'badge-neutral'
+					: 'hover:badge-accent'}">+ Add filter</button>
 		{/if}
 	</ul>
 </div>

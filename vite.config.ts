@@ -1,8 +1,9 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vitest/config';
 import wasmPack from 'vite-plugin-wasm-pack';
+import tailwind from '@tailwindcss/vite'
 export default defineConfig({
-	plugins: [sveltekit(), wasmPack([], '@selenite/commons-rs')],
+	plugins: [tailwind(), sveltekit(), wasmPack([], '@selenite/commons-rs')],
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}'],
 		environment: 'happy-dom',

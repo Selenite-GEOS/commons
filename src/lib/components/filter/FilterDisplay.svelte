@@ -14,8 +14,8 @@
 <button
 	type="button"
 	{...props}
-	class="transition-colors badge hover:outline-1 hover:outline-accent {filter.active
-		? 'badge-secondary'
+	class="transition-colors duration-100 badge outline-1 outline-accent/0 hover:outline-accent {filter.active
+		? 'badge-accent'
 		: 'badge-ghost'} {props.class}">
 	{#if !isTag}{filter.key}:
 	{/if}{filter.value}

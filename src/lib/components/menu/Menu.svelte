@@ -74,7 +74,7 @@
 	}
 </script>
 
-<div class="p-2 bg-neutral bg-opacity-100 text-neutral-content {classes}">
+<div class="p-2 bg-neutral text-neutral-content {classes}">
 	<TreeComponent bind:this={treeCmpnt} bind:element={treeElement} {tree}>
 		{#snippet leaf(item: MenuItem)}
 			<!-- svelte-ignore event_directive_deprecated -->

@@ -194,7 +194,7 @@
 		{#if pathDisplay}
 			<div
 				use:horizontalScroll
-				class="breadcrumbs text-sm rounded-box bg-base-200 px-2 border border-base-content border-opacity-15 mb-4 w-full">
+				class="breadcrumbs text-sm rounded-box bg-base-200 px-2 border border-base-content/15 mb-4 w-full">
 				<ul>
 					{#snippet link(label: string, i: number)}
 						{@const classes = ['outline', 'outline-1', 'outline-accent', 'rounded-box']}
