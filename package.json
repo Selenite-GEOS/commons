@@ -1,6 +1,6 @@
 {
 	"name": "@selenite/commons",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"repository": "github:ShaitanLyss/selenite-commons",
 	"license": "MIT",
 	"packageManager": "pnpm@9.13.2",
@@ -16,7 +16,6 @@
 		"dev": "vite dev",
 		"wasm": "wasm-pack build ./selenite-commons-rs --target web --scope selenite",
 		"wasmPublish": "wasm-pack publish --access public",
-		"postinstall": "svelte-kit sync",
 		"build": "vite build && npm run package",
 		"preview": "vite preview",
 		"package": "svelte-kit sync && svelte-package && publint",
