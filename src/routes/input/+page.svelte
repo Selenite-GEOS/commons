@@ -18,5 +18,5 @@
 	<textarea
 		use:autosize={content}
 		bind:value={content}
-		class="w-[20rem] textarea textarea-bordered textarea-primary"></textarea>
+		class="w-[20rem] textarea  textarea-primary"></textarea>
 </div>

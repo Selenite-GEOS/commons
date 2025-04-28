@@ -21,4 +21,4 @@
 	{...props}
 	bind:value
 	class="textarea"
-	class:textarea-bordered={bordered}></textarea>
+	class:textarea-ghost={!bordered}></textarea>

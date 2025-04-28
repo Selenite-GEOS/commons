@@ -24,14 +24,14 @@
 			{...props}
 			type="checkbox"
 			class="input {props.class}"
-			class:input-bordered={bordered}
+			class:input-ghost={!bordered}
 			bind:checked />
 	{:else}
 		<input
 			{...defaultProps}
 			{...props}
 			class="input {props.class}"
-			class:input-bordered={bordered}
+			class:input-ghost={!bordered}
 			bind:value />
 	{/if}
 {/snippet}

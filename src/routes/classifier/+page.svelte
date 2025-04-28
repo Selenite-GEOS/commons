@@ -24,17 +24,17 @@
 				<input type="checkbox" class="checkbox" bind:checked={item.enabled} />
 				<input
 					type="text"
-					class="input input-bordered"
+					class="input "
 					bind:value={item.object}
 					placeholder="Object" />
 				<input
 					type="text"
-					class="input input-bordered"
+					class="input "
 					bind:value={item.attribute}
 					placeholder="Attribute" />
-				<textarea use:autosize class="textarea textarea-bordered w-[30rem]" bind:value={item.text}
+				<textarea use:autosize class="textarea  w-[30rem]" bind:value={item.text}
 				></textarea>
-				<select bind:value={item.category} class="select select-bordered">
+				<select bind:value={item.category} class="select">
 					{#each categories as category}
 						<option value={category}>{category}</option>
 					{/each}
