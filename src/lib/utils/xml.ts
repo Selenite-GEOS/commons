@@ -5,8 +5,6 @@
 
 import { type X2jOptions, XMLParser, type XmlBuilderOptions } from 'fast-xml-parser';
 import { isEqual } from 'lodash-es';
-import 'regenerator-runtime/runtime';
-import wu from 'wu';
 import type { XmlSchema } from './xsd';
 
 export function parseXMLArray(xml: string): unknown[] | undefined {
@@ -119,8 +117,7 @@ export function buildXml({
 					newLine: true
 				});
 	}
-	let xml = wu(res)
-		.map(({ xml, newLine }) => (newLine ? xml + '\n' : xml))
+	let xml = res.values().map(({ xml, newLine }) => (newLine ? xml + '\n' : xml))
 		.reduce((a, b) => a + (a ? '\n' : '') + b, '');
 
 	if (endWithNewLine && xml.at(-1) !== '\n') xml += '\n';
@@ -164,7 +161,7 @@ export function findPossibleMergePositions({
 			return [{ ...path, withCursor: cursorTag ? path.withCursor || cursorTag in xml : false }];
 		}
 
-		return wu(xml.entries())
+		return xml.entries()
 			.filter(([, xmlNode]) => getElementFromParsedXml(xmlNode) === elementPath[0])
 			.map(([i, xmlNode]) =>
 				rec(
@@ -203,10 +200,10 @@ export function getXmlAttributes(xml: {
 }
 
 function mergeRec(base: Record<string, ParsedXmlNodes>[], toAdd: Record<string, ParsedXmlNodes>[]) {
-	wu(toAdd).forEach((xmlNode) => {
+	toAdd.forEach((xmlNode) => {
 		const key = getElementFromParsedXml(xmlNode);
 		if (!key) return;
-		const elementMergeCandidate = wu(base)
+		const elementMergeCandidate = base.values()
 			.filter((base_xmlNode) => getElementFromParsedXml(base_xmlNode) == key)
 			.take(1)
 			.toArray()
@@ -236,7 +233,7 @@ export function mergeParsedXml({
 	typesPaths: XmlSchema['typePaths'];
 }): ParsedXmlNodes {
 	const res = JSON.parse(JSON.stringify(baseXml)) as ParsedXmlNodes;
-	wu(newXml).forEach((newXmlNode) => {
+	newXml.forEach((newXmlNode) => {
 		const element = getElementFromParsedXml(newXmlNode);
 		if (!element) return;
 		const mergePositions = findPossibleMergePositions({ baseXml, element, typesPaths, cursorTag });
@@ -245,7 +242,7 @@ export function mergeParsedXml({
 		let selectedMergePosition = mergePositions[0];
 
 		if (mergePositions.length > 1) {
-			selectedMergePosition = wu(mergePositions)
+			selectedMergePosition = mergePositions.values()
 				.filter(({ withCursor }) => withCursor)
 				.reduce((a, b) => {
 					if (a !== undefined) throw new Error('Too many selected merge positions');
@@ -267,7 +264,7 @@ export function mergeParsedXml({
 			return;
 		}
 		const mergePath = selectedMergePosition.path;
-		const target = wu(mergePath).reduce(
+		const target = mergePath.reduce(
 			({ ePath, base }, mergePathStep) => {
 				return {
 					base: (base[mergePathStep.pos] as Record<string, ParsedXmlNodes>)[mergePathStep.key],

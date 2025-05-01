@@ -41,9 +41,6 @@ importers:
       pluralize:
         specifier: ^8.0.0
         version: 8.0.0
-      regenerator-runtime:
-        specifier: ^0.14.1
-        version: 0.14.1
       svelte:
         specifier: ^5.2.0
         version: 5.28.2
@@ -59,9 +56,6 @@ importers:
       uuid:
         specifier: ^11.1.0
         version: 11.1.0
-      wu:
-        specifier: ^2.1.0
-        version: 2.1.0
     devDependencies:
       '@happy-dom/global-registrator':
         specifier: ^17.4.4
@@ -2149,9 +2143,6 @@ packages:
   wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
-  wu@2.1.0:
-    resolution: {integrity: sha512-j+Gdt5IUK4eoLO6mrN/ZurInHacaxr/EPCvQHf1ARq6ROdKRN/aFtc0PGdH9lnRPMg6vhJOOqIYdNhMN6uWtUg==}
-
   xregexp@5.1.2:
     resolution: {integrity: sha512-6hGgEMCGhqCTFEJbqmWrNIPqfpdirdGWkqshu7fFZddmTSfgv5Sn9D2SaKloR79s5VUiUlpwzg3CM3G6D3VIlw==}
 
@@ -4083,8 +4074,6 @@ snapshots:
       strip-ansi: 7.1.0
 
   wrappy@1.0.2: {}
-
-  wu@2.1.0: {}
 
   xregexp@5.1.2:
     dependencies:
