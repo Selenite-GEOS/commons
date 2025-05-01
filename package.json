@@ -65,7 +65,6 @@
 		"@types/node": "^22.15.3",
 		"@types/pluralize": "^0.0.33",
 		"@types/uuid": "^10.0.0",
-		"@types/wu": "^2.1.44",
 		"@vitest/coverage-v8": "^3.1.2",
 		"daisyui": "^5.0.28",
 		"eslint": "^9.25.1",
